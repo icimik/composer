@@ -12,6 +12,10 @@
 - **06 路线图**：小说先行，IF 与视觉小说后续选配，不承诺未评估日期。
 - **07 验证计划与记录**：QA 清单、真实执行结果和平台验收边界。
 - **08 设计规范**：由实际 token 源自动生成的目标规范。
+- **[09 后续设计与竞品调研](09-后续设计与竞品调研.md)**：12 个工具的官方证据、小说／IF／Text Adventure／VN 的设计取舍，以及 24 个 GitHub issues 的完整索引。
+- **[最新验证记录](current-verification.md)**：修复、当前 CI 证据和新的 artifact 策略；原始 [verification-results](verification-results.md) 与 [导入记录](import-verification.md)作为带版本的历史保留。
 - **设计展示页**：`design-showcase.html`，单文件离线打开，支持明暗模式、布局密度、状态交互和对比度表。
 
 根目录 `README.md` 提供运行方法；本目录的 HTML 是设计证据，不是桌面应用。旧讨论稿中的 Tauri、IF 与小说同时交付等建议已被最新需求替代。
+
+开发推进使用 [AGENTS](../../AGENTS.md)、[loop 流程](../development/loop.md)与 [ADR 目录](../decisions/)；总览 issue 为 [composer#2](https://github.com/icimik/composer/issues/2)，功能与框架议题以 09 文档中的引用为入口。优先级是设计建议，不是未经确认的排期。

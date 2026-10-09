@@ -6,3 +6,6 @@ playwright-report/
 .preview/
 .env*
 *.log
+.DS_Store
+Thumbs.db
+.idea/

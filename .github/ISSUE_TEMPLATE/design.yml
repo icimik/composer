@@ -1,0 +1,30 @@
+name: Feature or design proposal
+description: Define a bounded user outcome and acceptance criteria
+title: '[Design] '
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem and evidence
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Goals, non-goals and dependencies
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Proposed design, alternatives and data/security boundaries
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Testable acceptance criteria
+    validations:
+      required: true
+  - type: textarea
+    id: unknowns
+    attributes:
+      label: Blocking questions and authorization needed

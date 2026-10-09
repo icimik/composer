@@ -1,4 +1,4 @@
-const {test} = require('node:test');
+const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -18,7 +18,8 @@ function assertPolicy(source) {
 }
 
 test('CI installer policy holds for LF and Windows CRLF checkouts', () => {
-  const workflow = fs.readFileSync(path.join(__dirname, '../../.github/workflows/ci.yml'), 'utf8')
+  const workflow = fs
+    .readFileSync(path.join(__dirname, '../../.github/workflows/ci.yml'), 'utf8')
     .replace(/\r\n/g, '\n');
   assertPolicy(workflow);
   assertPolicy(workflow.replace(/\n/g, '\r\n'));
