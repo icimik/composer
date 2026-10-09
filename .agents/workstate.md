@@ -1,15 +1,27 @@
 # Current workstate
 
-- Focus: [issue #38](https://github.com/icimik/composer/issues/38), compatible Vite8/plugin6/TS6 upgrade. Direction confirmed; [PR #39](https://github.com/icimik/composer/pull/39) submitted for independent review.
-- Base: main `7e2c2dfe80ca1468bec58891d6ebd8a5668858d3`; maintainer merged #34/#36. Branch `research/toolchain-upgrade`, no stack dependency.
-- Merged-main evidence: [run 37922322450](https://github.com/icimik/composer/actions/runs/37922322450), Linux success, macOS 62 units, Windows 60 passes/two existing symlink skips, smoke/23 E2E each; both installer jobs succeeded, two artifacts. No public release.
-- Closure: #3 and #35 completed after readback; #33 was already completed. Feature roadmap and #23 signed/manual release gates remain open.
-- Candidate: Vite8.3.4/plugin6.1.2/TS6.0.3 pinned; typescript-eslint8.71.1 unchanged. Only three direct versions change; config becomes `.mts`, client types explicit, size guards extended to `.mts`.
-- Local: clean install/tree, check/build/lint/format/docs, 63 units, smoke and 23 E2E, design checks and dev/production-preview HTTP smoke pass. Candidate native/HMR/manual acceptance not claimed.
-- TS7: outside stable parser peer range; keep #31 open. #30 needs coordinated Vite replacement; keep open pending maintainer decision.
-- Delivery: PR #39 is ready for review, with source-cited research, acceptance/rollback and exact-head Linux verification. Main is not upgraded until an actual merge is read back.
-- Authorization: maintainer confirmed direction/formal review and requested review fixes followed by normal merge if checks and repository approval permit. No protection bypass/change, forced peers, signing, publication or unattended merge.
-- Policy unchanged: ordinary PR/push Linux portable build/E2E only, no installers/artifacts; main Linux→native→installer gates. Strict 180/120; MIT/CC0 notices preserved.
-- Review follow-up: fix the Node-range Markdown table and synchronize status records; no dependency/runtime change. Re-run checks for the new head.
-- Remaining: complete independent review and obtain the required GitHub approval, new main native runtime after merge, TS7 parser support, eight moderate dev-toolchain advisories, signed/manual release gates.
-- Next: read live head/checks and approval; use a normal permitted merge only after validation, then inspect new main native/installer results. If approval is missing, report the blocker without bypass; do not merge old standalone bumps or start feature work.
+- Focus: [#40](https://github.com/icimik/composer/issues/40), first bounded isolation candidate under
+  [#4](https://github.com/icimik/composer/issues/4). No transaction/backup/migration implementation or parent closure.
+- Base: fetched actual main `efcd507670b4a7d68c78a6f1b314c667ac5134ba`; fresh clean clone, new
+  `design/workspace-failure-isolation-20261009`, no stack or reused deleted branch.
+- Live correction: [#39](https://github.com/icimik/composer/pull/39) merged 12:02 UTC with independent approval.
+  [Main run](https://github.com/icimik/composer/actions/runs/37927426466) passed Linux, macOS/Windows and both installer jobs;
+  artifacts=2. Old toolchain approval blocker is obsolete; #38 still open and untouched. TS7 #31 unrelated, still failing.
+- Recovery: [context packet](context-packet.md), [reproduction record](../docs/research/workspace-isolation-reproduction.md).
+- Design: [ADR 0005](../docs/decisions/0005-workspace-failure-isolation.md), proposed only; no covering approval found.
+  Review typed independent results, pure guarded reads, explicit no-auto-fallback selection, mutation gates and safe transitions.
+- Evidence: synthetic Store faults block aggregate load; read guards recreate missing directories; failed switch persists B;
+  manifest-only mutation alters an unloadable B before returning failure. Real Linux Electron reproduces startup blocker,
+  all-failed/no-retry and input-preserving failed switch with wrong persisted active ID. No production change.
+- Reproduction helpers are manual pre-fix characterization outside default test globs, not passing capability regressions.
+  After approval, add failing acceptance regressions first and replace/archive defect assertions.
+- Environment: Node22.23.3 via isolated npm exec; existing lockfile/Electron44.7.0 unchanged. GTK/Xvfb host prepared.
+  Native/manual candidate, ACL, race/crash and complete #4 safety not claimed.
+- Permissions: child issue, own task branch, commits/push/draft PR and review fixes. No production contract change before
+  reviewed ADR; no merge/auto-merge/protection/force-push/release/scheduler/delegation.
+- Local validation: npm ci/check passed, 63 units with zero skips; Store/UI probes passed as pre-fix characterization;
+  Xvfb smoke 1/1 and full Linux E2E 23/23 passed. Restore only known test-generated screenshots before commit.
+  Final-head PR checks/jobs/artifacts must still be read after push, not inferred from local success.
+  Preserve MIT/CC0/provenance, 180/120, IPC/path/symlink/serial/hash/AI-author safety and Linux-only ordinary CI.
+- Next: maintainer reviews exact ADR 0005 revision in the draft design PR. Record reviewer/SHA/approval URL before starting
+  the separate minimal implementation PR. #40 and #4 remain open; rollback preparation without data changes.
