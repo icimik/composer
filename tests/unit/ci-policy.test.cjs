@@ -3,8 +3,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 
-test('CI installer build and artifact upload are gated to main after verification', () => {
-  const workflow = fs.readFileSync(path.join(__dirname, '../../.github/workflows/ci.yml'), 'utf8');
+function assertPolicy(source) {
+  const workflow = source.replace(/\r\n/g, '\n');
   const boundary = workflow.indexOf('\n  package:\n');
   assert.ok(boundary > 0, 'installer job must be separate');
   const verification = workflow.slice(0, boundary);
@@ -15,4 +15,11 @@ test('CI installer build and artifact upload are gated to main after verificatio
   assert.match(packaging, /npm run dist -- --publish never/);
   assert.match(packaging, /actions\/upload-artifact/);
   assert.doesNotMatch(packaging, /if: always\(\)|playwright-report\/|test-results\//);
+}
+
+test('CI installer policy holds for LF and Windows CRLF checkouts', () => {
+  const workflow = fs.readFileSync(path.join(__dirname, '../../.github/workflows/ci.yml'), 'utf8')
+    .replace(/\r\n/g, '\n');
+  assertPolicy(workflow);
+  assertPolicy(workflow.replace(/\n/g, '\r\n'));
 });
