@@ -1,0 +1,29 @@
+name: Bug report
+description: Reproduce a problem without disclosing keys or real manuscripts
+title: '[Bug] '
+body:
+  - type: markdown
+    attributes:
+      value: 'Security problems must use the private route in SECURITY.md. Never attach API keys or real manuscripts.'
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit and operating system
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal fixture-only reproduction
+      description: Include steps, expected behavior and actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence and impact
+      description: Error text, affected scope, recovery and whether data loss occurred.
+  - type: textarea
+    id: checks
+    attributes:
+      label: Existing issues and checks performed
