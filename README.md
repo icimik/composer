@@ -71,9 +71,9 @@ Linux 运行 Electron E2E 需要 GTK、NSS、音频库及图形环境，可用 `
 npm run dist
 ```
 
-macOS 上生成 DMG／ZIP，Windows 上生成 NSIS。push／PR 只执行构建检查与测试，不构建安装包、不上传任何 artifact。仅成功推送到 `main`、且两平台验证通过后，独立 job 才构建并上传未签名开发安装包；不会自动发布 release。详见 [CI 策略](docs/development/ci-policy.md)。
+macOS 上生成 DMG／ZIP，Windows 上生成 NSIS。普通 push／PR 仅使用 Linux 做跨平台源码的构建检查与 Electron E2E，不启动 Windows／macOS runner，不构建安装包、不上传任何 artifact。仅合并到 `main` 后的 push，才在 Linux 验证成功后运行 Windows／macOS 原生检查及构建；全部通过后上传未签名开发安装包，不自动发布 release。详见 [CI 策略](docs/development/ci-policy.md)。
 
-正式发行需补齐许可证及来源审查、图标、macOS 签名／公证、Windows 签名和原生人工验收。当前没有已批准的项目许可证，公共仓库不等于已经授予自由复用权，详见[许可证待决说明](docs/development/licensing.md)。
+本项目原创代码与文档采用 [MIT](LICENSE)；内置创作框架和选定的上游 skills 保留 CC0-1.0 及完整来源，详见[许可证与来源说明](docs/development/licensing.md)。正式发行仍需完成其他依赖／素材来源审查、图标、macOS 签名／公证、Windows 签名和原生人工验收。
 
 ## 研究与路线图
 

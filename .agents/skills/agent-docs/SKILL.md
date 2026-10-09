@@ -7,7 +7,7 @@ description: Create or update Composer AGENTS, SKILL and handoff instructions so
 
 Identify the target audience, trigger, scope, action, observable output and prohibitions before writing.
 
-Read existing repository instructions and relevant source evidence. Separate durable rules, verified facts, assumptions, historical state and unknowns.
+Read existing repository instructions and `.agents/references/skills/agent-facing-doc/references/document-guide.md` before edits. Separate durable rules, verified facts, assumptions, historical state and unknowns.
 
 Keep agent-facing guidance in English and human-facing communication in the user's language. Keep each SKILL.md at no more than 100 lines with name/description frontmatter and one capability.
 
@@ -17,4 +17,4 @@ Run documentation and skill checks. Report unavailable checks and conflicts inst
 
 Output: changed guidance, supporting evidence, check results and open questions.
 
-Provenance: original project adapter informed by `utility/skills/agent-facing-doc` in `kimmywork/skills`, inspected at `01b69d95`.
+Provenance: MIT project adapter informed by `utility/skills/agent-facing-doc` in CC0-1.0 `kimmywork/skills`, inspected at `65a49919`. The full pinned source/catalog is in `.agents/skills/README.md`.

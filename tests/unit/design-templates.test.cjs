@@ -8,11 +8,7 @@ const { renderTemplate } = require('../../scripts/design/templates.cjs');
 const { runShowcase } = require('../helpers/showcase-dom.cjs');
 const repo = path.resolve(__dirname, '../..');
 
-test('design template rendering rejects missing values', () => {
-  assert.throws(() => renderTemplate('spec', {}), /Missing template value/);
-});
-
-test('extracted templates reproduce specification and preserve showcase interactions', async (t) => {
+async function generateFixture(t) {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'composer-design-'));
   t.after(() => fs.rm(root, { recursive: true, force: true }));
   for (const file of ['scripts/design.cjs', 'scripts/design', 'src/styles.css']) {
@@ -21,10 +17,23 @@ test('extracted templates reproduce specification and preserve showcase interact
     await fs.cp(path.join(repo, file), target, { recursive: true });
   }
   execFileSync(process.execPath, [path.join(root, 'scripts/design.cjs')], { timeout: 10000 });
+  return root;
+}
+
+test('design template rendering rejects missing values', () => {
+  assert.throws(() => renderTemplate('spec', {}), /Missing template value/);
+});
+
+test('extracted templates reproduce artifacts and preserve showcase interactions', async (t) => {
+  const root = await generateFixture(t);
   const generated = path.join(root, 'docs/research');
   assert.equal(
     await fs.readFile(path.join(generated, '08-设计规范.md'), 'utf8'),
     await fs.readFile(path.join(repo, 'docs/research/08-设计规范.md'), 'utf8')
+  );
+  assert.equal(
+    await fs.readFile(path.join(generated, 'design-showcase.html'), 'utf8'),
+    await fs.readFile(path.join(repo, 'docs/research/design-showcase.html'), 'utf8')
   );
   const baseline = runShowcase(
     await fs.readFile(path.join(repo, 'docs/research/design-showcase.html'), 'utf8')
@@ -46,5 +55,25 @@ test('extracted templates reproduce specification and preserve showcase interact
   for (const action of ['accept', 'reset', 'discard', 'reset', 'cancel', 'character', 'chapter']) {
     for (const instance of [baseline, updated]) instance.get(action).onclick();
     compare();
+  }
+});
+
+test('design freshness check rejects stale static markup and CSS templates', async (t) => {
+  const root = await generateFixture(t);
+  const template = path.join(root, 'scripts/design/templates/html.tpl');
+  const original = await fs.readFile(template, 'utf8');
+  const check = () =>
+    execFileSync(process.execPath, [path.join(root, 'scripts/design.cjs'), '--check'], {
+      timeout: 10000,
+      stdio: 'pipe'
+    });
+  check();
+  for (const changed of [
+    original.replace('<body>', '<body data-freshness="changed">'),
+    original.replace('</style>', 'body{outline:1px solid red}</style>')
+  ]) {
+    assert.notEqual(changed, original);
+    await fs.writeFile(template, changed);
+    assert.throws(check, /Showcase artifact is stale/);
   }
 });

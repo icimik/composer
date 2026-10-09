@@ -2,13 +2,35 @@
 
 Updated 2026-10-09 UTC. This file separates observed results from historical source-import records and unexecuted acceptance work.
 
-## Current source-size task
+## Stack synchronization and review follow-up
+
+The maintainer rewrote parent #34 onto dependency-updated main; new head `ae7c7bb5e7316afc76006f17fdf60e264ed7aa58` changes only the merged action/globals versions relative to the original parent. Child #36 was still rooted in the old parent history. Normal merge `00747cc` makes the current parent an ancestor, resolves six documentation/continuity conflicts, and preserves the previous child tree byte-for-byte. No parent update or force-push was performed.
+
+The [parent CodeRabbit review](https://github.com/icimik/composer/pull/34#pullrequestreview-5468593533) suggested optional complete showcase freshness coverage. It is implemented in #36: `design:check` compares freshly rendered specification and full HTML, and regressions reject stale static markup/CSS templates while retaining handler comparisons. The existing showcase was regenerated from the linted runtime; tokens/CSS and the specification remain unchanged.
+
+The [child CodeRabbit review](https://github.com/icimik/composer/pull/36#pullrequestreview-5468609368) identified two policy-coverage opportunities, not current production defects. Required check/smoke/E2E steps now reject conditional/failure-tolerant overrides, and jobs reject failure tolerance; ten additional mutations cover those gates. License tests discover copied Markdown/licenses and require exact inventory equality before byte-hash checks.
+
+Local follow-up passed 62 units, launch smoke, all 23 Electron E2E, lint/format/docs/build and design checks. Current-head Linux CI and live stack mergeability must be read separately after push. Existing parent approval does not approve new child changes or authorize agent merge; main-path runtime remains pending maintainer merge.
+
+## Current CI, licensing and skills refresh
+
+The maintainer requested Linux-only ordinary PR/push validation and native macOS/Windows checks only on main pushes after merge. [CI policy](../development/ci-policy.md) and [ADR 0004](../decisions/0004-linux-ci-and-licensed-skills.md) describe the new gates and negative regression tests. This change requires PR review; skipped native jobs on its PR cannot establish execution of its new main path.
+
+[PR #36](https://github.com/icimik/composer/pull/36) is stacked on #34. Code head `62aa91442224b754ab3ef18848de422b6c2673e3` passed [PR run 37913665915](https://github.com/icimik/composer/actions/runs/37913665915) and [push run 37913613067](https://github.com/icimik/composer/actions/runs/37913613067). Jobs APIs showed successful Ubuntu 22.04 verification only; native and installer jobs were skipped with empty labels and no runner. Both artifacts APIs returned zero. Local checks passed 51 unit cases, smoke, 23 E2E, 76 contrast pairs and three negative token cases; current-head CI must be re-read after any documentation follow-up.
+
+Composer-authored code/docs now use MIT. Both upstream repositories have verified CC0-1.0 licenses; framework snapshots are byte-identical to the licensed revision, and seven complete Markdown skill bundles are imported unchanged. See [licensing and source commits](../development/licensing.md) and [skill catalog](../../.agents/skills/README.md). Historical unconfirmed-rights statements below or in dated logs are superseded, not evidence of a current blocker.
+
+Dependabot results and exact-head evidence are in [dependency review](../development/dependency-review.md); the former blanket update restriction was removed by the maintainer. The two unsupported peer upgrades remain open. No refactor/CI PR merge authority or protection-changing authority is implied.
+
+Final dependency-only main `0d190d9bc5720115e7e14c7c650a112f04dca2f0` passed [run 37913404198](https://github.com/icimik/composer/actions/runs/37913404198), including both native verification and installer jobs; its artifacts API returned two installer artifacts. This validates the action upgrades under the former workflow, not execution of #36's new main-only gates.
+
+## Historical source-size task
 
 The maintainer subsequently merged application [#1](https://github.com/icimik/composer/pull/1) and foundations [#25](https://github.com/icimik/composer/pull/25) at 08:31 UTC. Current main baseline `a8fc96a` passed [run 37905610513](https://github.com/icimik/composer/actions/runs/37905610513); the earlier records below describe their pre-merge state, not the live repository.
 
 [Issue #33](https://github.com/icimik/composer/issues/33) enforces 180 physical lines per JS/TS source file and 120 characters per line. Local refactor checks passed lint/format/docs/build, 37 unit tests, one smoke and all 23 Electron E2E. Four limit boundary tests, two template/parity tests and a Store API/descriptor regression supplement the previous 30 units. Design still passes 76 contrast pairs and three negative token mutations; no CSS token, framework snapshot or tracked screenshot was changed.
 
-Refactor [PR #34](https://github.com/icimik/composer/pull/34) provides exact-head macOS/Windows evidence in its checks and verification comment; local results are not a native acceptance claim. Six Dependabot PRs were reviewed, but none merged because main's update restriction blocks ordinary merge and two upgrades also fail dependency peers. See [dependency review](../development/dependency-review.md).
+Refactor [PR #34](https://github.com/icimik/composer/pull/34) provides exact-head macOS/Windows evidence in its checks and verification comment; local results are not a native acceptance claim. At that earlier inspection all six Dependabot PRs were open because merge protection blocked the compatible upgrades; current outcomes supersede this historical snapshot in [dependency review](../development/dependency-review.md).
 
 ## Windows repair
 
@@ -39,17 +61,16 @@ AI E2E uses a local mock provider. These results do not establish quality or com
 
 ## Packaging policy
 
-Push and pull-request verification compile the application and run checks/tests only. No PR or non-main branch job builds installers or uploads reports, screenshots or other artifacts.
+Ordinary push and pull-request verification run Linux portable builds and Electron checks/tests only. No PR or non-main branch job uses native runners, builds installers or uploads reports, screenshots or other artifacts under the new policy.
 
-Installer packaging and upload require a successful desktop matrix and a `push` event on `refs/heads/main`. Packaging uses `--publish never`; it creates unsigned development installers, not a public release. Historical pre-merge runs above intentionally did not package; the later baseline main workflow is a distinct result.
+Main-only native validation requires Linux success; installer packaging/upload require native matrix success and a `push` event on `refs/heads/main`. Packaging uses `--publish never`; it creates unsigned development installers, not a public release. Historical pre-merge runs above intentionally did not package; old native PR runs used the former workflow.
 
 The workflow cannot distinguish an allowed merge from an unprotected direct push to main. Maintainers must configure [main protection and required review](../development/maintainer-setup.md) to enforce “only after merge” as a repository policy.
 
 ## Remaining gates
 
 - Independent review and maintainer-authorized merge; this change has only author self-review.
-- License selection, framework snapshot rights and upstream skill reuse clearance.
-- Protected-main/reviewer configuration, conduct reporting contact and signed release process.
+- Optional required Linux status-check configuration, conduct reporting contact and signed release process.
 - Manual macOS/Windows installation, Chinese IME and real-provider acceptance.
 
 The [research index](README.md), [fresh-context loop](../development/loop.md) and [workstate](../../.agents/workstate.md) are recovery entry points. Historical 0.1 validation records remain intact and are not current CI claims.

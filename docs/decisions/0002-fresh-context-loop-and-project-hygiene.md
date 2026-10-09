@@ -14,7 +14,7 @@ Keep issue→design→PR→review→merge as an explicit manual loop. Review is 
 
 Add contribution/security/conduct/changelog/provenance documents and issue/PR templates. Add correctness lint, narrowly scoped formatting, local-reference/YAML/skill checks and conservative dependency update configuration. Do not impose fictional coverage thresholds or reformat the legacy application.
 
-Use small original project-specific skill adapters and pinned source provenance. Do not copy unlicensed upstream bundles or install schedule executors. A public project is not automatically legally open source; license and third-party rights remain a maintainer decision.
+Historical decision: use small original project-specific skill adapters and pinned source provenance while upstream rights were unconfirmed. License uncertainty is superseded by [ADR 0004](0004-linux-ci-and-licensed-skills.md); scheduler/executor installation remains prohibited without separate authorization.
 
 Preserve the author's CI policy: no push/PR uploads or installer builds; main-only packaging after successful verification, no automatic release. Remote protection/reviewer changes need explicit authorization.
 

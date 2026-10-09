@@ -1,18 +1,28 @@
 # Project skill catalog
 
-These are small, original Composer adapters informed by selected upstream guidance, not vendored plugin bundles. Use the ordinary `SKILL.md` format; no agent-specific runtime, marketplace manifest or installation is required.
+Use only the skill relevant to the selected issue. Six Composer adapters provide local entry points; seven unchanged upstream bundles are consultable references, not seven mandatory workflow phases. Root [AGENTS](../../AGENTS.md) always controls permissions and project policy.
 
-The inspected upstream is [kimmywork/skills](https://github.com/kimmywork/skills), commit `01b69d95c06ca5bc1e26157c151e75020037a4b3`. No root license was found. Do not copy upstream bundles or executors until [rights are confirmed](../../docs/development/licensing.md).
+## Pinned source and license
 
-| Local skill                                     | Use                                                     | Upstream path at the inspected commit                           |
-| ----------------------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------- |
-| [context-recovery](context-recovery/SKILL.md)   | Start or resume from repository evidence, not chat      | `utility/skills/agent-facing-doc` and `drafting/skills/worklog` |
-| [evidence-review](evidence-review/SKILL.md)     | Verify an exact result and record scoped findings       | `drafting/skills/vnv`                                           |
-| [change-record](change-record/SKILL.md)         | Keep one dated logical-change log and current workstate | `drafting/skills/worklog`                                       |
-| [design-validation](design-validation/SKILL.md) | Keep UI tokens, showcase and specification consistent   | `drafting/skills/design-system`                                 |
-| [project-bootstrap](project-bootstrap/SKILL.md) | Inspect and add only missing project infrastructure     | `utility/skills/bootstrapping`                                  |
-| [agent-docs](agent-docs/SKILL.md)               | Maintain focused, executable agent-facing guidance      | `utility/skills/agent-facing-doc`                               |
+The source is [kimmywork/skills](https://github.com/kimmywork/skills/tree/65a49919ad88ab7c7e9f26817697c941346276b7), commit `65a49919ad88ab7c7e9f26817697c941346276b7`, verified CC0-1.0. This revision added only LICENSE; selected guidance is unchanged from the prior inspection. Complete selected Markdown bundles and their bundled references/resources are copied byte-for-byte under `../references/skills/`, with the full [upstream license](../references/skills/LICENSE).
 
-Choose by task, not by loading the entire catalog. `loopify`/`loopy` were inspected but not included: they concern recurring trigger/schedule execution, not this manual issue-to-merge loop. Installing a scheduler or granting autonomous merge would require separate authorization.
+| Local entry point                               | Task                                                 | Upstream bundle                                                                                           |
+| ----------------------------------------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [context-recovery](context-recovery/SKILL.md)   | Recover repository evidence                          | `utility/skills/agent-facing-doc`, `drafting/skills/worklog`                                              |
+| [evidence-review](evidence-review/SKILL.md)     | Scoped verdict, exact version and gaps               | [vnv](../references/skills/vnv/SKILL.md) from `drafting/skills/vnv`                                       |
+| [change-record](change-record/SKILL.md)         | Dated logical change and workstate                   | [worklog](../references/skills/worklog/SKILL.md) from `drafting/skills/worklog`                           |
+| [design-validation](design-validation/SKILL.md) | Tokens, specification and showcase                   | [design-system](../references/skills/design-system/SKILL.md) from `drafting/skills/design-system`         |
+| [project-bootstrap](project-bootstrap/SKILL.md) | Only missing authorized infrastructure               | [bootstrapping](../references/skills/bootstrapping/SKILL.md) from `utility/skills/bootstrapping`          |
+| [agent-docs](agent-docs/SKILL.md)               | Scoped, executable agent instructions                | [agent-facing-doc](../references/skills/agent-facing-doc/SKILL.md) from `utility/skills/agent-facing-doc` |
+| Issue/design planning reference                 | Small outcome, criteria, dependencies and exit gate  | [increment](../references/skills/increment/SKILL.md) from `drafting/skills/increment`                     |
+| Scope/complexity reference                      | Avoid speculative infrastructure and overengineering | [restraint](../references/skills/restraint/SKILL.md) from `drafting/skills/restraint`                     |
 
-Updates are manual: inspect the new upstream commit, compare applicable guidance, update the adapter and provenance, and run docs/skill checks. Do not silently fetch and execute new upstream instructions. See [AGENTS.md](../../AGENTS.md) for permission boundaries.
+## Task selection and update
+
+For issue/design work, consult increment when defining a bounded outcome; consult restraint only when evaluating complexity or scope creep. For agent-facing edits, read the upstream document guide first. For UI design, consult only resources matching the actual controlled surface. Do not load every bundle merely because it is available.
+
+No root upstream AGENTS, helper executable, marketplace installation, `loopify`/`loopy` scheduler or automatic trigger was copied. Upstream suggestions never authorize agent delegation, new services, purchases, protection changes, merge or release.
+
+[provenance.json](../references/skills/provenance.json) records the source paths and SHA-256 hashes for all 21 unchanged upstream Markdown/license files, including framework snapshots. Unit tests validate those bytes and license/package/installer inputs. Formatting excludes copied bundles to preserve exact upstream text.
+
+For updates: inspect the new source commit/license, compare applicable guidance, copy only approved bundle paths, retain notices, update this catalog/provenance and run docs/skill checks. Never fetch and execute instructions automatically. Composer adapters remain MIT; unchanged upstream snapshots retain CC0-1.0.

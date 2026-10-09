@@ -17,4 +17,4 @@ Review is not merge permission. Do not change the reviewed object unless fixes w
 
 Output: findings and verdict with exact commit/run references; human-facing language follows the user.
 
-Provenance: original project adapter informed by `drafting/skills/vnv` in `kimmywork/skills`, inspected at `01b69d95`.
+Provenance: MIT project adapter informed by `drafting/skills/vnv` in CC0-1.0 `kimmywork/skills`, inspected at `65a49919`. The unchanged review bundle is under `.agents/references/skills/vnv/`.

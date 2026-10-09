@@ -40,7 +40,7 @@ npm run test:e2e
 
 On Linux, run Electron tests under Xvfb with GTK/NSS/audio dependencies. Use `tests/helpers/electron-launch.cjs`; omit `ELECTRON_RUN_AS_NODE` entirely, including Windows case variants. Tests use isolated fixture roots and mock AI only.
 
-Push/PR jobs compile for validation and run checks, but **never package installers or upload artifacts**. Only a successful push to `main`, after desktop checks, may build/upload unsigned development installers. See `docs/development/ci-policy.md`.
+Ordinary push/PR jobs use Linux only for portable build/checks and Xvfb Electron tests; **never package installers or upload artifacts**. Native macOS/Windows checks run only on main pushes, after Linux success. Only main native success permits unsigned installer packaging/upload. Manual dispatch does not start native jobs. See `docs/development/ci-policy.md`.
 
 ## Skills and continuity
 
@@ -52,4 +52,4 @@ After each logical change, run `date '+%F %T %Z'`, append a concise entry to `.a
 
 Link source URLs beside externally derived claims; distinguish documented features, inference and actual tests. Preserve historical test results with dates and SHA, adding newer evidence rather than rewriting history.
 
-No project license has been selected. See `docs/development/licensing.md`. Do not add an SPDX license, copy third-party bundles, or present this repository as legally open source without maintainer approval and provenance review.
+Composer-authored code/docs use MIT. Identified framework and skill snapshots retain CC0-1.0 and full upstream notices. See `docs/development/licensing.md` and `THIRD_PARTY_NOTICES.md`. Preserve pinned provenance; do not assume these terms clear unrelated dependencies or future media.

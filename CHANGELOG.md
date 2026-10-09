@@ -1,5 +1,15 @@
 # Changelog
 
+## Pending CI and licensing refresh
+
+- Linux-only ordinary push/PR portable build and Electron E2E; main-only macOS/Windows verification gates main-only unsigned installer upload.
+- Shared semantic workflow guard with negative event/platform/artifact regression cases.
+- MIT for Composer-authored code/docs; verified CC0-1.0 framework and seven unchanged upstream skill bundles with retained licenses/provenance.
+- Cleared superseded license warnings and updated fresh-context, review, CI and maintainer guidance; historical evidence stays dated.
+- Synchronized the rewritten PR-stack parent without force-push or loss of newer continuity records.
+- Strengthened required CI step/job failure gates and copied-file provenance inventory completeness.
+- Added full specification/showcase freshness comparison and stale static markup/CSS regressions; regenerated showcase from the linted runtime.
+
 ## Unreleased source-size refactor
 
 - Enforce strict ESLint 180-line files / 120-character lines, with boundary regressions.

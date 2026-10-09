@@ -20,7 +20,9 @@ Exit gate: acceptance criteria map to tests or explicit manual checks, compatibi
 
 Use a focused branch from the inspected base, preserving existing work. Write regression tests for the failure, implement the smallest correction, and run local checks. Update research, decisions and worklog when conclusions change.
 
-Open or update the related PR with issue/design links, exact scope, commit, test evidence, known gaps and rollback. If stacked, identify the dependency/base. Push/PR validation must not package installers or upload artifacts. Never add “Closes” to an issue that is only partially addressed.
+Open or update the related PR with issue/design links, exact scope, commit, test evidence, known gaps and rollback. If stacked, identify the dependency/base. Push/PR validation uses Linux portable builds and Electron E2E only, never native runners, installer packaging or artifact upload. Never add “Closes” to an issue that is only partially addressed.
+
+When a stack parent is rewritten, fetch its live ref and compare content before syncing the child. Preserve newer continuity records and historical evidence during conflicts. Prefer a normal merge when history rewriting is not authorized; verify the current parent is an ancestor, the resulting PR diff is scoped and live mergeability/checks recover. Do not overwrite the maintainer's parent or infer child approval from a parent review.
 
 ## Review
 
@@ -34,6 +36,6 @@ A maintainer decides merge only after scope/design approval, review and required
 
 ## Verify and hand off
 
-Read the actual merged SHA and `main` checks. Main-only packaging may build/upload unsigned development installers after verification; it does not publish a public release. Close fully satisfied issues only after acceptance and merge are verified. Leave partially satisfied issues open with the remaining findings.
+Read the actual merged SHA and `main` checks. Linux success gates main-only macOS/Windows native verification, whose success gates unsigned installer packaging/upload. It does not publish a public release. Close fully satisfied issues only after acceptance and merge are verified. Leave partially satisfied issues open with the remaining findings.
 
 Update workstate and the dated worklog with the merged/result SHA, PR/issue, observed checks, unresolved risks and next issue. The next fresh context must be able to recover solely from repository artifacts and live GitHub.

@@ -1,6 +1,7 @@
 {
   "name": "icimik-composer",
   "version": "0.1.0",
+  "license": "MIT",
   "private": true,
   "description": "Local-first Chinese fiction workbench",
   "main": "electron/main.cjs",
@@ -53,6 +54,8 @@
       "dist/**/*",
       "electron/**/*",
       "framework/**/*",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md",
       "package.json"
     ],
     "directories": {

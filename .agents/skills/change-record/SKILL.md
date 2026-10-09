@@ -15,4 +15,4 @@ Never copy secrets, user drafts or private messages into continuity files. Do no
 
 Output: paths updated, the logical change and its evidence. Human-facing summaries follow the user's language.
 
-Provenance: original project adapter informed by `drafting/skills/worklog` in `kimmywork/skills`, inspected at `01b69d95`.
+Provenance: MIT project adapter informed by `drafting/skills/worklog` in CC0-1.0 `kimmywork/skills`, inspected at `65a49919`. Consult the unchanged bundle under `.agents/references/skills/worklog/` when needed.

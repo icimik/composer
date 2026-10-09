@@ -17,4 +17,4 @@ Do not redesign the whole product during a bug fix. Browser showcase evidence is
 
 Output: changed design scope, measured checks and unverified cases, in the user's language.
 
-Provenance: original project adapter informed by `drafting/skills/design-system` in `kimmywork/skills`, inspected at `01b69d95`.
+Provenance: MIT project adapter informed by `drafting/skills/design-system` in CC0-1.0 `kimmywork/skills`, inspected at `65a49919`. Consult `.agents/references/skills/design-system/` and only its relevant surface resources.
