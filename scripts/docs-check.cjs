@@ -23,6 +23,7 @@ const docs = files.filter(
       file.startsWith('docs/decisions/') ||
       file === 'docs/research/README.md' ||
       file === 'docs/research/current-verification.md' ||
+      file === 'docs/research/toolchain-upgrade.md' ||
       file === 'docs/research/09-后续设计与竞品调研.md')
 );
 let linkCount = 0;

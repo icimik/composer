@@ -2,6 +2,12 @@
 
 The author authorized review and merge of the six Dependabot PRs present at task start. This does not authorize overriding repository protections or merging unrelated refactors.
 
+## Subsequent merged baseline and upgrade proposal
+
+The maintainer merged #34/#36 into main `7e2c2df`. The new workflow passed [main run 37922322450](https://github.com/icimik/composer/actions/runs/37922322450), including Linux, both native platforms and both installer jobs; artifacts=2. Statements below about the workflow not being merged describe the earlier inspection.
+
+[Issue #38](https://github.com/icimik/composer/issues/38) and [toolchain evaluation](../research/toolchain-upgrade.md) propose Vite8.3.4/plugin6.1.2 and parser-supported TS6.0.3 as an isolated tested draft. #30/#31 remain open; standalone plugin6 is incompatible with merged Vite6, and TS7 remains outside the stable parser range. No candidate merge authority is inferred from earlier dependency-maintenance authorization.
+
 ## Reviewed bumps
 
 | PR                                                | Change                        | Finding                                                                                                                                                         |

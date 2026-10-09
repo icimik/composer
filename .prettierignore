@@ -9,5 +9,4 @@ docs/research/
 src/styles.css
 index.html
 tsconfig.json
-vite.config.ts
 .agents/references/skills/

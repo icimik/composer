@@ -2,7 +2,15 @@
 
 Updated 2026-10-09 UTC. This file separates observed results from historical source-import records and unexecuted acceptance work.
 
-## Stack synchronization and review follow-up
+## Merged-main acceptance and issue closure
+
+The maintainer merged #34/#36, and main is `7e2c2dfe80ca1468bec58891d6ebd8a5668858d3`. [Main run 37922322450](https://github.com/icimik/composer/actions/runs/37922322450) actually executed the new Linux→native→installer workflow successfully: Linux passed; macOS passed 62 unit cases, smoke and 23 E2E; Windows passed 60, skipped the same two symlink-privilege cases, and passed smoke/23 E2E. Both unsigned development installer jobs succeeded; the artifacts API returned two SHA-named installers, not a public release.
+
+[Windows issue #3](https://github.com/icimik/composer/issues/3) and [CI/license issue #35](https://github.com/icimik/composer/issues/35) are completed after readback; [source-size issue #33](https://github.com/icimik/composer/issues/33) was already completed. Signing, installation/manual IME, migration acceptance and other roadmap work remain open, particularly [release issue #23](https://github.com/icimik/composer/issues/23).
+
+The next [toolchain evaluation](toolchain-upgrade.md) is an isolated draft candidate under [issue #38](https://github.com/icimik/composer/issues/38). Its new versions are not part of the merged-main run above; old native evidence must not be reused as upgraded-toolchain acceptance.
+
+## Historical stack synchronization and review follow-up
 
 The maintainer rewrote parent #34 onto dependency-updated main; new head `ae7c7bb5e7316afc76006f17fdf60e264ed7aa58` changes only the merged action/globals versions relative to the original parent. Child #36 was still rooted in the old parent history. Normal merge `00747cc` makes the current parent an ancestor, resolves six documentation/continuity conflicts, and preserves the previous child tree byte-for-byte. No parent update or force-push was performed.
 
@@ -12,7 +20,7 @@ The [child CodeRabbit review](https://github.com/icimik/composer/pull/36#pullreq
 
 Local follow-up passed 62 units, launch smoke, all 23 Electron E2E, lint/format/docs/build and design checks. Current-head Linux CI and live stack mergeability must be read separately after push. Existing parent approval does not approve new child changes or authorize agent merge; main-path runtime remains pending maintainer merge.
 
-## Current CI, licensing and skills refresh
+## Historical CI, licensing and skills refresh
 
 The maintainer requested Linux-only ordinary PR/push validation and native macOS/Windows checks only on main pushes after merge. [CI policy](../development/ci-policy.md) and [ADR 0004](../decisions/0004-linux-ci-and-licensed-skills.md) describe the new gates and negative regression tests. This change requires PR review; skipped native jobs on its PR cannot establish execution of its new main path.
 
@@ -67,9 +75,9 @@ Main-only native validation requires Linux success; installer packaging/upload r
 
 The workflow cannot distinguish an allowed merge from an unprotected direct push to main. Maintainers must configure [main protection and required review](../development/maintainer-setup.md) to enforce “only after merge” as a repository policy.
 
-## Remaining gates
+## Remaining release gates
 
-- Independent review and maintainer-authorized merge; this change has only author self-review.
+- Independent review and maintainer-authorized merge for future changes; the toolchain candidate remains a draft.
 - Optional required Linux status-check configuration, conduct reporting contact and signed release process.
 - Manual macOS/Windows installation, Chinese IME and real-provider acceptance.
 

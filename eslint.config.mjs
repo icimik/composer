@@ -7,7 +7,7 @@ export default [
     ignores: ['node_modules/**', 'dist/**', 'release/**', 'test-results/**', 'playwright-report/**']
   },
   {
-    files: ['**/*.{js,cjs,mjs,ts,tsx}'],
+    files: ['**/*.{js,cjs,mjs,ts,mts,tsx}'],
     rules: {
       'max-lines': ['error', { max: 180, skipBlankLines: false, skipComments: false }],
       'max-len': ['error', { code: 120, comments: 120, tabWidth: 2 }]
@@ -31,7 +31,7 @@ export default [
     languageOptions: { globals: globals.browser }
   },
   {
-    files: ['src/**/*.{ts,tsx}', 'vite.config.ts'],
+    files: ['src/**/*.{ts,mts,tsx}', 'vite.config.mts'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: { ecmaFeatures: { jsx: true } },

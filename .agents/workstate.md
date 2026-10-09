@@ -1,15 +1,14 @@
 # Current workstate
 
-- Focus: [issue #35](https://github.com/icimik/composer/issues/35), Linux-first CI, MIT adoption and CC0 skill refresh.
-- Branch: `maintenance/linux-ci-mit-cc0`, stacked on unmerged [PR #34](https://github.com/icimik/composer/pull/34). Rewritten parent head `ae7c7bb` synchronized by normal merge `00747cc`; six continuity/research conflicts kept current state/history. Parent branch is untouched; no force-push.
-- Authorization: safe Dependabot merges only, plus implementation/PR delivery for this increment. No authority to merge #34 or this new work, bypass/change protection, install schedulers, sign or publish.
-- Dependabot #27/#28/#29/#32 are squash-merged; [review evidence](../docs/development/dependency-review.md). #30/#31 remain open because plugin/Vite and TypeScript/parser peers are incompatible.
-- Final dependency-only main `0d190d9` passed [run 37913404198](https://github.com/icimik/composer/actions/runs/37913404198), both native checks and installer jobs, with two installer artifacts under the former workflow.
-- Policy: Linux-only ordinary PR/push portable builds and Electron E2E, zero installer builds/uploads. Main push Linux success gates native macOS/Windows checks, then installers; no automatic public release.
-- Local follow-up: check/build/lint/format/docs passed, 62 unit tests, one launch smoke, all 23 Electron E2E, 76 contrast pairs / three negative token cases. Strict JS/TS limits remain 180 physical lines / 120 characters.
-- Licensing: MIT for Composer code/docs/adapters; both upstream repositories confirmed CC0-1.0. Seven unchanged Markdown skill bundles and framework snapshots/notices are byte-verified in provenance.json; no executors installed.
-- Delivery: [stacked PR #36](https://github.com/icimik/composer/pull/36), base `refactor/enforce-code-size-limits`; earlier `ecbeb8e` passed Linux-only PR/push with zero artifacts. Review follow-up now strengthens mandatory CI steps/job failure gates, complete copied-file inventory and full showcase freshness. Inspect new exact-head CI before approval.
-- Review: parent approval exists at `ae7c7bb`; it does not authorize agent merge or approve later child edits. Three nitpicks addressed in child, not an independent approval claim. Remaining: child review, optional required Linux status check, unsupported migrations, eight moderate dev-toolchain advisories, conduct contact, native manual acceptance/signing.
-- Next: read live PR/head/checks; after #34 merges, retarget this PR to main and repeat Linux checks. After maintainer merges this PR, read new main native/packaging results before closing #35.
-
-Recover via root AGENTS, this snapshot, the research index, issue/design, live PR and exact-head CI. Historical chat and older worklogs do not override live evidence.
+- Focus: [issue #38](https://github.com/icimik/composer/issues/38), evaluate compatible Vite8/plugin6/TS6 upgrade; draft candidate, not approved execution/merge.
+- Base: main `7e2c2dfe80ca1468bec58891d6ebd8a5668858d3`; maintainer merged #34/#36. Branch `research/toolchain-upgrade`, no stack dependency.
+- Merged-main evidence: [run 37922322450](https://github.com/icimik/composer/actions/runs/37922322450), Linux success, macOS 62 units, Windows 60 passes/two existing symlink skips, smoke/23 E2E each; both installer jobs succeeded, two artifacts. No public release.
+- Closure: #3 and #35 completed after readback; #33 was already completed. Feature roadmap and #23 signed/manual release gates remain open.
+- Candidate: Vite8.3.4/plugin6.1.2/TS6.0.3 pinned; typescript-eslint8.71.1 unchanged. Only three direct versions change; config becomes `.mts`, client types explicit, size guards extended to `.mts`.
+- Local: clean install/tree, check/build/lint/format/docs, 63 units, smoke and 23 E2E, design checks and dev/production-preview HTTP smoke pass. Candidate native/HMR/manual acceptance not claimed.
+- TS7: outside stable parser peer range; keep #31 open. #30 needs coordinated Vite replacement; keep open pending maintainer decision.
+- Delivery: prepare draft PR with source-cited research, acceptance/rollback and exact-head Linux verification. Main is not upgraded by this experiment.
+- Authorization: close actually completed issues; evaluate upgrades and present a reversible candidate. No approval to convert/merge draft, bypass/change protection, force peers, sign or publish.
+- Policy unchanged: ordinary PR/push Linux portable build/E2E only, no installers/artifacts; main Linux→native→installer gates. Strict 180/120; MIT/CC0 notices preserved.
+- Remaining: approve candidate direction/review, new main native runtime after merge, TS7 parser support, eight moderate dev-toolchain advisories, signed/manual release gates.
+- Next: read live candidate head/checks; obtain maintainer decision, do not merge old standalone bumps or start feature work.

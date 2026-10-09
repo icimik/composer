@@ -1,6 +1,6 @@
 # Linux-first CI and licensed skill snapshots
 
-Status: implemented for PR review; main-path runtime validation follows maintainer merge.
+Status: accepted by maintainer merge; new main path passed [run 37922322450](https://github.com/icimik/composer/actions/runs/37922322450) at `7e2c2df`, including Linux, native verification and installers. Historical pre-merge limits below describe the implementation phase.
 
 ## Context and authorization
 

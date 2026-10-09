@@ -31,3 +31,15 @@ test('line-width guard does not exempt strings, templates or URL comments', asyn
     assert.ok((await messages(source)).some((m) => m.ruleId === 'max-len'));
   }
 });
+
+test('ESM TypeScript configuration retains strict source size guards', async () => {
+  const filePath = 'vite.config.mts';
+  assert.equal(await eslint.isPathIgnored(filePath), false);
+  const lint = async (source) => (await eslint.lintText(source, { filePath }))[0].messages;
+  assert.equal((await lint(Array(180).fill('// fixture').join('\n'))).length, 0);
+  assert.ok(
+    (await lint(Array(181).fill('// fixture').join('\n'))).some((m) => m.ruleId === 'max-lines')
+  );
+  assert.equal((await lint('// ' + 'x'.repeat(117))).length, 0);
+  assert.ok((await lint('// ' + 'x'.repeat(118))).some((m) => m.ruleId === 'max-len'));
+});
