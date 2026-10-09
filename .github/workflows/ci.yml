@@ -20,18 +20,35 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
+      - name: Electron launch smoke test
+        run: npm run test:smoke
       - run: npm run test:e2e
+  package:
+    name: Development installer (${{ matrix.os }})
+    needs: desktop
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
       - name: Build unsigned development installer
         run: npm run dist -- --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
       - uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: verification-${{ matrix.os }}
+          name: development-installer-${{ matrix.os }}-${{ github.sha }}
+          if-no-files-found: error
+          retention-days: 14
           path: |
-            playwright-report/
-            test-results/
             release/*.dmg
             release/*.zip
             release/*.exe

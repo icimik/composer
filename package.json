@@ -11,6 +11,7 @@
     "preview": "vite --host 0.0.0.0",
     "test": "node --test tests/unit/*.test.cjs",
     "test:e2e": "playwright test",
+    "test:smoke": "playwright test tests/e2e/launch-smoke.spec.cjs",
     "design:build": "node scripts/design.cjs",
     "design:check": "node scripts/design.cjs --check",
     "check": "npm run build && npm test && npm run design:check",

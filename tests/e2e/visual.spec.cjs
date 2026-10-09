@@ -1,8 +1,9 @@
 const {test,expect,_electron}=require('@playwright/test');
 const fs=require('node:fs/promises');const os=require('node:os');const path=require('node:path');
+const {electronLaunchOptions}=require('../helpers/electron-launch.cjs');
 test('desktop visual evidence: modes, minimum size and key states',async()=>{
   const root=await fs.mkdtemp(path.join(os.tmpdir(),'composer-visual-'));
-  const app=await _electron.launch({args:[...(process.platform==='linux'?['--no-sandbox']:[]),'.'],cwd:path.resolve(__dirname,'../..'),env:{...process.env,ELECTRON_RUN_AS_NODE:'',COMPOSER_E2E:'1',COMPOSER_TEST_ROOT:root}});
+  const app=await _electron.launch(electronLaunchOptions(root));
   try{
     const page=await app.firstWindow();await expect(page.getByTestId('composer-app')).toBeVisible();
     await page.getByLabel('文档标题').fill('第一章 · 迟来的信');

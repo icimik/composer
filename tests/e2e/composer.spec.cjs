@@ -1,9 +1,9 @@
 const {test,expect,_electron}=require('@playwright/test');
 const fs=require('node:fs/promises');const os=require('node:os');const path=require('node:path');const http=require('node:http');
+const {electronLaunchOptions}=require('../helpers/electron-launch.cjs');
 let app,page,root,server,endpoint,received=[],mode='success';
 async function launch(){
-  app=await _electron.launch({args:[...(process.platform==='linux'?['--no-sandbox']:[]),'.'],cwd:path.resolve(__dirname,'../..'),
-    env:{...process.env,ELECTRON_RUN_AS_NODE:'',COMPOSER_E2E:'1',COMPOSER_TEST_ROOT:root}});
+  app=await _electron.launch(electronLaunchOptions(root));
   page=await app.firstWindow();await expect(page.getByTestId('composer-app')).toBeVisible();
 }
 async function saveText(text){await page.getByLabel('正文编辑器').fill(text);await page.getByLabel('文档标题').click();await expect(page.getByTestId('save-status')).toHaveText(/已保存/);}
