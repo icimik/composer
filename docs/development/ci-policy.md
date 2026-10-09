@@ -1,25 +1,27 @@
 # CI and artifact policy
 
-The author's policy is: no artifact upload on push/PR validation; installer building/upload begins only after merge to `main`.
+The maintainer's policy: ordinary PR/push validation uses Linux only; native macOS/Windows validation and installer upload run only after merge to `main`. No public release is automated.
 
-## Verification
+## Ordinary verification
 
-Every push, pull request and manual verification runs repository checks plus Electron smoke/full E2E on macOS and Windows. Renderer compilation is a validation step, not installer publication. Local traces/reports remain on the runner; they are not uploaded.
+`verify` / `Linux verification` runs on Ubuntu 22.04 for every push, PR and manual dispatch. It installs Electron runtime libraries, runs repository checks (including portable TypeScript/renderer build), then Electron launch smoke and all E2E under Xvfb. This checks platform-neutral code on Linux; it is not a claim to cross-compile macOS/Windows installers or establish native acceptance.
 
-The smoke test uses a polluted parent Node-mode variable and verifies a real Electron window. The shared launch helper removes that variable rather than assigning an empty value.
+No ordinary validation job packages installers or uploads artifacts, including test reports. Local traces stay on the runner. The smoke test verifies a real Electron window with a polluted Node-mode parent; the shared launch helper removes that variable.
 
-## Packaging
+## Main-only native verification and packaging
 
-The separate `package` matrix job requires `desktop` success and:
+The `desktop` matrix requires `verify` success. The `package` matrix requires `desktop` success. Both use macOS 14 and Windows and have this exact job-level gate:
 
 ```text
 github.event_name == 'push' && github.ref == 'refs/heads/main'
 ```
 
-It builds unsigned development installers using `--publish never`, then uploads only installer files with a SHA-specific name and 14-day retention. Pushes to feature branches, pull requests, and `workflow_dispatch` cannot enter this job. Branch protection is a maintainer prerequisite: the condition proves a main push, not by itself that a human merged a reviewed PR.
+Native jobs run build/checks, smoke and full E2E only on main pushes. Packaging then builds unsigned installers with `--publish never`, uploading only DMG/ZIP/EXE files with SHA-specific names and 14-day retention. PRs, feature pushes and manual dispatches skip both native matrices before allocating runners.
 
-No workflow uses `pull_request_target`, production model credentials, automated merge, package-registry publishing or release publication. GitHub Actions references are pinned to inspected upstream commit SHAs.
+Main PR protection enforces entry via reviewed merges; a workflow main-push condition alone does not prove a reviewed merge. The maintainer removed the blanket update restriction; the inspected rules still require one approval and linear history, but have no required status checks. Adding `Linux verification` as a required PR check remains a maintainer decision. Do not require main-only native jobs on PRs.
 
 ## Guards and limitations
 
-`tests/unit/ci-policy.test.cjs` provides a conservative policy regression. `npm run docs:check` validates YAML, job boundaries, main-only gating, pinned actions and local documentation references. These are structural checks, not a substitute for native runs or GitHub branch protection.
+`scripts/ci-policy.cjs` is shared by docs validation and unit tests. Tests reject ungated native jobs, non-Linux ordinary runners, missing dependency gates, extra jobs, artifact/report uploads or installer building in validation, mutable action pins and privileged PR triggers. LF and CRLF parsing are covered.
+
+Structural tests do not replace live run inspection. Read the exact head, jobs, runner platforms, conclusions and artifacts count. Main-only jobs cannot be claimed as tested by a PR where they were skipped. There are no production model credentials, auto-merge, registry publication or automatic releases.

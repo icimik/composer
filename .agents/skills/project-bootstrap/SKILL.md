@@ -9,10 +9,10 @@ Read existing README, AGENTS, contributing/security documents, CI, package scrip
 
 Choose additions proportionate to the project's scale. Preserve existing conventions and data. Implement routine authorized documentation/checks; ask about choices that change rights, permissions, public behavior or maintainer responsibilities.
 
-Do not select a license, install a scheduler, enable auto-merge, publish packages, change branch protection or invent enforcement contacts.
+Preserve the maintainer-selected MIT and identified CC0 terms; do not change license scope without authorization. Do not install a scheduler, enable auto-merge, publish packages, change branch protection or invent enforcement contacts.
 
 Validate local references, scripts, YAML, tests and CI policy. Keep missing remote settings and legal decisions in the maintainer setup checklist.
 
 Output: observed baseline, completed additions and verification, plus unresolved decisions. Human-facing summaries follow the user's language.
 
-Provenance: original project adapter informed by `utility/skills/bootstrapping` in `kimmywork/skills`, inspected at `01b69d95`.
+Provenance: MIT project adapter informed by `utility/skills/bootstrapping` in CC0-1.0 `kimmywork/skills`, inspected at `65a49919`. Consult its complete references under `.agents/references/skills/bootstrapping/` when needed.

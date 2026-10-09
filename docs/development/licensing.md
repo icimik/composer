@@ -1,23 +1,18 @@
-# License decision and third-party provenance
+# Licensing and provenance
 
-## Current status
+## Adopted terms
 
-No project LICENSE exists and no SPDX license has been selected. Public visibility is not a blanket reuse grant. This bootstrap prepares open-source project infrastructure but does not claim legally open-source distribution.
+The maintainer selected MIT on 2026-10-09. Composer-authored application code, documentation and project adapters use the root [MIT license](../../LICENSE); `package.json` declares `MIT`. Identified third-party snapshots retain their upstream terms, not an invented Composer copyright.
 
-The inspected `kimmywork/skills` commit is `01b69d95c06ca5bc1e26157c151e75020037a4b3`. Its repository API did not expose a root license. The framework snapshot also needs an explicit rights review. Do not infer a license from an unrelated vendored tool's LICENSE.
+- Framework: [CC0-1.0 upstream license](https://github.com/icimik/fiction-writing-framework/blob/ec414a6d7427760241fc94533396a58713f5a1ab/LICENSE), pinned to `ec414a6d7427760241fc94533396a58713f5a1ab`. The original three snapshots are byte-identical to this revision. The full text is retained in [framework/LICENSE](../../framework/LICENSE).
+- Skills: [CC0-1.0 upstream license](https://github.com/kimmywork/skills/blob/65a49919ad88ab7c7e9f26817697c941346276b7/LICENSE), pinned to `65a49919ad88ab7c7e9f26817697c941346276b7`. Selected complete, unchanged Markdown bundles are retained alongside [their license](../../.agents/references/skills/LICENSE) and [catalog](../../.agents/skills/README.md).
 
-## Decision needed from the maintainer
+Both upstream updates added the license only; the inspected skill/framework content did not change. Prior reports that rights were unconfirmed describe historical inspections and are superseded by this decision.
 
-Confirm the rights to application code, framework snapshots, research documents, screenshots and skill guidance. Then choose a license and its scope:
+## Scope and release checks
 
-- MIT: a simple permissive candidate for application code.
-- Apache-2.0: a permissive candidate with explicit patent provisions.
-- A separate documentation/assets license, if desired, must specify exactly which paths it covers.
+See [THIRD_PARTY_NOTICES](../../THIRD_PARTY_NOTICES.md) for inventory and source mappings. MIT and the framework CC0 notice are included in installer input files. npm dependencies, Electron/Chromium, fonts, future media and other third-party components keep their own licenses; the root MIT does not replace them.
 
-These are options, not adopted terms. Do not add a placeholder LICENSE that appears to grant rights. Before license adoption, confirm contributor acceptance, retained upstream notices, bundled dependencies, media/font permissions and whether framework materials can be redistributed.
+No upstream executors, marketplace installation, scheduled loops or autonomous merge permission were added. Skills are task-selected references subordinate to [AGENTS](../../AGENTS.md).
 
-## Skills approach
-
-`.agents/skills/` contains original, small project-specific adapters and a provenance catalog pointing at pinned upstream skills. It does not copy upstream SKILL text, helper executables or plugin bundles, and it does not install `loopy`/`loopify` scheduled execution. Optional upstream consultation never expands permissions.
-
-`THIRD_PARTY_NOTICES.md` distinguishes existing embedded framework materials, referenced skills and npm dependencies. Installers/release publication remain blocked on the broader release checklist; generating an unsigned development artifact is not proof of distribution rights.
+License selection and clearance for these two upstream repositories are resolved. A public release still needs dependency/notice inventory, signing decisions, real-machine acceptance and explicit maintainer authorization. Unsigned main development artifacts are not signed releases or proof that every future asset is cleared.

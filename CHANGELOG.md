@@ -1,5 +1,12 @@
 # Changelog
 
+## Pending CI and licensing refresh
+
+- Linux-only ordinary push/PR portable build and Electron E2E; main-only macOS/Windows verification gates main-only unsigned installer upload.
+- Shared semantic workflow guard with negative event/platform/artifact regression cases.
+- MIT for Composer-authored code/docs; verified CC0-1.0 framework and seven unchanged upstream skill bundles with retained licenses/provenance.
+- Cleared superseded license warnings and updated fresh-context, review, CI and maintainer guidance; historical evidence stays dated.
+
 ## Unreleased source-size refactor
 
 - Enforce strict ESLint 180-line files / 120-character lines, with boundary regressions.

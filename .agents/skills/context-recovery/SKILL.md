@@ -17,4 +17,4 @@ Do not implement unrelated issues while recovering context. Never paste private 
 
 Output: a compact evidence-based recovery packet and any material blocker. Human-facing summaries follow the user's language.
 
-Provenance: original project adapter informed by `utility/skills/agent-facing-doc` and `drafting/skills/worklog` in `kimmywork/skills`, inspected at `01b69d95`.
+Provenance: MIT project adapter informed by `utility/skills/agent-facing-doc` and `drafting/skills/worklog` in CC0-1.0 `kimmywork/skills`, inspected at `65a49919`. Pinned source bundles are under `.agents/references/skills/`.

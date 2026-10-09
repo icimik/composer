@@ -1,0 +1,128 @@
+{
+  "skills": {
+    "repository": "https://github.com/kimmywork/skills",
+    "commit": "65a49919ad88ab7c7e9f26817697c941346276b7",
+    "license": "CC0-1.0",
+    "bundles": [
+      "utility/skills/agent-facing-doc",
+      "utility/skills/bootstrapping",
+      "drafting/skills/vnv",
+      "drafting/skills/worklog",
+      "drafting/skills/design-system",
+      "drafting/skills/increment",
+      "drafting/skills/restraint"
+    ]
+  },
+  "framework": {
+    "repository": "https://github.com/icimik/fiction-writing-framework",
+    "commit": "ec414a6d7427760241fc94533396a58713f5a1ab",
+    "license": "CC0-1.0"
+  },
+  "files": [
+    {
+      "path": ".agents/references/skills/agent-facing-doc/SKILL.md",
+      "source": "utility/skills/agent-facing-doc/SKILL.md",
+      "sha256": "556be66bea051038a6cf57418157a35e9521994c661c77fcaecd8891a61f7d95"
+    },
+    {
+      "path": ".agents/references/skills/agent-facing-doc/references/document-guide.md",
+      "source": "utility/skills/agent-facing-doc/references/document-guide.md",
+      "sha256": "c09b24a8c59f16388829b0a386c7b6b0957557eeb240b7c01d06897683c44652"
+    },
+    {
+      "path": ".agents/references/skills/bootstrapping/SKILL.md",
+      "source": "utility/skills/bootstrapping/SKILL.md",
+      "sha256": "024aaffe4305cd7d5e2fa7d4bfe193b69334be7dfe46f24e39508e1ed00daf20"
+    },
+    {
+      "path": ".agents/references/skills/bootstrapping/references/core-principles.md",
+      "source": "utility/skills/bootstrapping/references/core-principles.md",
+      "sha256": "88802691718f41e0267c3a9adfea22755eed57ef645d4a1fd762813932bdbd1c"
+    },
+    {
+      "path": ".agents/references/skills/bootstrapping/references/project-artifacts.md",
+      "source": "utility/skills/bootstrapping/references/project-artifacts.md",
+      "sha256": "8956aa47b538ca1917b33f1881ab45aa1e4e675aa9bd649fc122aab5513fcffc"
+    },
+    {
+      "path": ".agents/references/skills/bootstrapping/references/software-conventions.md",
+      "source": "utility/skills/bootstrapping/references/software-conventions.md",
+      "sha256": "1b781c971572f6becf3ece1e617075bb7d5f0f79d164291680fe16e5b96b43ed"
+    },
+    {
+      "path": ".agents/references/skills/vnv/SKILL.md",
+      "source": "drafting/skills/vnv/SKILL.md",
+      "sha256": "296c13fb9cb7d2af9ee99b4ed46176fc8f1f8ab258e88f323ca46b822f9531b5"
+    },
+    {
+      "path": ".agents/references/skills/worklog/SKILL.md",
+      "source": "drafting/skills/worklog/SKILL.md",
+      "sha256": "f9f98823c51ae531bf115d14206166a279e54fb5453c6e3a55dd996255619a25"
+    },
+    {
+      "path": ".agents/references/skills/design-system/SKILL.md",
+      "source": "drafting/skills/design-system/SKILL.md",
+      "sha256": "ae62cc0c2f158dd50e45976e691851059f0fe4ab33231e186e8f33956fae6241"
+    },
+    {
+      "path": ".agents/references/skills/design-system/resources/checklist.md",
+      "source": "drafting/skills/design-system/resources/checklist.md",
+      "sha256": "590a82c55f6d348bed90eefafa0cdb54856d8b59024c06298711e1b4c9228a41"
+    },
+    {
+      "path": ".agents/references/skills/design-system/resources/game-ui-surfaces.md",
+      "source": "drafting/skills/design-system/resources/game-ui-surfaces.md",
+      "sha256": "f706feb156b4aff0c4f61cf6a5554a0f41e01580c7b3941fe31458d21c783cdc"
+    },
+    {
+      "path": ".agents/references/skills/design-system/resources/mobile-app-surfaces.md",
+      "source": "drafting/skills/design-system/resources/mobile-app-surfaces.md",
+      "sha256": "68e1b5f6ab6a37ac0eb866b02d4032321c0ba9294d00b19e671b66e63244d082"
+    },
+    {
+      "path": ".agents/references/skills/design-system/resources/print-and-document-surfaces.md",
+      "source": "drafting/skills/design-system/resources/print-and-document-surfaces.md",
+      "sha256": "ae6912973617418454d08a0e249ae94d9e761a44135bfc821bd5d735552083f5"
+    },
+    {
+      "path": ".agents/references/skills/design-system/resources/terminal-surfaces.md",
+      "source": "drafting/skills/design-system/resources/terminal-surfaces.md",
+      "sha256": "20cfca9749a4c3313b7347115219d5ed385d79a709f5e61101ced78b970c408c"
+    },
+    {
+      "path": ".agents/references/skills/increment/SKILL.md",
+      "source": "drafting/skills/increment/SKILL.md",
+      "sha256": "365753e11a9575aa708913b1a3e9d4a4d4b6a28ba9876eb15d71fe488a719538"
+    },
+    {
+      "path": ".agents/references/skills/restraint/SKILL.md",
+      "source": "drafting/skills/restraint/SKILL.md",
+      "sha256": "577d38989940bd923f311996a6cd5e4586974eeff31f8a398fbc61cc08278927"
+    },
+    {
+      "path": ".agents/references/skills/LICENSE",
+      "source": "../kimmy-skills/LICENSE",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "framework/LICENSE",
+      "source": "../fiction-writing-framework/LICENSE",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "framework/stages.md",
+      "source": "../fiction-writing-framework/references/02-process/stages.md",
+      "sha256": "9c8b86fae00bf0355b77f3dd38a554e504b1508f96c16d64d54253ef6df8cd0b"
+    },
+    {
+      "path": "framework/checklists.md",
+      "source": "../fiction-writing-framework/references/03-resources/checklists.md",
+      "sha256": "8da1e6b9a865562d762703991836dfd8bea4de8eb21a701d18ec0eeb5c2debeb"
+    },
+    {
+      "path": "framework/中文生成约束.md",
+      "source": "../fiction-writing-framework/references/01-domain/language/中文生成约束.md",
+      "sha256": "f0aee859f96161209443094db3b2651a00ae1763c6dedcc616c35d94e62f308f"
+    }
+  ]
+}

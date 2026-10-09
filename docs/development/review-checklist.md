@@ -9,7 +9,8 @@ Freeze the PR head SHA before recording a verdict. Record whether this is self-r
 - Are renderer/IPC/path boundaries intact and untrusted data never executed?
 - Do tests use temporary data and mock services only?
 - Are checks reported for the exact head, with native/manual gaps explicit?
-- Do push/PR jobs avoid all artifact upload and installer packaging?
+- Do ordinary push/PR jobs use Linux only and avoid native runners, artifact upload and installer packaging?
+- Do main-only native jobs depend on Linux success, and installer jobs on native success?
 - Are dependencies/action references pinned or intentionally locked, and audits separated from runtime evidence?
 - Are research, ADRs, changelog, skills/workstate and local references current?
 - Are license/third-party rights and new public behavior explicitly approved?

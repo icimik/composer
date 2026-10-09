@@ -1,6 +1,6 @@
 # Contributing to Icimik Composer
 
-This is an early local-first desktop writing tool. Start with [README](README.md), the [roadmap](docs/research/09-后续设计与竞品调研.md), and the [engineering loop](docs/development/loop.md). The license decision is pending; review [licensing](docs/development/licensing.md) before submitting or redistributing contributions.
+This is an early local-first desktop writing tool. Start with [README](README.md), the [roadmap](docs/research/09-后续设计与竞品调研.md), and the [engineering loop](docs/development/loop.md). Contributions to Composer-authored code/docs are under [MIT](LICENSE); preserve third-party terms described in [licensing](docs/development/licensing.md).
 
 ## Choose and design one change
 

@@ -1,16 +1,15 @@
 # Current workstate
 
-- Focus: [issue #33](https://github.com/icimik/composer/issues/33), strict ESLint 180 physical lines / 120-character lines and cohesive source decomposition.
-- Branch/base: `refactor/enforce-code-size-limits`, from main `a8fc96a883111279ee6a24334594248188c02312`; application PR #1 and foundations PR #25 were merged by the maintainer at 08:31 UTC.
-- Delivery: [PR #34](https://github.com/icimik/composer/pull/34), open against main; code commit `92eea4e`. Read live current-head native checks and the verification comment.
-- Baseline main: [run 37905610513](https://github.com/icimik/composer/actions/runs/37905610513) succeeded. Old open/stacked statements in historical evidence are not current state.
-- Implemented: components/state/save/actions, Store method groups, design templates/linted runtime, per-test E2E fixture and three scenario specs. Formatting includes app/test JS/TS.
-- Verified local: full checks, 37 unit tests, Electron smoke, all 23 E2E, 76 contrast checks / 3 negative token cases. Generated spec matches baseline bytes and showcase handler behavior matches baseline.
-- Dependency review: [review record](../docs/development/dependency-review.md). #27/#28/#29/#32 are green scoped bumps; #30/#31 fail peer compatibility. All remain open.
-- Merge permission: author approved Dependabot merges only. main ruleset 24777698 restricts updates with no bypass actors, so normal merge/squash is denied. Do not bypass, enable auto-merge or alter protection without approval.
-- Refactor merge is not authorized. Submit PR, read exact-head native CI and obtain maintainer review.
-- Policy unchanged: no PR/non-main installer build or artifact upload; successful main-only packaging, no public release.
-- Unresolved: scoped main policy correction, supported Vite/plugin and TypeScript/parser migrations, license/framework rights, conduct contact, signing/manual acceptance and prior dev-toolchain advisories.
-- Next: inspect refactor PR head/checks, report blocked Dependabot merges and ask for the minimum policy authorization. Do not start roadmap features.
+- Focus: [issue #35](https://github.com/icimik/composer/issues/35), Linux-first CI, MIT adoption and CC0 skill refresh.
+- Branch: `maintenance/linux-ci-mit-cc0`, stacked on unmerged [PR #34](https://github.com/icimik/composer/pull/34). Main dependency merges are incorporated normally; do not force-push.
+- Authorization: safe Dependabot merges only, plus implementation/PR delivery for this increment. No authority to merge #34 or this new work, bypass/change protection, install schedulers, sign or publish.
+- Dependabot #27/#28/#29/#32 are squash-merged; [review evidence](../docs/development/dependency-review.md). #30/#31 remain open because plugin/Vite and TypeScript/parser peers are incompatible.
+- Main at `0163def` passed native checks/packaging and uploaded two installer artifacts under the former workflow. Read exact final main `0d190d9` run separately; do not substitute previous results.
+- Policy: Linux-only ordinary PR/push portable builds and Electron E2E, zero installer builds/uploads. Main push Linux success gates native macOS/Windows checks, then installers; no automatic public release.
+- Local evidence: check/build/lint/format/docs passed, 51 unit tests, one launch smoke, all 23 Electron E2E, 76 contrast pairs / three negative token cases. Strict JS/TS limits remain 180 physical lines / 120 characters.
+- Licensing: MIT for Composer code/docs/adapters; both upstream repositories confirmed CC0-1.0. Seven unchanged Markdown skill bundles and framework snapshots/notices are byte-verified in provenance.json; no executors installed.
+- Delivery: open the stacked follow-up PR and inspect its exact-head Linux run, skipped native/package jobs and zero artifacts. Main-path execution is pending maintainer review/merge.
+- Remaining: independent review, optional required Linux status check, unsupported dependency migrations, eight moderate dev-toolchain advisories, conduct contact, native manual acceptance/signing.
+- Next: read live PR/head/checks; after #34 merges, retarget this PR to main and repeat Linux checks. After maintainer merges this PR, read new main native/packaging results before closing #35.
 
-Recover via root AGENTS, this snapshot, the research index, selected issue, live PR and exact-head CI; earlier chat is not authoritative.
+Recover via root AGENTS, this snapshot, the research index, issue/design, live PR and exact-head CI. Historical chat and older worklogs do not override live evidence.

@@ -3,6 +3,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const assert = require('node:assert/strict');
 const YAML = require('yaml');
+const { assertPolicy } = require('./ci-policy.cjs');
 const root = path.resolve(__dirname, '..');
 const files = execFileSync(
   'git',
@@ -50,37 +51,7 @@ for (const file of files.filter((file) => /\.ya?ml$/.test(file))) {
   assert.equal(doc.errors.length, 0, `Invalid YAML: ${file}`);
 }
 const workflow = YAML.parse(fs.readFileSync(path.join(root, '.github/workflows/ci.yml'), 'utf8'));
-assert.equal(workflow.permissions.contents, 'read');
-assert.ok(
-  !Object.hasOwn(workflow.on, 'pull_request_target'),
-  'Untrusted PR must not run privileged workflow'
-);
-const desktop = workflow.jobs.desktop;
-const packaging = workflow.jobs.package;
-assert.equal(packaging.needs, 'desktop');
-assert.equal(packaging.if, "github.event_name == 'push' && github.ref == 'refs/heads/main'");
-for (const step of desktop.steps) {
-  assert.ok(!step.uses?.includes('upload-artifact'), 'PR verification uploads artifacts');
-  assert.ok(!step.run?.includes('npm run dist'), 'PR verification builds installers');
-}
-for (const [name, job] of Object.entries(workflow.jobs)) {
-  for (const step of job.steps) {
-    if (name !== 'package') {
-      assert.ok(!step.uses?.includes('upload-artifact'), `${name} uploads outside main packaging`);
-      assert.ok(!step.run?.includes('npm run dist'), `${name} packages outside main packaging`);
-    }
-    if (step.uses) assert.match(step.uses, /^[^@]+@[a-f0-9]{40}$/, 'Action must be SHA-pinned');
-  }
-}
-const uploader = packaging.steps.find((step) => step.uses?.includes('upload-artifact'));
-assert.ok(uploader, 'Main packaging needs explicit artifact upload');
-assert.ok(!uploader.if, 'Do not upload failed/partial package artifacts');
-assert.equal(uploader.with['if-no-files-found'], 'error');
-assert.doesNotMatch(uploader.with.path, /test-results|playwright-report/);
-assert.match(
-  packaging.steps.find((step) => step.run?.includes('npm run dist')).run,
-  /--publish never/
-);
+assertPolicy(workflow);
 console.log(
   `Docs check passed: ${docs.length} Markdown files, ${linkCount} local references, skills, YAML and CI policy.`
 );
