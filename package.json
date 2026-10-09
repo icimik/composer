@@ -1,0 +1,45 @@
+{
+  "name": "icimik-composer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local-first Chinese fiction workbench",
+  "main": "electron/main.cjs",
+  "engines": {"node": ">=22.12.0"},
+  "scripts": {
+    "dev": "npm run build && electron .",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite --host 0.0.0.0",
+    "test": "node --test tests/unit/*.test.cjs",
+    "test:e2e": "playwright test",
+    "design:build": "node scripts/design.cjs",
+    "design:check": "node scripts/design.cjs --check",
+    "check": "npm run build && npm test && npm run design:check",
+    "dist": "npm run build && electron-builder",
+    "dist:dir": "npm run build && electron-builder --dir"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.4.1",
+    "electron": "44.7.0",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.7.3",
+    "vite": "^6.4.4"
+  },
+  "build": {
+    "appId": "fun.kimmy.icimik.composer",
+    "productName": "Icimik Composer",
+    "files": ["dist/**/*", "electron/**/*", "framework/**/*", "package.json"],
+    "directories": {"output": "release"},
+    "mac": {"target": ["dmg", "zip"], "category": "public.app-category.productivity"},
+    "win": {"target": ["nsis"]},
+    "nsis": {"oneClick": false, "allowToChangeInstallationDirectory": true}
+  }
+}
