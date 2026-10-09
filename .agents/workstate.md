@@ -10,6 +10,10 @@
 - Recovery: [context packet](context-packet.md), [reproduction record](../docs/research/workspace-isolation-reproduction.md).
 - Design: [ADR 0005](../docs/decisions/0005-workspace-failure-isolation.md), proposed only; no covering approval found.
   Review typed independent results, pure guarded reads, explicit no-auto-fallback selection, mutation gates and safe transitions.
+- Delivery: [draft PR #41](https://github.com/icimik/composer/pull/41); preparation/evidence commit
+  `d4c0c2add4d509860d4b2b94b71a3cc3a52c770d`. Latest delivery head/checks are authoritative on the live PR.
+- Review readback: CodeRabbit explicitly skipped draft review; status success is not a review. No human approval at readback.
+  Do not enable draft bot review/autofix, delegate, mark ready or implement to bypass the maintainer design gate.
 - Evidence: synthetic Store faults block aggregate load; read guards recreate missing directories; failed switch persists B;
   manifest-only mutation alters an unloadable B before returning failure. Real Linux Electron reproduces startup blocker,
   all-failed/no-retry and input-preserving failed switch with wrong persisted active ID. No production change.
@@ -23,5 +27,5 @@
   Xvfb smoke 1/1 and full Linux E2E 23/23 passed. Restore only known test-generated screenshots before commit.
   Final-head PR checks/jobs/artifacts must still be read after push, not inferred from local success.
   Preserve MIT/CC0/provenance, 180/120, IPC/path/symlink/serial/hash/AI-author safety and Linux-only ordinary CI.
-- Next: maintainer reviews exact ADR 0005 revision in the draft design PR. Record reviewer/SHA/approval URL before starting
+- Next: maintainer reviews exact ADR 0005 revision in draft #41. Record reviewer/SHA/approval URL before starting
   the separate minimal implementation PR. #40 and #4 remain open; rollback preparation without data changes.
