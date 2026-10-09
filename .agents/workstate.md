@@ -2,6 +2,7 @@
 
 - Focus: [issue #33](https://github.com/icimik/composer/issues/33), strict ESLint 180 physical lines / 120-character lines and cohesive source decomposition.
 - Branch/base: `refactor/enforce-code-size-limits`, from main `a8fc96a883111279ee6a24334594248188c02312`; application PR #1 and foundations PR #25 were merged by the maintainer at 08:31 UTC.
+- Delivery: [PR #34](https://github.com/icimik/composer/pull/34), open against main; code commit `92eea4e`. Read live current-head native checks and the verification comment.
 - Baseline main: [run 37905610513](https://github.com/icimik/composer/actions/runs/37905610513) succeeded. Old open/stacked statements in historical evidence are not current state.
 - Implemented: components/state/save/actions, Store method groups, design templates/linted runtime, per-test E2E fixture and three scenario specs. Formatting includes app/test JS/TS.
 - Verified local: full checks, 37 unit tests, Electron smoke, all 23 E2E, 76 contrast checks / 3 negative token cases. Generated spec matches baseline bytes and showcase handler behavior matches baseline.
