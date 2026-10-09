@@ -1,11 +1,24 @@
-# Toolchain evaluation context packet
+# Workspace failure isolation context packet
 
-- Goal: close verified-complete issues, then evaluate TypeScript/Vite upgrades without forcing compatibility.
-- Base: main `7e2c2dfe80ca1468bec58891d6ebd8a5668858d3`; #34/#36 merged, #3/#33/#35 completed, main runtime/installer CI passed.
-- Issue/branch: [#38](https://github.com/icimik/composer/issues/38), `research/toolchain-upgrade`; [PR #39](https://github.com/icimik/composer/pull/39) under formal independent review, not a continuation of the former stack. Maintainer confirmed the direction.
-- Design/evidence: [toolchain evaluation](../docs/research/toolchain-upgrade.md), [CI policy](../docs/development/ci-policy.md), [loop](../docs/development/loop.md).
-- Candidate: Vite8.3.4/plugin6.1.2/TS6.0.3; current stable parser unchanged and peers satisfied.
-- Intervention: explicit ESM `.mts` config and `vite/client` types fix observed warning/CSS compile failure; strict guards cover `.mts`.
-- Acceptance: clean peers/install, all quality/build/tests, 63 units, 23 E2E, Linux-only PR/push and zero artifacts. Dev/preview HTTP startup passes; interactive HMR/native/manual acceptance remains separate.
-- Authorization/boundaries: fix the two CodeRabbit findings and submit; normal merge is authorized after validation only if required GitHub approval permits. No TypeScript7 peer override, canary parser, unattended merge, protection change, signing or release. Existing advisory/manual gates remain.
-- Next: inspect corrected head/CI, complete independent review and obtain required GitHub approval. Normal merge cannot bypass that gate; actual upgraded native validation follows the verified merge.
+- Outcome: one registered corrupt/unreadable workspace does not block healthy writing; failed data stays untouched.
+- Parent: [#4](https://github.com/icimik/composer/issues/4), first bounded candidate only; roadmap #2 unchanged.
+- Base/head at recovery: actual main `efcd507670b4a7d68c78a6f1b314c667ac5134ba`.
+- Checkout: fresh clone, initially clean; branch `design/workspace-failure-isolation-20261009` from fetched main, no stack.
+- Live correction: [#39](https://github.com/icimik/composer/pull/39) merged 2026-10-09 12:02 UTC with independent approval.
+- Main evidence: [run 37927426466](https://github.com/icimik/composer/actions/runs/37927426466) succeeded on Linux,
+  Windows/macOS and installer jobs; two artifacts. Former toolchain review/approval blocker is obsolete.
+- Duplicate search: all issues/PR titles, #4 body/comments/timeline, decisions directory inspected; no matching child/design.
+- Bounded child created: [#40](https://github.com/icimik/composer/issues/40).
+- Code: Store files/workspaces → main IPC → preload/types → composer hydration/save/actions → App/Sidebar.
+- Facts: all-workspace Promise.all rejects; read guards mkdir; switching persists active ID before validating target.
+- Unknowns: diagnostic contract and startup selection need maintainer review; no covering reviewed ADR found.
+- Scope: isolated results, safe diagnostics, explicit active selection, failed-write and switch/input protection, read purity.
+- Acceptance: healthy save/restart; active/all-failed states; malformed/missing/read faults; hashes/registration/security;
+  failed switch preserves draft/title/prompt/identity; explicit retry after external repair; real Linux UI E2E.
+- Permissions: child issue, new branch, reproduction/design docs, commits/push/draft PR. No production contract change
+  before reviewed ADR; no merge/auto-merge/protection/force-push/release/loop/delegation.
+- Non-goals: transactions, backups, repair, schema migration, DB replacement, watchers, sync or new AI/IF/VN.
+- Design/evidence: [ADR 0005](../docs/decisions/0005-workspace-failure-isolation.md), proposed only;
+  [measured reproduction](../docs/research/workspace-isolation-reproduction.md).
+- Next: deliver design draft PR with exact-head validation and request independent maintainer design approval.
+- Rollback: revert preparation PR only; it changes no production data or runtime.
