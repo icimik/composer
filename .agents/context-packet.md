@@ -3,6 +3,7 @@
 - Goal: [issue #35](https://github.com/icimik/composer/issues/35), Linux-only ordinary CI, main-only native build, MIT and CC0 refresh.
 - Base: unmerged [PR #34](https://github.com/icimik/composer/pull/34), `refactor/enforce-code-size-limits`, head `26f5381`; keep its strict 180/120 limits.
 - Branch: `maintenance/linux-ci-mit-cc0`. Safe dependency merges in main are incorporated normally.
+- Delivery: [PR #36](https://github.com/icimik/composer/pull/36), stacked on #34; code head `62aa914` passed Linux-only PR/push runs, native/package skipped, zero artifacts. Read live final-head checks before approval.
 - Design: [ADR 0004](../docs/decisions/0004-linux-ci-and-licensed-skills.md), [CI policy](../docs/development/ci-policy.md), [licensing](../docs/development/licensing.md).
 - Acceptance: real Linux-only PR/push runs with native/installer jobs skipped and zero artifacts; negative policy tests; root MIT, distinct CC0 terms, pinned byte-verified copies, executable fresh-context docs.
 - Evidence: 51 local units, smoke, 23 E2E and design checks; live current-head results must be read before review.

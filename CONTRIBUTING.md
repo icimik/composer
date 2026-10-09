@@ -35,4 +35,4 @@ Use [the review checklist](docs/development/review-checklist.md). Fix findings i
 
 ## Safety and community
 
-Do not paste model keys, paid-service credentials, real drafts or private data into issues, logs or fixtures. Report vulnerabilities using [SECURITY.md](SECURITY.md), not a public bug issue. Follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Maintainer setup and license prerequisites are tracked in [the setup checklist](docs/development/maintainer-setup.md).
+Do not paste model keys, paid-service credentials, real drafts or private data into issues, logs or fixtures. Report vulnerabilities using [SECURITY.md](SECURITY.md), not a public bug issue. Follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). Remaining maintainer setup and release checks are tracked in [the setup checklist](docs/development/maintainer-setup.md).

@@ -6,9 +6,13 @@ Updated 2026-10-09 UTC. This file separates observed results from historical sou
 
 The maintainer requested Linux-only ordinary PR/push validation and native macOS/Windows checks only on main pushes after merge. [CI policy](../development/ci-policy.md) and [ADR 0004](../decisions/0004-linux-ci-and-licensed-skills.md) describe the new gates and negative regression tests. This change requires PR review; skipped native jobs on its PR cannot establish execution of its new main path.
 
+[PR #36](https://github.com/icimik/composer/pull/36) is stacked on #34. Code head `62aa91442224b754ab3ef18848de422b6c2673e3` passed [PR run 37913665915](https://github.com/icimik/composer/actions/runs/37913665915) and [push run 37913613067](https://github.com/icimik/composer/actions/runs/37913613067). Jobs APIs showed successful Ubuntu 22.04 verification only; native and installer jobs were skipped with empty labels and no runner. Both artifacts APIs returned zero. Local checks passed 51 unit cases, smoke, 23 E2E, 76 contrast pairs and three negative token cases; current-head CI must be re-read after any documentation follow-up.
+
 Composer-authored code/docs now use MIT. Both upstream repositories have verified CC0-1.0 licenses; framework snapshots are byte-identical to the licensed revision, and seven complete Markdown skill bundles are imported unchanged. See [licensing and source commits](../development/licensing.md) and [skill catalog](../../.agents/skills/README.md). Historical unconfirmed-rights statements below or in dated logs are superseded, not evidence of a current blocker.
 
 Dependabot results and exact-head evidence are in [dependency review](../development/dependency-review.md); the former blanket update restriction was removed by the maintainer. The two unsupported peer upgrades remain open. No refactor/CI PR merge authority or protection-changing authority is implied.
+
+Final dependency-only main `0d190d9bc5720115e7e14c7c650a112f04dca2f0` passed [run 37913404198](https://github.com/icimik/composer/actions/runs/37913404198), including both native verification and installer jobs; its artifacts API returned two installer artifacts. This validates the action upgrades under the former workflow, not execution of #36's new main-only gates.
 
 ## Historical source-size task
 
