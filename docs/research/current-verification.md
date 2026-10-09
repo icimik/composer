@@ -8,7 +8,7 @@ The maintainer subsequently merged application [#1](https://github.com/icimik/co
 
 [Issue #33](https://github.com/icimik/composer/issues/33) enforces 180 physical lines per JS/TS source file and 120 characters per line. Local refactor checks passed lint/format/docs/build, 37 unit tests, one smoke and all 23 Electron E2E. Four limit boundary tests, two template/parity tests and a Store API/descriptor regression supplement the previous 30 units. Design still passes 76 contrast pairs and three negative token mutations; no CSS token, framework snapshot or tracked screenshot was changed.
 
-The final refactor PR must provide exact-head macOS/Windows evidence; local results are not a native acceptance claim. Six Dependabot PRs were reviewed, but none merged because main's update restriction blocks ordinary merge and two upgrades also fail dependency peers. See [dependency review](../development/dependency-review.md).
+Refactor [PR #34](https://github.com/icimik/composer/pull/34) provides exact-head macOS/Windows evidence in its checks and verification comment; local results are not a native acceptance claim. Six Dependabot PRs were reviewed, but none merged because main's update restriction blocks ordinary merge and two upgrades also fail dependency peers. See [dependency review](../development/dependency-review.md).
 
 ## Windows repair
 
