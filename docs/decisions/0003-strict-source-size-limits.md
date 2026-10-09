@@ -1,10 +1,12 @@
 # ADR 0003: Strict source size limits and cohesive modules
 
-Status: implemented for review under [issue #33](https://github.com/icimik/composer/issues/33).
+Status: accepted by maintainer merge; [issue #33](https://github.com/icimik/composer/issues/33) completed. Native regression passed [merged-main run](https://github.com/icimik/composer/actions/runs/37922322450).
 
 ## Requested outcome
 
 The author requested ESLint errors for files over 180 lines and lines over 120 characters, and actual decomposition of nonconforming code. Count physical blank/comment lines; do not exempt strings, templates, URLs, tests or JSX. The rules apply to maintained JS/CJS/MJS/TS/TSX, not JSON, CSS, Markdown or template data.
+
+The draft [toolchain candidate](../research/toolchain-upgrade.md) extends the same source guards to MTS for the renamed ESM Vite configuration; no source-size exemption is introduced.
 
 ## Module boundaries
 
