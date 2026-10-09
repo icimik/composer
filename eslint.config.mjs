@@ -7,6 +7,13 @@ export default [
     ignores: ['node_modules/**', 'dist/**', 'release/**', 'test-results/**', 'playwright-report/**']
   },
   {
+    files: ['**/*.{js,cjs,mjs,ts,tsx}'],
+    rules: {
+      'max-lines': ['error', { max: 180, skipBlankLines: false, skipComments: false }],
+      'max-len': ['error', { code: 120, comments: 120, tabWidth: 2 }]
+    }
+  },
+  {
     files: ['electron/**/*.cjs', 'scripts/**/*.cjs', 'tests/**/*.cjs', '*.cjs'],
     languageOptions: { ecmaVersion: 'latest', sourceType: 'commonjs', globals: globals.node },
     rules: {
@@ -17,6 +24,10 @@ export default [
   },
   {
     files: ['tests/e2e/**/*.cjs'],
+    languageOptions: { globals: globals.browser }
+  },
+  {
+    files: ['scripts/design/showcase-runtime.cjs'],
     languageOptions: { globals: globals.browser }
   },
   {

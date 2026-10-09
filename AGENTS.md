@@ -29,6 +29,8 @@ Only a maintainer can approve merge. Agents must not merge, enable auto-merge, c
 
 `src/`: renderer; `electron/`: main process, AI and file store; `framework/`: upstream snapshots; `tests/unit/`, `tests/e2e/`, `tests/helpers/`; `docs/research/`: evidence and roadmap; `docs/decisions/`: ADRs.
 
+Enforce 180 physical lines per JS/TS source file and 120 characters per line, including comments/blanks and without string/template/URL exemptions. Components and composer hooks, Store method groups, design runtime/templates and scenario fixtures are split by responsibility. Do not minify or suppress the rules to pass lint.
+
 ```sh
 npm ci
 npm run check

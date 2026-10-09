@@ -4,15 +4,9 @@ release/
 test-results/
 playwright-report/
 package-lock.json
-src/
-electron/
 framework/
 docs/research/
-scripts/design.cjs
-tests/e2e/composer.spec.cjs
-tests/e2e/visual.spec.cjs
-tests/unit/ai.test.cjs
-tests/unit/store.test.cjs
+src/styles.css
 index.html
 tsconfig.json
 vite.config.ts
