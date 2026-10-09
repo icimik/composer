@@ -22,6 +22,8 @@ Use a focused branch from the inspected base, preserving existing work. Write re
 
 Open or update the related PR with issue/design links, exact scope, commit, test evidence, known gaps and rollback. If stacked, identify the dependency/base. Push/PR validation uses Linux portable builds and Electron E2E only, never native runners, installer packaging or artifact upload. Never add “Closes” to an issue that is only partially addressed.
 
+When a stack parent is rewritten, fetch its live ref and compare content before syncing the child. Preserve newer continuity records and historical evidence during conflicts. Prefer a normal merge when history rewriting is not authorized; verify the current parent is an ancestor, the resulting PR diff is scoped and live mergeability/checks recover. Do not overwrite the maintainer's parent or infer child approval from a parent review.
+
 ## Review
 
 Freeze the head SHA and use [the review checklist](review-checklist.md). Record findings by location, evidence, severity and required action. Distinguish correctness, acceptance, security and readiness; enumerate unaudited areas.

@@ -7,6 +7,13 @@ const root = path.resolve(__dirname, '../..');
 const read = (file) => fs.readFileSync(path.join(root, file));
 const manifest = JSON.parse(read('.agents/references/skills/provenance.json'));
 
+function listFiles(directory) {
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const file = path.join(directory, entry.name);
+    return entry.isDirectory() ? listFiles(file) : [file];
+  });
+}
+
 test('MIT metadata, root license and installer notice inputs agree', () => {
   const pkg = JSON.parse(read('package.json'));
   const lock = JSON.parse(read('package-lock.json'));
@@ -33,6 +40,19 @@ test('CC0 third-party terms and source revisions are explicit', () => {
 });
 
 test('all copied upstream Markdown and licenses match recorded byte hashes', () => {
+  const inventory = [
+    ...listFiles(path.join(root, '.agents/references/skills')),
+    ...listFiles(path.join(root, 'framework'))
+  ]
+    .map((file) => path.relative(root, file).split(path.sep).join('/'))
+    .filter((file) => file !== 'framework/README.md')
+    .filter((file) => file.endsWith('.md') || file.endsWith('/LICENSE'))
+    .sort();
+  assert.deepEqual(
+    manifest.files.map((file) => file.path).sort(),
+    inventory,
+    'All copied Markdown and license files must be recorded'
+  );
   for (const file of manifest.files) {
     assert.ok(
       file.path.startsWith('.agents/references/skills/') || file.path.startsWith('framework/')

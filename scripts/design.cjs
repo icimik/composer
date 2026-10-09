@@ -98,26 +98,6 @@ const verify = (spec, html) => {
   for (const m of html.matchAll(/var\(--([\w-]+)\)/g))
     assert.ok(known.has(m[1]), `Unknown token ${m[1]}`);
 };
-if (process.argv.includes('--check')) {
-  const spec = fs.readFileSync(path.join(dir, '08-设计规范.md'), 'utf8'),
-    html = fs.readFileSync(path.join(dir, 'design-showcase.html'), 'utf8');
-  verify(spec, html);
-  const changed = html.replace('"bg":"#f6f5f1"', '"bg":"#000000"');
-  assert.notEqual(changed, html);
-  assert.throws(() => verify(spec, changed), /Showcase token drift/);
-  assert.throws(
-    () => verify(spec, html.replace('--bg:#f6f5f1', '--bg:#000000')),
-    /Showcase CSS token drift/
-  );
-  assert.throws(
-    () => verify(spec.replace('| #f6f5f1 |', '| #000000 |'), html),
-    /Specification table token drift/
-  );
-  console.log(
-    `Design check passed: 4 schemes/modes, ${measurements.length} contrast pairs; 3 token-drift mutations rejected.`
-  );
-  process.exit(0);
-}
 const table = Object.keys(base)
   .map(
     (name) =>
@@ -147,6 +127,28 @@ const html = renderTemplate('html', {
   slot3: luminance.toString(),
   runtime: createShowcase.toString()
 });
+if (process.argv.includes('--check')) {
+  const checkedSpec = fs.readFileSync(path.join(dir, '08-设计规范.md'), 'utf8');
+  const checkedHtml = fs.readFileSync(path.join(dir, 'design-showcase.html'), 'utf8');
+  verify(checkedSpec, checkedHtml);
+  assert.equal(checkedSpec, spec, 'Specification artifact is stale');
+  assert.equal(checkedHtml, html, 'Showcase artifact is stale');
+  const changed = checkedHtml.replace('"bg":"#f6f5f1"', '"bg":"#000000"');
+  assert.notEqual(changed, checkedHtml);
+  assert.throws(() => verify(checkedSpec, changed), /Showcase token drift/);
+  assert.throws(
+    () => verify(checkedSpec, checkedHtml.replace('--bg:#f6f5f1', '--bg:#000000')),
+    /Showcase CSS token drift/
+  );
+  assert.throws(
+    () => verify(checkedSpec.replace('| #f6f5f1 |', '| #000000 |'), checkedHtml),
+    /Specification table token drift/
+  );
+  console.log(
+    `Design check passed: 4 schemes/modes, ${measurements.length} contrast pairs; 3 token-drift mutations rejected.`
+  );
+  process.exit(0);
+}
 fs.mkdirSync(dir, { recursive: true });
 fs.writeFileSync(path.join(dir, '08-设计规范.md'), spec);
 fs.writeFileSync(path.join(dir, 'design-showcase.html'), html);

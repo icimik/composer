@@ -14,6 +14,7 @@ test('CI policy holds for LF and Windows CRLF checkouts', () => {
 });
 
 const mutations = [
+  ['Linux job skipped with false', (w) => (w.jobs.verify.if = false)],
   ['native runner on PR', (w) => delete w.jobs.desktop.if],
   ['installer build on PR', (w) => delete w.jobs.package.if],
   ['Windows ordinary verification', (w) => (w.jobs.verify['runs-on'] = 'windows-latest')],
@@ -32,6 +33,26 @@ const mutations = [
     (w) => (w.jobs.package.steps.at(-1).with.path = 'test-results/')
   ]
 ];
+
+for (const job of ['verify', 'desktop', 'package']) {
+  mutations.push([
+    `${job} job tolerates failure`,
+    (w) => (w.jobs[job]['continue-on-error'] = true)
+  ]);
+}
+for (const command of ['check', 'test:smoke', 'test:e2e']) {
+  for (const [field, value] of [
+    ['if', false],
+    ['continue-on-error', true]
+  ]) {
+    mutations.push([
+      `${command} step overrides ${field}`,
+      (w) =>
+        (w.jobs.verify.steps.find((step) => step.run?.includes(`npm run ${command}`))[field] =
+          value)
+    ]);
+  }
+}
 
 for (const [name, mutate] of mutations) {
   test(`CI policy rejects ${name}`, () => {

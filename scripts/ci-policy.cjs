@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const mainGate = "github.event_name == 'push' && github.ref == 'refs/heads/main'";
 const nativePlatforms = ['macos-14', 'windows-latest'];
 
+/** Validate mandatory verification and main-only packaging boundaries without running jobs. */
 function assertPolicy(workflow) {
   assert.equal(workflow.permissions.contents, 'read');
   assert.ok(Object.hasOwn(workflow.on, 'push'));
@@ -11,7 +12,8 @@ function assertPolicy(workflow) {
   assert.deepEqual(Object.keys(workflow.jobs).sort(), ['desktop', 'package', 'verify']);
   const { verify, desktop, package: packaging } = workflow.jobs;
   assert.equal(verify['runs-on'], 'ubuntu-22.04', 'PR verification must use Linux');
-  assert.ok(!verify.if && !verify.strategy, 'Linux verification runs on every event');
+  assert.ok(!Object.hasOwn(verify, 'if'), 'Linux verification runs on every event');
+  assert.ok(!verify.strategy, 'Ordinary verification must not use a native matrix');
   const commands = verify.steps.map((step) => step.run || '').join('\n');
   assert.match(commands, /npm run check/);
   assert.match(commands, /xvfb-run -a npm run test:smoke/);
@@ -24,7 +26,18 @@ function assertPolicy(workflow) {
     assert.deepEqual(job.strategy.matrix.os, nativePlatforms);
   }
   for (const [name, job] of Object.entries(workflow.jobs)) {
+    assert.ok(!Object.hasOwn(job, 'continue-on-error'), `${name} must block on failure`);
     for (const step of job.steps) {
+      if (/npm run (check|test:smoke|test:e2e)/.test(step.run || '')) {
+        assert.ok(
+          !Object.hasOwn(step, 'if'),
+          `${name} required verification cannot be conditional`
+        );
+        assert.ok(
+          !Object.hasOwn(step, 'continue-on-error'),
+          `${name} required verification must block on failure`
+        );
+      }
       if (name !== 'package') {
         assert.ok(!step.uses?.includes('upload-artifact'), `${name} uploads outside packaging`);
         assert.doesNotMatch(

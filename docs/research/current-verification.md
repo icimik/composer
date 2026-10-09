@@ -2,6 +2,16 @@
 
 Updated 2026-10-09 UTC. This file separates observed results from historical source-import records and unexecuted acceptance work.
 
+## Stack synchronization and review follow-up
+
+The maintainer rewrote parent #34 onto dependency-updated main; new head `ae7c7bb5e7316afc76006f17fdf60e264ed7aa58` changes only the merged action/globals versions relative to the original parent. Child #36 was still rooted in the old parent history. Normal merge `00747cc` makes the current parent an ancestor, resolves six documentation/continuity conflicts, and preserves the previous child tree byte-for-byte. No parent update or force-push was performed.
+
+The [parent CodeRabbit review](https://github.com/icimik/composer/pull/34#pullrequestreview-5468593533) suggested optional complete showcase freshness coverage. It is implemented in #36: `design:check` compares freshly rendered specification and full HTML, and regressions reject stale static markup/CSS templates while retaining handler comparisons. The existing showcase was regenerated from the linted runtime; tokens/CSS and the specification remain unchanged.
+
+The [child CodeRabbit review](https://github.com/icimik/composer/pull/36#pullrequestreview-5468609368) identified two policy-coverage opportunities, not current production defects. Required check/smoke/E2E steps now reject conditional/failure-tolerant overrides, and jobs reject failure tolerance; ten additional mutations cover those gates. License tests discover copied Markdown/licenses and require exact inventory equality before byte-hash checks.
+
+Local follow-up passed 62 units, launch smoke, all 23 Electron E2E, lint/format/docs/build and design checks. Current-head Linux CI and live stack mergeability must be read separately after push. Existing parent approval does not approve new child changes or authorize agent merge; main-path runtime remains pending maintainer merge.
+
 ## Current CI, licensing and skills refresh
 
 The maintainer requested Linux-only ordinary PR/push validation and native macOS/Windows checks only on main pushes after merge. [CI policy](../development/ci-policy.md) and [ADR 0004](../decisions/0004-linux-ci-and-licensed-skills.md) describe the new gates and negative regression tests. This change requires PR review; skipped native jobs on its PR cannot establish execution of its new main path.

@@ -22,6 +22,6 @@ Main PR protection enforces entry via reviewed merges; a workflow main-push cond
 
 ## Guards and limitations
 
-`scripts/ci-policy.cjs` is shared by docs validation and unit tests. Tests reject ungated native jobs, non-Linux ordinary runners, missing dependency gates, extra jobs, artifact/report uploads or installer building in validation, mutable action pins and privileged PR triggers. LF and CRLF parsing are covered.
+`scripts/ci-policy.cjs` is shared by docs validation and unit tests. Tests reject ungated native jobs, non-Linux ordinary runners, missing dependency gates, extra jobs, artifact/report uploads or installer building in validation, mutable action pins and privileged PR triggers. Required check/smoke/E2E steps cannot have conditional or failure-tolerance overrides, and no job may tolerate failure. LF and CRLF parsing are covered.
 
 Structural tests do not replace live run inspection. Read the exact head, jobs, runner platforms, conclusions and artifacts count. Main-only jobs cannot be claimed as tested by a PR where they were skipped. There are no production model credentials, auto-merge, registry publication or automatic releases.
