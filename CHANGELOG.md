@@ -1,10 +1,10 @@
 # Changelog
 
-## Draft toolchain candidate
+## Pending toolchain upgrade
 
 - Evaluate pinned Vite8.3.4 / React plugin6.1.2 / TypeScript6.0.3 with unchanged stable typescript-eslint; TS7 remains outside supported peers.
 - Explicit ESM Vite config and client/CSS typing, with `.mts` source-limit regressions; no compiler/lint suppression or root module-mode switch.
-- Record merged-main native/installer acceptance and close completed issues #3/#35; #33 already completed. Candidate is not approved for merge or a signed release.
+- Record merged-main native/installer acceptance and close completed issues #3/#35; #33 already completed. Upgrade direction is confirmed and submitted for review; required GitHub approval, actual merge and upgraded native acceptance remain pending.
 
 ## Pending CI and licensing refresh
 

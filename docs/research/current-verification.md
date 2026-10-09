@@ -8,7 +8,7 @@ The maintainer merged #34/#36, and main is `7e2c2dfe80ca1468bec58891d6ebd8a56688
 
 [Windows issue #3](https://github.com/icimik/composer/issues/3) and [CI/license issue #35](https://github.com/icimik/composer/issues/35) are completed after readback; [source-size issue #33](https://github.com/icimik/composer/issues/33) was already completed. Signing, installation/manual IME, migration acceptance and other roadmap work remain open, particularly [release issue #23](https://github.com/icimik/composer/issues/23).
 
-The next [toolchain evaluation](toolchain-upgrade.md) is an isolated draft candidate under [issue #38](https://github.com/icimik/composer/issues/38). Its new versions are not part of the merged-main run above; old native evidence must not be reused as upgraded-toolchain acceptance.
+The next [toolchain evaluation](toolchain-upgrade.md) is under formal review in [PR #39](https://github.com/icimik/composer/pull/39) / [issue #38](https://github.com/icimik/composer/issues/38), with its direction confirmed by the maintainer. Its new versions are not part of the merged-main run above; old native evidence must not be reused as upgraded-toolchain acceptance.
 
 ## Historical stack synchronization and review follow-up
 
@@ -77,7 +77,7 @@ The workflow cannot distinguish an allowed merge from an unprotected direct push
 
 ## Remaining release gates
 
-- Independent review and maintainer-authorized merge for future changes; the toolchain candidate remains a draft.
+- Independent review, required GitHub approval and verified merge for the formally submitted toolchain PR.
 - Optional required Linux status-check configuration, conduct reporting contact and signed release process.
 - Manual macOS/Windows installation, Chinese IME and real-provider acceptance.
 

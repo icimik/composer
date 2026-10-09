@@ -1,12 +1,12 @@
 # TypeScript and Vite upgrade evaluation
 
-Observed 2026-10-09 UTC. This is a tested draft candidate for [issue #38](https://github.com/icimik/composer/issues/38), not a shipped upgrade or permission to merge; its base is merged main `7e2c2dfe80ca1468bec58891d6ebd8a5668858d3`.
+Observed 2026-10-09 UTC. The maintainer confirmed this tested candidate's direction and requested formal independent review for [PR #39](https://github.com/icimik/composer/pull/39) / [issue #38](https://github.com/icimik/composer/issues/38). It is not a shipped upgrade; its base is merged main `7e2c2dfe80ca1468bec58891d6ebd8a5668858d3`.
 
 ## Compatible candidate
 
 | Component | Merged main | Candidate | Compatibility basis |
 | --- | --- | --- | --- |
-| Vite | 6.4.4 | 8.3.4 | Node `^20.19.0 || >=22.12.0`; existing Node 22 floor is sufficient ([npm metadata](https://registry.npmjs.org/vite/8.3.4), [6→7 guide](https://v7.vite.dev/guide/migration)). |
+| Vite | 6.4.4 | 8.3.4 | Node `^20.19.0` or `>=22.12.0`; existing Node 22 floor is sufficient ([npm metadata](https://registry.npmjs.org/vite/8.3.4), [6→7 guide](https://v7.vite.dev/guide/migration)). |
 | React plugin | 4.7.0 | 6.1.2 | Requires Vite `^8.0.0`; optional Compiler/Babel peers are not needed for the existing configuration ([npm metadata](https://registry.npmjs.org/@vitejs/plugin-react/6.1.2)). |
 | TypeScript | 5.9.3 | 6.0.3 | Stable bridge release; compatible with current parser range ([release notes](https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/), [parser metadata](https://registry.npmjs.org/typescript-eslint/8.71.1)). |
 | typescript-eslint | 8.71.1 | unchanged | Supports TypeScript `>=4.8.4 <6.1.0`; TypeScript 7 remains unsupported ([supported versions](https://typescript-eslint.io/users/dependency-versions/)). |
@@ -37,4 +37,4 @@ Prefer the compatible Vite8/plugin6/TS6 candidate as the first reviewable increm
 
 Keep [TS7 PR #31](https://github.com/icimik/composer/pull/31) open. Re-evaluate when stable typescript-eslint officially supports TS7 and the peer ranges agree, then repeat strict compiler/parser checks and all Electron tests. Do not adopt canary tooling, forced peers or a split compiler alias merely to claim “latest” support ([parser support policy](https://typescript-eslint.io/users/dependency-versions/)).
 
-Maintainer decision remains whether to approve this draft direction and independent review. Revert the whole candidate PR to restore the prior lockfile, versions and config path if accepted upgrades regress; do not automatically merge a dependency bump or close this migration issue before actual main acceptance.
+The maintainer confirmed the candidate direction and requested independent review, then authorized normal merge after review fixes and successful checks. The required GitHub approval remains a merge gate; email authorization does not satisfy that repository requirement. Revert the whole candidate PR to restore the prior lockfile, versions and config path if accepted upgrades regress; do not bypass protection, enable unattended merge or close this migration issue before actual main acceptance.
