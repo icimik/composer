@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased source-size refactor
+
+- Enforce strict ESLint 180-line files / 120-character lines, with boundary regressions.
+- Split renderer components/hooks, Store responsibilities, design data/runtime and E2E fixtures/scenario groups.
+- Expand source/test formatting without changing manuscript, AI or security behavior.
+- Record Dependabot compatibility review and main ruleset merge blocker; do not claim blocked PRs merged.
+
 Changes are tracked by reviewed commits and PRs. Entries under Unreleased are not tagged releases or installed-user guarantees.
 
 ## Unreleased

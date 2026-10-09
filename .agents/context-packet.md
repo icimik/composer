@@ -1,12 +1,12 @@
-# Foundations context packet
+# Source-size context packet
 
-- Goal: deliver [issue #24](https://github.com/icimik/composer/issues/24), with Windows repair evidence from [issue #3](https://github.com/icimik/composer/issues/3).
-- Base: `feat/novel-workbench` / `dae9ad70c22817544d40d364d5ec179f6b29cc4e`; application PR #1 is open, not merged.
-- Branch: `chore/fresh-context-project-foundations`. Read live PR head/CI; this packet does not assert that a later commit passed.
-- Delivery: [PR #25](https://github.com/icimik/composer/pull/25), stacked on PR #1; both require maintainer review and explicit merge authorization.
-- Design: [foundations ADR](../docs/decisions/0002-fresh-context-loop-and-project-hygiene.md), [loop](../docs/development/loop.md), [CI policy](../docs/development/ci-policy.md).
-- Acceptance: recoverable repository context, research/issue index, six scoped skill adapters, contribution/security/provenance docs, templates and executable hygiene/CI guards.
-- Evidence: [verification](../docs/research/current-verification.md), local checks and Linux Electron tests; exact native foundations result belongs on the PR.
-- Authorization: push branches, create/update PRs/issues and routine safety preparation. No merge, protection changes, signing, public release, scheduler installation or license adoption.
-- Unknowns: license scope/framework rights, independent review, protected-main policy, conduct contact, manual acceptance and moderate development-toolchain advisories.
-- Next bounded action: review the PR's exact current SHA and checks, resolve findings, hand off to the maintainer. Do not start another roadmap feature.
+- Goal: [issue #33](https://github.com/icimik/composer/issues/33), strict 180-line files / 120-character lines, preserving behavior.
+- Base: current main `a8fc96a883111279ee6a24334594248188c02312`; #1 and #25 are merged, not pending.
+- Branch: `refactor/enforce-code-size-limits`. Read live PR head/CI before approving a later commit.
+- Delivery: [PR #34](https://github.com/icimik/composer/pull/34), open against main; no refactor merge authority inferred.
+- Design: [source-size ADR](../docs/decisions/0003-strict-source-size-limits.md), [loop](../docs/development/loop.md), [CI policy](../docs/development/ci-policy.md).
+- Acceptance: no rule suppressions/exemptions for authored JS/TS, cohesive modules, boundary tests and complete native regression.
+- Evidence: 37 local units, smoke, 23 E2E, design checks and generator equivalence; exact-head native results belong on the PR.
+- Authorization: merge reviewed Dependabot PRs #27–#32 if compatible and allowed by protection. No authority to bypass/change rules, auto-merge, merge this refactor, sign or publish.
+- Blockers: main ruleset restricts all updates without bypass actors; plugin/Vite and TypeScript/parser compatibility findings in [dependency review](../docs/development/dependency-review.md).
+- Next: inspect current-head checks, finish scoped review and request policy correction. Do not silently close failed upgrade PRs or start roadmap work.
