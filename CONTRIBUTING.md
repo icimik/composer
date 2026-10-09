@@ -6,7 +6,7 @@ This is an early local-first desktop writing tool. Start with [README](README.md
 
 Search existing issues and PRs before opening another. Reference one primary issue, read its dependencies, and state the user-visible outcome and acceptance criteria. Discuss changes to storage, AI data transmission, framework rules, runtime semantics or public APIs in a small design note/ADR before implementing them. Avoid unrelated formatting or dependency upgrades.
 
-Branch from the verified base. Until PR #1 is merged, follow-up PRs can be stacked onto `feat/novel-workbench`; explicitly document that base and retarget only after it lands. Do not mistake a passing stacked PR for a change already on `main`.
+Branch from the verified current `main`, which now contains the application and foundations changes. Stack only when there is a genuine unmerged dependency; explicitly document that base and retarget/revalidate after it lands. Do not mistake a passing stacked PR for a change already on `main`.
 
 ## Local validation
 
@@ -23,7 +23,9 @@ npm run test:e2e
 
 Linux needs a GUI runtime and Xvfb: `xvfb-run -a npm run test:e2e`. Tests must use temporary data and mock model services, not real user manuscripts or billable models. Four launch-helper regressions cover inherited Node-mode environment keys; the smoke test proves a real desktop window can start.
 
-`npm run lint` checks renderer, main-process, scripts and tests for configured correctness rules. `npm run format:check` applies to the maintained infrastructure surface; legacy application code, upstream framework snapshots and generated research/design artifacts are deliberately not reformatted in this bootstrap PR.
+`npm run lint` checks maintained JS/CJS/MJS/TS/TSX in renderer, main process, scripts and tests. Files must have at most 180 physical lines, including blanks/comments; lines must have at most 120 characters. Strings, templates, URLs and JSX are not exempt. Split cohesive responsibilities instead of compressing source or adding suppressions.
+
+`npm run format:check` includes application code and tests. Upstream framework/research data and the existing CSS token source remain outside this formatting scope. JSON, CSS, prose and markup templates are not JavaScript and are not subject to ESLint parsing; executable showcase logic is a linted module. See [the size-limit ADR](docs/decisions/0003-strict-source-size-limits.md).
 
 ## Commits, PRs and review
 

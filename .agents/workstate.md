@@ -1,17 +1,15 @@
 # Current workstate
 
-- Focus: Windows issue #3 is repaired and natively verified; deliver project foundations under [issue #24](https://github.com/icimik/composer/issues/24).
-- Application PR: [#1](https://github.com/icimik/composer/pull/1), base `main`, head branch `feat/novel-workbench`; not merged.
-- Follow-up branch: `chore/fresh-context-project-foundations`, stacked on the application changes. Do not treat this branch as already on `main`.
-- Foundations PR: [#25](https://github.com/icimik/composer/pull/25), base `feat/novel-workbench`; retarget and revalidate after #1 merges.
-- Foundations code/configuration `418d51f`: [native run 37883800648](https://github.com/icimik/composer/actions/runs/37883800648) passed both desktop jobs, installer skipped, zero artifacts. Check live current-head status after documentation handoff.
-- Verified local: lint/format/docs/YAML/policy checks, renderer build, design checks, 30 unit tests, 1 Electron smoke and 23 full E2E on Linux/Xvfb.
-- Native application head `dae9ad7`: [run 37883284843](https://github.com/icimik/composer/actions/runs/37883284843) passed both OSes, 23 E2E each; Windows skipped 2 symlink-privilege unit cases. Installer job skipped; zero artifacts.
-- Repair evidence: centralized environment helper, poisoned-environment smoke, LF/CRLF policy regression. Exact native evidence is maintained in `docs/research/current-verification.md`.
-- Completed foundations: AGENTS/loop/context/design/review docs, research/issue references, project skill adapters, contribution/security/conduct/provenance/templates and hygiene checks.
-- Remote safety: private vulnerability reporting was enabled and read back. No branch protection changes, merge, auto-merge or release publication.
-- Policy: push/PR checks never package installers or upload artifacts; main-only packaging follows successful desktop verification.
-- Unresolved: license/third-party rights, protected-main/reviewer policy, conduct reporting contact, signing, manual platform acceptance and 8 moderate development-toolchain audit findings.
-- Next: read the foundations PR current-head native CI and obtain independent review; ask the maintainer for license/merge decisions. Do not start other roadmap features.
+- Focus: [issue #33](https://github.com/icimik/composer/issues/33), strict ESLint 180 physical lines / 120-character lines and cohesive source decomposition.
+- Branch/base: `refactor/enforce-code-size-limits`, from main `a8fc96a883111279ee6a24334594248188c02312`; application PR #1 and foundations PR #25 were merged by the maintainer at 08:31 UTC.
+- Baseline main: [run 37905610513](https://github.com/icimik/composer/actions/runs/37905610513) succeeded. Old open/stacked statements in historical evidence are not current state.
+- Implemented: components/state/save/actions, Store method groups, design templates/linted runtime, per-test E2E fixture and three scenario specs. Formatting includes app/test JS/TS.
+- Verified local: full checks, 37 unit tests, Electron smoke, all 23 E2E, 76 contrast checks / 3 negative token cases. Generated spec matches baseline bytes and showcase handler behavior matches baseline.
+- Dependency review: [review record](../docs/development/dependency-review.md). #27/#28/#29/#32 are green scoped bumps; #30/#31 fail peer compatibility. All remain open.
+- Merge permission: author approved Dependabot merges only. main ruleset 24777698 restricts updates with no bypass actors, so normal merge/squash is denied. Do not bypass, enable auto-merge or alter protection without approval.
+- Refactor merge is not authorized. Submit PR, read exact-head native CI and obtain maintainer review.
+- Policy unchanged: no PR/non-main installer build or artifact upload; successful main-only packaging, no public release.
+- Unresolved: scoped main policy correction, supported Vite/plugin and TypeScript/parser migrations, license/framework rights, conduct contact, signing/manual acceptance and prior dev-toolchain advisories.
+- Next: inspect refactor PR head/checks, report blocked Dependabot merges and ask for the minimum policy authorization. Do not start roadmap features.
 
 Recover via root AGENTS, this snapshot, the research index, selected issue, live PR and exact-head CI; earlier chat is not authoritative.
