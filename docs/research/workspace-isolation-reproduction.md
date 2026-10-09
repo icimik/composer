@@ -3,6 +3,8 @@
 Date: 2026-10-09 UTC. Issue [#40](https://github.com/icimik/composer/issues/40), parent [#4](https://github.com/icimik/composer/issues/4).
 Production base: `efcd507670b4a7d68c78a6f1b314c667ac5134ba`.
 Design: [proposed ADR 0005](../decisions/0005-workspace-failure-isolation.md), **not approved or implemented**.
+Delivery: [draft PR #41](https://github.com/icimik/composer/pull/41). Evidence/helper commit
+`d4c0c2add4d509860d4b2b94b71a3cc3a52c770d`; latest documentation head and CI are read from that PR.
 
 ## Fresh-context recovery
 
@@ -125,3 +127,6 @@ Native ACL behavior, manual IME/accessibility, external-edit races, power-loss/t
 remain unverified. Permission failure here uses deterministic injection rather than unstable privileged chmod behavior.
 
 Self-review is not approval. Do not implement ADR 0005 before a maintainer reviews its exact revision.
+At delivery, CodeRabbit explicitly skipped draft review and no human approval was present; bot status success is not a verdict.
+The [evidence-head push run](https://github.com/icimik/composer/actions/runs/37930877775) succeeded. Later delivery head
+requires fresh check/job/artifact readback; review findings and exact-head results belong in the linked PR comment.

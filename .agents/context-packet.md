@@ -20,5 +20,8 @@
 - Non-goals: transactions, backups, repair, schema migration, DB replacement, watchers, sync or new AI/IF/VN.
 - Design/evidence: [ADR 0005](../docs/decisions/0005-workspace-failure-isolation.md), proposed only;
   [measured reproduction](../docs/research/workspace-isolation-reproduction.md).
-- Next: deliver design draft PR with exact-head validation and request independent maintainer design approval.
+- Delivery: [draft #41](https://github.com/icimik/composer/pull/41), evidence commit
+  `d4c0c2add4d509860d4b2b94b71a3cc3a52c770d`; read live head/checks for later documentation updates.
+- Review: CodeRabbit skipped draft review; no human approval. No covering accepted ADR.
+- Next: request maintainer review of exact ADR 0005 revision; no implementation before approval evidence is recorded.
 - Rollback: revert preparation PR only; it changes no production data or runtime.
