@@ -3,6 +3,7 @@
 - Focus: Windows issue #3 is repaired and natively verified; deliver project foundations under [issue #24](https://github.com/icimik/composer/issues/24).
 - Application PR: [#1](https://github.com/icimik/composer/pull/1), base `main`, head branch `feat/novel-workbench`; not merged.
 - Follow-up branch: `chore/fresh-context-project-foundations`, stacked on the application changes. Do not treat this branch as already on `main`.
+- Foundations PR: [#25](https://github.com/icimik/composer/pull/25), base `feat/novel-workbench`; retarget and revalidate after #1 merges.
 - Verified local: lint/format/docs/YAML/policy checks, renderer build, design checks, 30 unit tests, 1 Electron smoke and 23 full E2E on Linux/Xvfb.
 - Native application head `dae9ad7`: [run 37883284843](https://github.com/icimik/composer/actions/runs/37883284843) passed both OSes, 23 E2E each; Windows skipped 2 symlink-privilege unit cases. Installer job skipped; zero artifacts.
 - Repair evidence: centralized environment helper, poisoned-environment smoke, LF/CRLF policy regression. Exact native evidence is maintained in `docs/research/current-verification.md`.

@@ -12,6 +12,8 @@ Branch from the verified base. Until PR #1 is merged, follow-up PRs can be stack
 
 Use Node 22.12+ and the committed npm lockfile.
 
+`.gitattributes` and `.editorconfig` keep text checkouts in LF on every platform. Binary media/installers are not normalized. Keep these conventions so Windows format checks evaluate the same content as macOS/Linux.
+
 ```sh
 npm ci
 npm run check
