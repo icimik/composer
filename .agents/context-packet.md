@@ -3,6 +3,8 @@
 - Outcome: one interrupted existing-document revision completes coherently without duplicate history/audit or mismatched
   accepted proposal/body; preserve other healthy workspaces and author input. [#42](https://github.com/icimik/composer/issues/42)
   is bounded under [#4](https://github.com/icimik/composer/issues/4); now at proposed-design gate.
+- Delivery: [draft PR #43](https://github.com/icimik/composer/pull/43), design/probe revision
+  `0e05a8b97cac39200b9324d5d5cc1b662e3aad8b`; final exact-head verification is its PR comment, not a recovery claim.
 - Actual base: `c4e5405697ed27730ed9888816b3fe732f4470f1`, clean latest main. New own branch
   `design/document-revision-recovery-20261010`; no stack, no restored deleted branch or pre-existing changes.
 - Completed dependency: [#41](https://github.com/icimik/composer/pull/41) merged; kimmywork approved exact `76e67c6` head,
