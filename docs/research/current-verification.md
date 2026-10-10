@@ -4,7 +4,7 @@ Updated 2026-10-10 UTC. This file separates observed results from historical sou
 
 ## Current revision adapter increment
 
-Sender requested rebase onto merged #45 main `0a533f081f5f62f0b9c0ae1bc39f7fd277c44a68`; completed, preserving tooling
+Sender requested rebase; actual base now `4cbdb07151d69de216e1a288713c382e5462896f` after #45/#47 merged, preserving tooling
 and Promise fixes. Standalone disk adapter has execution/replay/fault regressions, including 93 real child-process exits.
 [Resource allocation](revision-resource-allocation.md): 256 MiB staged/256 MiB extra reserve selected under delegation,
 with 5M/35M chapter/history counts and actual Linux planner RSS/latency observations, not native/UI assurances.

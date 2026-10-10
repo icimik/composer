@@ -3,8 +3,10 @@
 - Focus: [#42](https://github.com/icimik/composer/issues/42) / [draft #43](https://github.com/icimik/composer/pull/43),
   document revision recovery under open #4. Gate: standalone disk adapter, not product acceptance/merge.
 - Sender requested rebase, review fixes and measured allocation. Rebase onto merged #45 main
-  `0a533f081f5f62f0b9c0ae1bc39f7fd277c44a68` completed. Only workstate conflicts; dated/main evidence preserved.
+  `4cbdb07151d69de216e1a288713c382e5462896f` completed after #47 also merged during verification.
+  Continuity conflicts only; dated main evidence preserved. #47 canonical lint fixture repair retained unchanged.
   Local `backup/revision-core-before-rebase-20261010` retains own old head `81ef59f`.
+  Second backup `backup/revision-adapter-before-main47-20261010` retains cfb03b4; adapter bytes match after rebase.
 - Keep merged Oxlint1.87.0/tsgolint7.0.2003/TS7.0.2, lockfile/strict compiler/close-rejection fixes.
   Historical toolchain records remain in main git history and [enhancement evidence](../docs/research/oxlint-enhancements.md).
 - #40 closed after merged #41 readback. ADR 0006 core approved at c9f8b27; not human implementation approval.
@@ -20,7 +22,7 @@
   suggestion adopted with safe diagnostics, no raw stderr/error. Current head needs fresh review.
 - Large plan sample: 158,633,767 staged bytes, 3264 ms, 804020 KiB peak Linux RSS including fixture creation.
   Main-thread responsiveness/full-budget RSS/native ACL/flush/IME/accessibility/power-cut/real providers unverified.
-- Own branch rewrite requested: push with lease against observed remote 81ef59f; never overwrite another writer or main.
+- Own branch rewrite requested: second publication uses an exact remote cfb03b4 lease; never overwrite another writer or main.
   No merge/auto-merge/protection/release/delegation/closure authority. #42/#4 stay open.
 - Next: exact-head review/CI, then safe interrupted cleanup before Store capture/IPC identity/UI consent/recovery E2E.
   Preserve queue/readiness/sender/path/symlink/hash/author/input guards, 180/120 and MIT/CC0.
