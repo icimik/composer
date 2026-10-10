@@ -23,6 +23,9 @@
   shortcut assertion observed transition-disable, not completed fault state. Another local failure exposed unpaused
   Playwright time. Tests now await retry completion and explicitly pause autosave time; three cases passed 12 repeats each.
   Full local check 93 units/zero skips, smoke 1 and full 36 E2E pass. Exact final head/CI are in #41 verification comment.
+- Final runtime correction: architecture-summary async proposal concern verified, red UI regression added. Resolve/discard
+  holds the same transition lock until identity-bound completion; mid-operation fault rejects without writes/input changes.
+  Two paths passed six repeats each; latest full check 93 units/zero skips, smoke 1 and all 38 E2E pass. Read final #41 head.
 - Unknowns: current-head independent review (no human approval) and final delivery-documentation exact-head CI;
   native ACL/Windows/macOS/manual IME/accessibility and global native dialog.
 - Boundaries: no merge/auto-merge/protection/force-push/release/loop/delegation; keep #40/#4 open.

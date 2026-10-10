@@ -46,6 +46,7 @@ All test files named here run in the default unit or Electron suite; test titles
 | Read failures and honest unknown | Unit deterministic EACCES/EPERM/EIO/CUSTOM; E2E deterministic main-process read-denial diagnostic |
 | Fault bytes/hash/inventory + registry retained | Matrix unit and mixed/all-failed E2E compare full file SHA-256/directory inventory; registry comparisons and entry counts |
 | Fault write protection | Unit `all-mutations-refuse-fault`; E2E direct save/create/session/settings IPC attempts; mock AI in-flight fault prevents proposal/config mutation |
+| Async proposal/editor identity | E2E `delayed proposal resolution keeps identity and inputs` holds a gated main read; selection/retry/typing locked, overlap rejected, A-only acceptance; mid-operation fault preserves identity/input and inventory with no writes |
 | Path/symlink fail closed | Existing ID/document/meta symlink units; new parent/path/candidate-open/create/index/root tests; existing child-frame and isolation E2E |
 | Failed switch / unsaved input | E2E failed body/title/prompt switch, locked delayed transition/overlapping synthetic change, flush conflict; unit target validation/persistence-failure identity |
 | All failed and explicit repair/retry | Unit all-unavailable and repair/retry; E2E all-failed repairs synthetic file, retries, explicitly selects, edits/saves/restarts |
@@ -132,6 +133,21 @@ full check (93 units, zero failures/skips), Xvfb smoke 1 and all 36 E2E. Its
 native/installer jobs skipped without runner and both artifacts APIs report zero. The optional wording finding in the
 second review is adopted above to state the human-approval boundary directly; three other additional comments were LGTM.
 Final delivery documentation does not change runtime/tests but still requires its own exact-head CI readback.
+
+## Architecture-summary follow-up
+
+The CodeRabbit architecture summary retained a base-existing async proposal-resolution hazard: completion could apply
+draft/title after another selection. Independently verified and treated as relevant to the approved shared-lock contract,
+not dismissed merely because it predates this PR. A gated main-read UI regression failed first (selection still enabled).
+Resolve/discard now holds the same transition lock through flush, validated response and editor update. Both normal
+completion and mid-operation fault paths passed six repeats; the latter rejects before writing and keeps identity/input
+and original fault inventory. Latest full local check: **93 units/zero skips**, smoke **1**, all **38 E2E** (15 isolation paths).
+Read the final exact-head check/CI/review comment on #41; prior 36-case runs do not cover this correction.
+
+The summary's partial-cross-file-write concern is not solved by readiness gates and remains explicitly outstanding in #4.
+The optional 80% docstring-coverage advisory is not a repository gate; bulk/generated docstrings are not adopted. Focused
+helpers, inline comments, approved ADR and executable acceptance tests document this increment without policy suppression.
+No actionable correctness finding was rejected; current-head bot/human review may still be outstanding.
 
 Self-review is not independent approval. Submit for normal review after final green checks; stop at review/merge, no auto-merge.
 Only a maintainer may merge; close #40 only after actual main acceptance, and keep #4 open with remaining work.

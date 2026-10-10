@@ -27,6 +27,11 @@
   Optional approval-wording comment adopted; additional LGTM comments require no change. No finding rejected.
   Final head/CI and independent review readback belong to the #41 verification comment. No human approving review,
   merge permission or bot autofix/delegation.
+- Final runtime follow-up: verified architecture-summary concern about async proposal resolution. Added actual gated main
+  read regression (red first), then held the existing shared transition lock through resolve/discard completion. Switch,
+  retry and typing cannot overtake it; a new fault rejects before writing. Both UI paths passed six repeats each.
+  Local full check: 93 units/zero skips, smoke 1, all 38 E2E (15 isolation UI paths). Final head/CI are on #41.
+  Partial-write transactions remain out of scope; optional bulk docstring coverage not adopted (no repository gate).
 - Performance: 64 synthetic docs, one local readiness 12.0ms/guarded save 16.9ms; not a workload/platform guarantee.
 - Environment: isolated Node22.23.3/current lockfile/Electron44.7.0/Xvfb; no package, workflow, provenance or upstream update.
   Eight existing moderate dev advisories remain. Native candidate/ACL/manual IME/accessibility/global native dialog unverified.
