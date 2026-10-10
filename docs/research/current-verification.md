@@ -2,7 +2,18 @@
 
 Updated 2026-10-10 UTC. This file separates observed results from historical source-import records and unexecuted acceptance work.
 
-## Merged workspace isolation and next design, 2026-10-10 UTC
+## Current revision adapter increment
+
+Sender requested rebase onto merged #45 main `0a533f081f5f62f0b9c0ae1bc39f7fd277c44a68`; completed, preserving tooling
+and Promise fixes. Standalone disk adapter now has 77 targeted passing regressions, including 63 real child-process exits.
+[Resource allocation](revision-resource-allocation.md): 256 MiB staged/256 MiB extra reserve selected under delegation,
+with 5M/35M chapter/history counts and actual Linux planner RSS/latency observations, not native/UI assurances.
+CodeRabbit's two documentation findings and optional safe probe diagnostic suggestion adopted.
+Current-head full install/check/smoke/E2E/CI results belong to [PR #43](https://github.com/icimik/composer/pull/43).
+Safe cleanup and active Store/IPC/recovery UI/E2E remain unfinished; draft #43/#42/#4 stay open.
+Earlier main/toolchain and pure-model evidence below is historical and must not be reused for this changed tree.
+
+## Historical merged workspace isolation and next design, 2026-10-10 UTC
 
 Updated follow-up: sender approved ADR 0006 core at design head c9f8b27; partial pure implementation at
 `fd79308e2554bb03373e3cf14ace472f8979b799` passes full local check (111 units/zero skips), smoke 1 and full 38 Linux E2E.

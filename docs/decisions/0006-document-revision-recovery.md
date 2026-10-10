@@ -1,18 +1,20 @@
 # ADR 0006: One interrupted document revision
 
-- Status: **core contract approved; resource policy unresolved; partial unwired implementation**.
+- Status: **core approved; resources allocated under sender delegation; partial unwired disk adapter**.
 - Parent [#4](https://github.com/icimik/composer/issues/4), bounded [#42](https://github.com/icimik/composer/issues/42).
 - Base main: `c4e5405697ed27730ed9888816b3fe732f4470f1`, following merged [#41](https://github.com/icimik/composer/pull/41).
-- Prior ADR 0005 approval covers isolation only. New journal, recovery, IPC and UI contracts require reviewed approval.
+- ADR 0006 core is approved; resource allocation and later integration/review gates are tracked separately.
 
 ## Approval and implementation state
 
 The verified sender approved the core contract at design revision `c9f8b275c4d6f2ecce07c0e5f7961d00448df885`
 and requested implementation. [Recorded authorization](https://github.com/icimik/composer/pull/43#issuecomment-6094433791)
-is not independent implementation review or merge permission. No staged-byte or free-space numbers were supplied.
+is not independent implementation review or merge permission. A subsequent verified follow-up delegated scale/hardware-based
+allocation; chosen policy is 256 MiB staged bytes plus 256 MiB extra reserve.
+See [measured allocation and limitations](../research/revision-resource-allocation.md).
 Historical proposed wording below describes that approved contract; it does not imply product integration exists.
-The policy-parameterized pure model now validates plans, identities and recovery decisions without filesystem writes.
-Store/IPC/renderer integration, interrupted-process recovery and recovery UI remain unimplemented.
+The pure model and standalone guarded disk adapter have unit/fault-injection/real child-exit regressions.
+Safe cleanup, active Store/IPC/renderer integration and product recovery UI remain unimplemented.
 See [partial implementation and handoff](../development/document-revision-core-handoff.md).
 
 ## Problem and evidence
@@ -41,7 +43,7 @@ No power-loss, arbitrary filesystem, network-volume or external-symlink-race gua
 | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Catch exceptions / reconcile from current files           | Small change but cannot handle process termination or distinguish a valid intended partial operation from an external edit; five observed cases prove missing operation identity. Not selected.                   |
 | Move canonical state into SQLite and export Markdown      | SQLite documents its own commit/recovery protocol and filesystem assumptions, not a transaction with arbitrary exported Markdown. This introduces authority/export/migration decisions outside #42; not selected. |
-| Scoped sidecar file journal, hashes and explicit recovery | Retains current canonical files and limits authority to one captured revision. Additional format/recovery complexity is real; proposed smallest complete option, pending approval.                                |
+| Scoped sidecar file journal, hashes and explicit recovery | Approved core contract retaining canonical files. Resource allocation and independently reviewed integration remain separate gates.                                                                               |
 
 SQLite's documented rollback journal ordering is an example, **not this proposed protocol or proof it works**;
 its guarantees rely on filesystem/device assumptions ([SQLite atomic commit](https://www.sqlite.org/atomiccommit.html)).
@@ -105,14 +107,14 @@ completion/verified cleanup first; no promise of cross-version or multi-process 
 The app-level single-instance lock does not protect a shared external directory opened by another profile/process.
 
 Full history/manifest/audit images may be large. A staged-byte budget and disk-headroom checks must fail before canonical
-changes, preserving author input, without silently pruning history. **No budget/default is approved**; measure synthetic
-growth and obtain a separate numeric policy decision before production implementation. Journal copies are not backups;
+changes, preserving author input, without silently pruning history. **256 MiB payload / 256 MiB extra reserve** is chosen
+under sender delegation; tests still inject explicit policy. Journal copies are not backups;
 credentials/provider configuration are never included. Committed payload survives failure, not routine retention pruning.
 [Three synthetic image measurements](../research/document-revision-reproduction.md) are now available: 1,098,817,
 33,881,569 and 68,190,753 bytes before intent/marker/scratch/headroom. The third already exceeds a hypothetical 64 MiB cap;
-64 MiB is not a proposed default. Decide whether to approve a measured, bounded full-image implementation with explicit
-refusal at its limit, or require a separate incremental history/audit journal design before implementation.
-Recovery consent, sidecar/downgrade behavior and resource-budget policy are explicit maintainer decisions, not delegated defaults.
+64 MiB is not the chosen cap. New 5M/35M chapterized samples show 128 MiB fits 1000 selected-chapter snapshots, not 5000;
+chosen 256 MiB fits 5000, not 10000. Neither guarantees unlimited history.
+Recovery consent/sidecar/downgrade follow approved core; independent integration review remains required.
 The staged-byte limit is also a prerequisite to a precise bounded journal parser/allocation limit; unknown or over-limit
 input must be rejected before payload allocation or any recovery write. Audit identity scanning must validate/bound input,
 not rely on substring matching or trust a partial final JSONL line.
@@ -134,7 +136,7 @@ actual power cut and real providers are not established by simulated process exi
 
 ## Approval, rollback and next gate
 
-No active storage/IPC/UI change in this partial PR. Core approval allows independent, policy-parameterized work.
-Resolve explicit numeric resource policy before production integration; continue red-first using #42 and this ADR.
+No active storage/IPC/UI change. Core approval and allocation delegation allow this independent disk-adapter increment.
+Safe interrupted cleanup, responsiveness and Store/IPC/UI acceptance remain before production wiring; continue red-first.
 Current rollback removes unused core/tests/documents/probes only. Future runtime revert must complete pending journals or refuse
 downgrade; a blind revert is not safe recovery. Keep #4 open for broader transactions, backup/recovery policy and migration.

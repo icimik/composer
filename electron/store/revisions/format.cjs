@@ -20,7 +20,7 @@ const plainFields = z
     kind: z.enum(['save', 'restore', 'accept']),
     expectedHash: sha,
     expectedTitle: nameSchema,
-    reason: z.string(),
+    reason: z.string().max(1000),
     createdAt: z.string().datetime(),
     sessionId: idSchema.nullable(),
     proposalId: idSchema.nullable(),
@@ -64,13 +64,14 @@ function fail(code) {
   const messages = {
     'policy-required': '修订资源策略尚未明确，未执行任何写入。',
     'stage-limit': '修订暂存大小超出限制，编辑区内容仍保留。',
-    'space-limit': '修订所需可用空间不足，未执行任何写入。',
+    'space-limit': '可用空间不足，修订尚未完成，请保留现场。',
     'baseline-conflict': '正文或标题已变化，不能执行当前修订。',
     'operation-conflict': '修订标识已用于其他请求，未执行任何写入。',
-    'invalid-images': '修订镜像无法验证，未执行任何写入。',
-    'invalid-intent': '修订记录格式无法验证，未执行任何写入。',
-    'payload-mismatch': '修订镜像与记录不一致，未执行任何写入。',
-    'invalid-marker': '修订阶段标记无法验证，未执行任何写入。'
+    'invalid-images': '修订镜像无法验证，请保留现场。',
+    'invalid-intent': '修订记录格式无法验证，请保留现场。',
+    'payload-mismatch': '修订镜像与记录不一致，请保留现场。',
+    'invalid-marker': '修订阶段标记无法验证，请保留现场。',
+    'io-failure': '修订文件操作未完成，请保留现场并重试明确的恢复操作。'
   };
   const error = new UserFacingError(messages[code] || messages['invalid-images']);
   error.code = code;

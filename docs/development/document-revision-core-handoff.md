@@ -2,7 +2,32 @@
 
 This is independently reviewable preparation for [#42](https://github.com/icimik/composer/issues/42), not completed
 transaction recovery. [PR #43](https://github.com/icimik/composer/pull/43) continues the approved ADR 0006.
-No active Store, IPC or renderer behavior changes, no journal is written and no recovery is executed.
+No active Store, IPC or renderer behavior changes. Standalone adapter writes/replays only synthetic temporary fixtures.
+Completed journals are deliberately retained until separately tested safe cleanup exists.
+
+## Current disk-adapter follow-up
+
+Sender requested review fixes, rebase onto merged tooling main and scale/hardware-based allocation.
+Base now `0a533f081f5f62f0b9c0ae1bc39f7fd277c44a68` (#45 merged); own backup preserves pre-rebase `81ef59f`.
+Only workstate conflicts required resolution; tooling/Promise fixes and dated evidence remain intact.
+Chosen policy: 256 MiB staged bytes / 256 MiB extra reserve under explicit delegation,
+with [measurement and limits](../research/revision-resource-allocation.md).
+Earlier resource gates below are historical/superseded, not another request to the sender.
+
+`disk-io.cjs`: guarded bounded reads, exclusive flushed staging and directory sync (Windows limitation explicit).
+`disk-layout.cjs`: derived targets, strict inventory/payload/markers and allocation bounds.
+`disk.cjs`: prepare/commit/install/complete validation; pure preview/explicit replay and third-value refusal.
+A second execute refuses retained operations. No cleanup yet. Store must serialize calls after full workspace readiness.
+Trusted step callbacks are test injection only, never renderer IPC inputs or environment hooks.
+
+Initial eight disk cases failed before implementation. Current 77 adapter/process/fault cases include 63 real child exits
+for save/restore/accept across eight payload callbacks, prepare/before-commit/commit, four scratch/four installation callbacks,
+and before/after complete. Diagnostics preserve inventory; committed replay repeated twice produces exact after-images.
+Missing intent remains unavailable; prepared-only recovery refuses. Third values, unknown files, symlinks, low-space refusal
+and deterministic EACCES/ENOSPC/EIO are covered. Final check/smoke/E2E/CI counts belong to current-head PR evidence.
+Large-history planning takes seconds/RSS overhead; assess responsiveness before production wiring.
+Next: safe interrupted cleanup, then Store/IPC/UI captured identity/baselines and true recovery E2E.
+Do not close #42 or request merge of a completed product capability from this adapter-only increment.
 
 ## Context packet
 
@@ -27,7 +52,8 @@ No active Store, IPC or renderer behavior changes, no journal is written and no 
 - `identity.cjs`: bounded audit identity lookup, same-request replay result, conflicting ID refusal, stale-result reporting.
 - `recovery.cjs`: pure prepared/committed/complete decisions; third values conflict, only before-values need installation.
 
-These functions operate on already supplied buffers. An adapter must bound reads before allocation, guard every path,
+The original pure functions operate on supplied buffers. The standalone adapter now bounds reads and guards paths;
+remaining production integration must preserve these checks,
 flush/exclusively stage files, recheck baselines, install/verify/clean up safely and implement explicit recovery consent.
 The model cannot prove directory durability, handle incomplete staging on disk or provide concurrency guarantees.
 Buffer contents are not frozen; post-construction tampering is detected when validating before use.

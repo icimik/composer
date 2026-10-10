@@ -168,7 +168,7 @@ passed 93/1/38, no unit skips; generated screenshots restored. No old branch res
 Sender authorized closing #40 if complete. Bounded acceptance maps to the merged default tests and was satisfied;
 [#40 closed with readback](https://github.com/icimik/composer/issues/40#issuecomment-6093233851).
 Native ACL/manual IME/accessibility/global dialog, real providers and power-loss remain unverified.
-#4 stays open; next [#42](https://github.com/icimik/composer/issues/42) is a proposed revision-recovery design, not inherited approval.
+Issue #4 stays open; [#42](https://github.com/icimik/composer/issues/42) has its own ADR approval, not inherited approval.
 
 Self-review is not independent approval. Submit for normal review after final green checks; stop at review/merge, no auto-merge.
 Only a maintainer may merge; close #40 only after actual main acceptance, and keep #4 open with remaining work.
