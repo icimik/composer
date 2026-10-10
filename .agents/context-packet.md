@@ -20,6 +20,8 @@
   bytes/hashes; explicit author-confirmed recovery, pure diagnosis, no external third-value overwrite; canonical Markdown.
 - Unknown: new ADR approval, recovery consent/downgrade behavior and resource budget. No approval inherited from ADR 0005.
   Tests mapped in ADR are future implementation requirements; current probes/baseline tests do not establish recovery.
+- Resource samples: full before/after images total 1,098,817 / 33,881,569 / 68,190,753 bytes, excluding scratch/headroom.
+  No numeric default. Choose explicit full-image limits/refusal or incremental history/audit redesign before implementation.
 - Non-goals: workspace creation/deletion/registry transactions, prompt-only atomicity, backups/retention/generic repair,
   database/schema migration, watchers/sync/accounts/new AI/IF/VN, absolute power-loss or external-race safety.
 - Permissions: create/update issues, own branch/commits/push/draft PR; #40 closure explicitly authorized and completed.

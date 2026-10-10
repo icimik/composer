@@ -98,6 +98,10 @@ Full history/manifest/audit images may be large. A staged-byte budget and disk-h
 changes, preserving author input, without silently pruning history. **No budget/default is approved**; measure synthetic
 growth and obtain a separate numeric policy decision before production implementation. Journal copies are not backups;
 credentials/provider configuration are never included. Committed payload survives failure, not routine retention pruning.
+[Three synthetic image measurements](../research/document-revision-reproduction.md) are now available: 1,098,817,
+33,881,569 and 68,190,753 bytes before intent/marker/scratch/headroom. The third already exceeds a hypothetical 64 MiB cap;
+64 MiB is not a proposed default. Decide whether to approve a measured, bounded full-image implementation with explicit
+refusal at its limit, or require a separate incremental history/audit journal design before implementation.
 Recovery consent, sidecar/downgrade behavior and resource-budget policy are explicit maintainer decisions, not delegated defaults.
 The staged-byte limit is also a prerequisite to a precise bounded journal parser/allocation limit; unknown or over-limit
 input must be rejected before payload allocation or any recovery write. Audit identity scanning must validate/bound input,
