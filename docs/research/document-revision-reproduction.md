@@ -44,3 +44,28 @@ The probe does not kill a GUI or prove Electron input recovery, tear sectors, re
 cut, test Windows/macOS interruption or establish filesystem durability. Existing full UI acceptance is separate.
 After approved implementation, replace/archive this legacy-characterization probe with future success regressions rather
 than leaving an old-defect assertion in the default test suite. New runtime gates require reviewed ADR approval first.
+
+## Synthetic full-image resource estimates
+
+Measured separately at 2026-10-10 03:30 UTC on the same unchanged production baseline:
+
+```sh
+npx --yes --package=node@22 -c 'node tools/probe-revision-budget.cjs'
+```
+
+The helper creates three temporary workspaces, writes fixed-length ASCII synthetic revisions through the current Store,
+measures manuscript/manifest/history/audit before and after one more save, and deletes each owned root.
+No journal is installed; “staged bytes” is the sum of exact existing before/after resource byte sizes for the proposed
+full-image design, **excluding** journal metadata/markers, atomic-install scratch, allocation overhead and disk headroom.
+
+| Prior revisions | Characters per ASCII revision | Proposed image bytes | Approx. MiB |
+| --- | --- | --- | --- |
+| 16 | 32,768 | 1,098,817 | 1.05 |
+| 64 | 262,144 | 33,881,569 | 32.31 |
+| 32 | 1,048,576 | 68,190,753 | 65.03 |
+
+This shows whole-history duplication can dominate the journal even with one manuscript. A nominal 64 MiB image cap would
+already reject the third fixture before scratch/headroom; it is **not chosen as a default**. ASCII size is not a Unicode
+character/token equivalence for real novels. These samples do not define production workload limits or performance.
+Maintainer must choose whether to accept explicitly bounded full-image staging/refusal or require an incremental
+history/audit journal redesign before implementation; neither silent pruning nor an unbounded disk promise is approved.
