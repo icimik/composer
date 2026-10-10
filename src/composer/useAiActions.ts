@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import type { ComposerState } from './useComposerState';
 import { bridge } from './shared';
 import { readyWorkspace } from './workspaceState';
+import { useTransition } from './useTransition';
 export function useAiActions(model: ComposerState, flush: () => Promise<void>) {
   const {
     state,
@@ -20,6 +21,7 @@ export function useAiActions(model: ComposerState, flush: () => Promise<void>) {
     doc,
     update
   } = model;
+  const transition = useTransition(model, flush);
   const generate = async () => {
     if (!model.available || model.transition.current) throw Error('当前工作区不可写或正在切换。');
     await flush();
@@ -42,13 +44,14 @@ export function useAiActions(model: ComposerState, flush: () => Promise<void>) {
   };
   const resolve = async (pid: string, accept: boolean) => {
     if (!model.available || model.transition.current) throw Error('当前工作区不可写或正在切换。');
-    await flush();
-    const next = await bridge.resolveProposal(w!.id, session!.id, pid, accept);
-    update(next);
-    const d = next.documents.find((d) => d.id === doc!.id)!;
-    setDraft(d.content);
-    setTitle(d.title);
-    setNotice(accept ? '已采纳，原文已保留为历史快照。' : '已放弃提案，正文未改动。');
+    await transition(async () => {
+      const next = await bridge.resolveProposal(w!.id, session!.id, pid, accept);
+      update(next);
+      const d = next.documents.find((d) => d.id === doc!.id)!;
+      setDraft(d.content);
+      setTitle(d.title);
+      setNotice(accept ? '已采纳，原文已保留为历史快照。' : '已放弃提案，正文未改动。');
+    });
   };
   return { generate, resolve };
 }
