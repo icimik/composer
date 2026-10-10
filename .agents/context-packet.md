@@ -1,27 +1,20 @@
-# Workspace failure isolation context packet
+# Workspace isolation implementation context packet
 
-- Outcome: one registered corrupt/unreadable workspace does not block healthy writing; failed data stays untouched.
-- Parent: [#4](https://github.com/icimik/composer/issues/4), first bounded candidate only; roadmap #2 unchanged.
-- Base/head at recovery: actual main `efcd507670b4a7d68c78a6f1b314c667ac5134ba`.
-- Checkout: fresh clone, initially clean; branch `design/workspace-failure-isolation-20261009` from fetched main, no stack.
-- Live correction: [#39](https://github.com/icimik/composer/pull/39) merged 2026-10-09 12:02 UTC with independent approval.
-- Main evidence: [run 37927426466](https://github.com/icimik/composer/actions/runs/37927426466) succeeded on Linux,
-  Windows/macOS and installer jobs; two artifacts. Former toolchain review/approval blocker is obsolete.
-- Duplicate search: all issues/PR titles, #4 body/comments/timeline, decisions directory inspected; no matching child/design.
-- Bounded child created: [#40](https://github.com/icimik/composer/issues/40).
-- Code: Store files/workspaces → main IPC → preload/types → composer hydration/save/actions → App/Sidebar.
-- Facts: all-workspace Promise.all rejects; read guards mkdir; switching persists active ID before validating target.
-- Unknowns: diagnostic contract and startup selection need maintainer review; no covering reviewed ADR found.
-- Scope: isolated results, safe diagnostics, explicit active selection, failed-write and switch/input protection, read purity.
-- Acceptance: healthy save/restart; active/all-failed states; malformed/missing/read faults; hashes/registration/security;
-  failed switch preserves draft/title/prompt/identity; explicit retry after external repair; real Linux UI E2E.
-- Permissions: child issue, new branch, reproduction/design docs, commits/push/draft PR. No production contract change
-  before reviewed ADR; no merge/auto-merge/protection/force-push/release/loop/delegation.
-- Non-goals: transactions, backups, repair, schema migration, DB replacement, watchers, sync or new AI/IF/VN.
-- Design/evidence: [ADR 0005](../docs/decisions/0005-workspace-failure-isolation.md), proposed only;
-  [measured reproduction](../docs/research/workspace-isolation-reproduction.md).
-- Delivery: [draft #41](https://github.com/icimik/composer/pull/41), evidence commit
-  `d4c0c2add4d509860d4b2b94b71a3cc3a52c770d`; read live head/checks for later documentation updates.
-- Review: CodeRabbit skipped draft review; no human approval. No covering accepted ADR.
-- Next: request maintainer review of exact ADR 0005 revision; no implementation before approval evidence is recorded.
-- Rollback: revert preparation PR only; it changes no production data or runtime.
+- Outcome: healthy writing/saving survives another registered workspace fault; diagnostics/retry preserve failed data.
+- Scope: [#40](https://github.com/icimik/composer/issues/40), first increment of [#4](https://github.com/icimik/composer/issues/4).
+- Delivery: existing own branch `design/workspace-failure-isolation-20261009`, [#41](https://github.com/icimik/composer/pull/41).
+- Actual base: unchanged fetched main `efcd507670b4a7d68c78a6f1b314c667ac5134ba`; #39 remains merged, no old toolchain blocker.
+- Design revision: `70d4f8925a2fd8995e455fdf9cc6fa82adcdc9d1`, clean tree at implementation start.
+- Approval: maintainer kenpusney's verified follow-up approves ADR 0005 and same-PR implementation;
+  [repository record](https://github.com/icimik/composer/pull/41#issuecomment-6092557163).
+- Contracts: [accepted ADR](../docs/decisions/0005-workspace-failure-isolation.md); no persisted v1 format change.
+- Tested facts: nine acceptance regressions red before edits; local check 89 units, smoke and 35 E2E passed after correction.
+- Acceptance mapping: [implementation verification](../docs/research/workspace-isolation-verification.md), historical
+  [reproduction](../docs/research/workspace-isolation-reproduction.md) archived rather than rewritten.
+- Code: guarded path/reader/registry/diagnostic helpers → Store mutation groups → sender-checked/sanitized IPC → result types
+  → composer state/save/transitions/actions → diagnostic chooser and disabled/read-only editor/UI.
+- Unknowns: final exact-head independent review/CI; native ACL/Windows/macOS/manual IME/accessibility and global native dialog.
+- Boundaries: no merge/auto-merge/protection/force-push/release/loop/delegation; keep #40/#4 open.
+- Non-goals: journaling, backup/repair/retention, database/schema migration, watchers/sync or new AI/IF/VN.
+- Next: commit/freeze/push, verify current-head checks/jobs/artifacts, formally submit #41 and evaluate valid review findings.
+- Rollback: reviewed revert of implementation; no migration, but old mixed-workspace startup failure returns.

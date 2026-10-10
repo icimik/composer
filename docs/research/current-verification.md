@@ -2,7 +2,17 @@
 
 Updated 2026-10-09 UTC. This file separates observed results from historical source-import records and unexecuted acceptance work.
 
-## Merged-main acceptance and issue closure
+## Workspace isolation candidate, 2026-10-10 UTC
+
+Actual main at this recovery is `efcd507670b4a7d68c78a6f1b314c667ac5134ba`, after merged
+[PR #39](https://github.com/icimik/composer/pull/39); its
+[main Linux/native/installer run](https://github.com/icimik/composer/actions/runs/37927426466) passed.
+The older main/toolchain sections below remain historical snapshots, not current blockers.
+[PR #41](https://github.com/icimik/composer/pull/41) implements bounded #40 after ADR 0005 approval, with
+[acceptance mapping and local evidence](workspace-isolation-verification.md). Candidate independent review/merge/native
+acceptance remain outstanding; no #4 completion or release is claimed.
+
+## Historical merged-main acceptance and issue closure
 
 The maintainer merged #34/#36, and main is `7e2c2dfe80ca1468bec58891d6ebd8a5668858d3`. [Main run 37922322450](https://github.com/icimik/composer/actions/runs/37922322450) actually executed the new Linux→native→installer workflow successfully: Linux passed; macOS passed 62 unit cases, smoke and 23 E2E; Windows passed 60, skipped the same two symlink-privilege cases, and passed smoke/23 E2E. Both unsigned development installer jobs succeeded; the artifacts API returned two SHA-named installers, not a public release.
 

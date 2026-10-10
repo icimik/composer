@@ -15,7 +15,8 @@
 - **[09 后续设计与竞品调研](09-后续设计与竞品调研.md)**：12 个工具的官方证据、小说／IF／Text Adventure／VN 的设计取舍，以及 24 个 GitHub issues 的完整索引。
 - **[最新验证记录](current-verification.md)**：修复、当前 CI 证据和新的 artifact 策略；原始 [verification-results](verification-results.md) 与 [导入记录](import-verification.md)作为带版本的历史保留。
 - **[TypeScript／Vite 升级评估](toolchain-upgrade.md)**：保留候选阶段的兼容矩阵与独立试验。PR #39 已合并，实际 main 验证见[工作区任务恢复记录](workspace-isolation-reproduction.md)；TS7 仍是独立议题。
-- **[工作区损坏隔离复现](workspace-isolation-reproduction.md)**：#4 首个有界子议题 #40 的合成 Store／真实 Linux Electron 实测与待审 ADR；不是能力完成声明。PR #39 已合并，旧升级评估中的候选阶段描述保留为历史。
+- **[工作区损坏隔离复现](workspace-isolation-reproduction.md)**：保留 #40 设计阶段的合成 Store／真实 Linux Electron 故障证据；原先待批状态已由设计批准和后续实现取代，不是当前验收结果。
+- **[工作区损坏隔离实现验证](workspace-isolation-verification.md)**：ADR 0005 已批准，PR #41 内的有界实现、验收测试映射和未验证边界；仍待独立实现 review／merge，#4 其余范围保持开放。
 - **设计展示页**：`design-showcase.html`，单文件离线打开，支持明暗模式、布局密度、状态交互和对比度表。
 
 根目录 `README.md` 提供运行方法；本目录的 HTML 是设计证据，不是桌面应用。旧讨论稿中的 Tauri、IF 与小说同时交付等建议已被最新需求替代。

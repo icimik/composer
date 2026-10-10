@@ -43,11 +43,12 @@ export function Sidebar({ c }: { c: ReadyComposer }) {
               id="workspace-select"
               value={w.id}
               onChange={(e) => void run(() => switchTo(e.target.value))}
-              disabled={busy}
+              disabled={busy || c.transitioning}
             >
               {state.workspaces.map((w) => (
-                <option key={w.id} value={w.id}>
+                <option key={w.id} value={w.id} disabled={w.status === 'unavailable'}>
                   {w.name}
+                  {w.status === 'unavailable' ? '（无法打开）' : ''}
                 </option>
               ))}
             </select>
@@ -63,15 +64,7 @@ export function Sidebar({ c }: { c: ReadyComposer }) {
               <Plus size={14} />
               新建
             </button>
-            <button
-              onClick={() =>
-                void run(async () => {
-                  await flush();
-                  const s = await bridge.openWorkspace();
-                  if (s) hydrate(s);
-                })
-              }
-            >
+            <button disabled={c.transitioning} onClick={() => void run(c.openWorkspace)}>
               <FolderOpen size={14} />
               打开目录
             </button>

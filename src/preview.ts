@@ -1,4 +1,5 @@
 import type { Bridge, AppState, Workspace, Document, Kind } from './types';
+import { readyResult, readyWorkspace } from './composer/workspaceState';
 const uid = () => crypto.randomUUID();
 const digest = (s: string) => s; // Preview-only revision marker; never used by the desktop store.
 const makeWorkspace = (name: string): Workspace => {
@@ -26,8 +27,13 @@ const makeWorkspace = (name: string): Workspace => {
 };
 export function previewBridge(): Bridge {
   const w = makeWorkspace('雾港来信');
-  const state: AppState = { workspaces: [w], activeWorkspaceId: w.id, theme: 'light' };
-  const workspace = (id: string) => state.workspaces.find((w) => w.id === id)!;
+  const state: AppState = {
+    workspaces: [readyResult(w)],
+    activeWorkspaceId: w.id,
+    requestedActiveWorkspaceId: w.id,
+    theme: 'light'
+  };
+  const workspace = (id: string) => readyWorkspace(state, id)!;
   const clone = <T>(v: T): T => structuredClone(v);
   return {
     load: async () => clone(state),
@@ -35,8 +41,9 @@ export function previewBridge(): Bridge {
       const w = makeWorkspace(name);
       w.documents[0].content = '';
       w.documents[0].hash = '';
-      state.workspaces.push(w);
+      state.workspaces.push(readyResult(w));
       state.activeWorkspaceId = w.id;
+      state.requestedActiveWorkspaceId = w.id;
       return clone(state);
     },
     openWorkspace: async () => {
@@ -44,7 +51,8 @@ export function previewBridge(): Bridge {
     },
     switchWorkspace: async (id) => {
       state.activeWorkspaceId = id;
-      return clone(workspace(id));
+      state.requestedActiveWorkspaceId = id;
+      return { status: 'selected', workspace: clone(workspace(id)) };
     },
     saveDocument: async (wid, id, title, content, hash) => {
       const d = workspace(wid).documents.find((d) => d.id === id)!;

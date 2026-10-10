@@ -14,6 +14,8 @@ test('split Store preserves public methods and class descriptor semantics', () =
     'writeMeta',
     'docPath',
     'workspace',
+    'workspaceResult',
+    'writableMeta',
     'load',
     'createWorkspace',
     'openWorkspace',

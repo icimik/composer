@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import type { ComposerState } from './useComposerState';
 import { bridge } from './shared';
+import { readyWorkspace } from './workspaceState';
 export function useAiActions(model: ComposerState, flush: () => Promise<void>) {
   const {
     state,
@@ -20,8 +21,9 @@ export function useAiActions(model: ComposerState, flush: () => Promise<void>) {
     update
   } = model;
   const generate = async () => {
+    if (!model.available || model.transition.current) throw Error('当前工作区不可写或正在切换。');
     await flush();
-    const current = live.current.state!.workspaces.find((item) => item.id === w!.id)!;
+    const current = readyWorkspace(live.current.state, w!.id)!;
     if (current.documents.find((d) => d.id === doc!.id)!.content.trim() && action === 'generate')
       throw Error('已有正文，请选择续写或优化表达；新生成用于空章节。');
     setBusy(true);
@@ -39,6 +41,7 @@ export function useAiActions(model: ComposerState, flush: () => Promise<void>) {
     }
   };
   const resolve = async (pid: string, accept: boolean) => {
+    if (!model.available || model.transition.current) throw Error('当前工作区不可写或正在切换。');
     await flush();
     const next = await bridge.resolveProposal(w!.id, session!.id, pid, accept);
     update(next);

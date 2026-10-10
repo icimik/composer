@@ -10,7 +10,7 @@ async function setup(t) {
   const store = new Store(root);
   await store.init();
   const s = await store.load();
-  const w = s.workspaces[0];
+  const w = s.workspaces[0].workspace;
   return { store, root, w, d: w.documents[0] };
 }
 test('creates a local workspace and blank chapter', async (t) => {
@@ -32,7 +32,7 @@ test('workspace content and sessions remain isolated', async (t) => {
   const { store, w, d } = await setup(t);
   await store.saveDocument(w.id, d.id, d.title, '秘密甲', d.hash);
   const s = await store.createWorkspace('第二部小说');
-  const b = s.workspaces.find((x) => x.id !== w.id);
+  const b = s.workspaces.find((x) => x.id !== w.id).workspace;
   assert.equal(b.documents[0].content, '');
   assert.equal(b.sessions[0].proposals.length, 0);
   assert.equal((await store.workspace(w.id)).documents[0].content, '秘密甲');
@@ -161,7 +161,7 @@ test('opening a registered workspace retains its identity and data', async (t) =
   const state = await store.openWorkspace(w.path);
   assert.equal(state.activeWorkspaceId, w.id);
   assert.equal(state.workspaces.length, 1);
-  assert.equal(state.workspaces[0].documents[0].content, '现有目录正文');
+  assert.equal(state.workspaces[0].workspace.documents[0].content, '现有目录正文');
 });
 test('internal metadata symlinks cannot escape the workspace', async (t) => {
   const { store, root, w } = await setup(t);

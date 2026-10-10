@@ -1,6 +1,10 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { z } = require('zod');
+const { readRegistry } = require('./registry.cjs');
+const { readWorkspace } = require('./reader.cjs');
+const { guardedFile } = require('./paths.cjs');
+const { UserFacingError } = require('../errors.cjs');
 const {
   atomic,
   hash,
@@ -16,23 +20,23 @@ const {
 module.exports = {
   async init() {
     await fs.mkdir(this.root, { recursive: true });
-    try {
-      this.registry = JSON.parse(await fs.readFile(path.join(this.root, 'registry.json'), 'utf8'));
-    } catch (e) {
-      if (e.code !== 'ENOENT') throw new Error('工作区索引损坏，请保留原文件并从备份恢复。');
-      this.registry = { workspaces: [], activeWorkspaceId: '', theme: 'light' };
-    }
-    if (!Array.isArray(this.registry.workspaces)) throw new Error('工作区索引格式错误。');
+    this.registry = (await readRegistry(this.root)) || {
+      workspaces: [],
+      activeWorkspaceId: '',
+      theme: 'light'
+    };
     if (!this.registry.workspaces.length) await this.createWorkspace('未命名小说');
   },
   async createWorkspace(name, base) {
     name = nameSchema.parse(name);
     const wid = newId();
     const root = base || path.join(this.root, 'workspaces', wid);
+    if (this.registry.workspaces.some((w) => w.path === path.resolve(root)))
+      throw new UserFacingError('已登记目录不能新建替代工作区，请使用打开或重试。');
     await fs.mkdir(root, { recursive: true });
     try {
-      await fs.access(path.join(root, '.composer', 'workspace.json'));
-      throw new Error('此目录已是工作区，请使用打开。');
+      await fs.access(await guardedFile(await fs.realpath(root), '.composer/workspace.json'));
+      throw new UserFacingError('此目录已是工作区，请使用打开。');
     } catch (e) {
       if (e.code !== 'ENOENT') throw e;
     }
@@ -49,8 +53,9 @@ module.exports = {
       activeSessionId: sid,
       checks: []
     };
-    this.registry.workspaces.push({ id: wid, name, path: await fs.realpath(root) });
-    this.registry.activeWorkspaceId = wid;
+    const entry = { id: wid, name, path: await fs.realpath(root) };
+    if (this.registry.workspaces.some((w) => w.path === entry.path))
+      throw new UserFacingError('已登记目录不能新建替代工作区，请使用打开或重试。');
     for (const folder of [
       ...Object.values(folders),
       '08-operations/logs',
@@ -58,30 +63,43 @@ module.exports = {
       '11-quality',
       '10-publication'
     ])
-      await fs.mkdir(path.join(root, folder), { recursive: true });
-    await atomic(await this.docPath(wid, doc), '');
-    await this.writeMeta(wid, meta);
-    await this.persistRegistry();
+      await guardedFile(entry.path, `${folder}/.directory-check`, true);
+    await atomic(await guardedFile(entry.path, `${folders[doc.kind]}/${doc.id}.md`, true), '');
+    await atomic(
+      await guardedFile(entry.path, '.composer/workspace.json', true),
+      JSON.stringify(meta, null, 2)
+    );
+    await readWorkspace(entry);
+    const next = {
+      ...this.registry,
+      workspaces: [...this.registry.workspaces, entry],
+      activeWorkspaceId: wid
+    };
+    await this.persistRegistry(next);
+    this.registry = next;
     return this.load();
   },
   async openWorkspace(root) {
     root = await fs.realpath(root);
-    const meta = workspaceSchema.parse(
-      JSON.parse(await fs.readFile(path.join(root, '.composer', 'workspace.json'), 'utf8'))
-    );
+    const meta = await readWorkspace({ path: root });
     const existing = this.registry.workspaces.find((w) => w.id === meta.id);
     if (existing && existing.path !== root)
-      throw new Error('已有相同 ID 的工作区，请打开原目录，避免并行正文。');
-    if (!existing) this.registry.workspaces.push({ id: meta.id, name: meta.name, path: root });
-    this.registry.activeWorkspaceId = meta.id;
-    await this.persistRegistry();
+      throw new UserFacingError('已有相同 ID 的工作区，请打开原目录，避免并行正文。');
+    const workspaces = existing
+      ? this.registry.workspaces
+      : [...this.registry.workspaces, { id: meta.id, name: meta.name, path: root }];
+    const next = { ...this.registry, workspaces, activeWorkspaceId: meta.id };
+    await this.persistRegistry(next);
+    this.registry = next;
     return this.load();
   },
   async switchWorkspace(wid) {
-    this.entry(wid);
-    this.registry.activeWorkspaceId = wid;
-    await this.persistRegistry();
-    return this.workspace(wid);
+    const result = await this.workspaceResult(wid);
+    if (result.status === 'unavailable') return result;
+    const next = { ...this.registry, activeWorkspaceId: wid };
+    await this.persistRegistry(next);
+    this.registry = next;
+    return { status: 'selected', workspace: result.workspace };
   },
   async updateWorkspace(wid, data) {
     data = z
@@ -92,7 +110,7 @@ module.exports = {
       })
       .strict()
       .parse(data);
-    const meta = await this.meta(wid);
+    const meta = await this.writableMeta(wid);
     Object.assign(meta, data);
     await this.writeMeta(wid, meta);
     return this.workspace(wid);
