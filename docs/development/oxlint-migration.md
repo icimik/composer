@@ -9,7 +9,7 @@ CodeRabbit review. [Current design/verification](../research/oxlint-enhancements
 decision below: pinned native tsgolint, three focused type-aware rules, four CJS/source safety rules and five stronger
 compiler flags. Independent `tsc` remains mandatory. Standalone lint now rejects script-mode TSX octal through type-check
 diagnostics. Scope includes a proven close-Promise rejection fix and three indexed-access narrowings, not broad checkJs
-conversion or an unrelated storage/IPC redesign. Existing180/120/CI/license/provenance/merge gates remain unchanged.
+conversion or an unrelated storage/IPC redesign. Existing 180/120/CI/license/provenance/merge gates remain unchanged.
 
 The remaining sections preserve the initial migration decisions and test-stage tradeoffs as historical evidence.
 

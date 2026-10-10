@@ -62,7 +62,16 @@ No full-pipeline/platform performance guarantee is made.
 
 ## Delivery and remaining gates
 
-Use this scope/current-head evidence when submitting for formal review. Native/macOS/Windows/manual acceptance remains
+Substantive enhancement head `bbfd29fb2a8999e971bbb02bbc71e166ad298552` passed
+[PR Linux CI](https://github.com/icimik/composer/actions/runs/38029656342) and
+[push Linux CI](https://github.com/icimik/composer/actions/runs/38029653394). Jobs/artifacts readback confirms only
+Ubuntu22.04 verification, native/installer skipped without runners and zero artifacts for each run. #45 is no longer draft.
+[CodeRabbit review](https://github.com/icimik/composer/pull/45#pullrequestreview-5477905390) completed on that full substantive
+diff with no actionable findings/inline comments; verified optional missing-space wording is fixed. Bot excludes lockfile
+by its filter, so local tree/package-lock inspection and dependency-policy regressions remain separate evidence.
+This delivery-record follow-up is docs-only; final current-head CI/review is recorded on #44/#45.
+
+Formal review is submitted; use this scope/current-head evidence for the final maintainer decision. Native/manual acceptance remains
 post-authorized-main-merge; push/PR is Linux-only, zero artifacts, no installer/native allocation. Eight existing moderate
 dev advisories remain. Rollback is the complete #45 candidate plus this follow-up; no release or migration writes occur.
 Read CodeRabbit findings on the current head, fix verified findings with regressions and repeat affected checks.

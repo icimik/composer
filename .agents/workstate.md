@@ -10,8 +10,15 @@
 - Fixed unhandled composerClose rejection (real Electron red regression), indexed tuple/document accesses. No broad checkJs,
   any/nocheck/compiler suppression, IPC/storage/AI/provenance/CI changes. Temporary lint projects eliminate source scan races.
 - Local clean ci/tree/check105 units/zero skips, smoke1/all39E2E and eight close-rejection repeats pass; paired stable-tree
-  enhanced median870.5ms vs ESLint1622.5ms (1.9x), not initial15.3x. Submit enhancements and remove draft for formal review;
-  exact current head/CI/CodeRabbit feedback and final handoff are recorded on #44/#45.
+  enhanced median870.5ms vs ESLint1622.5ms (1.9x), not initial15.3x. #45 is ready for formal review, draft removed.
+- Enhancement head `bbfd29fb2a8999e971bbb02bbc71e166ad298552`: [PR CI](https://github.com/icimik/composer/actions/runs/38029656342)
+  and [push CI](https://github.com/icimik/composer/actions/runs/38029653394) success; only Ubuntu22.04, native/installer
+  skipped with no runner, artifacts=0 each.
+- [CodeRabbit review](https://github.com/icimik/composer/pull/45#pullrequestreview-5477905390) inspected full base→bbfd29f
+  substantive diff, no actionable findings/inline comments. Optional missing-space note verified/fixed in docs; no bot
+  autofix or delegation. Lockfile excluded by bot filter, inspected locally and guarded by package/config tests instead.
+- Final follow-up is documentation-only; exact-current-head CI/review evidence belongs to #44/#45 comments. No stale
+  human approval is claimed for new heads; maintainer reapproval/merge decision and actual native acceptance remain.
 - Allowed: commit/push/same-PR formal review and valid feedback fixes. No merge/auto-merge/native/release/protection bypass,
   force-push or issue closure; #31/#38/#44 remain open. Earlier approval does not automatically approve later heads.
 
