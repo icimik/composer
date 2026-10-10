@@ -15,3 +15,5 @@
 - Next bounded step: add regression fixtures, resolve unsupported rules, remove lint dependencies and test TS7.
 - Rollback: revert the complete candidate; restore main's ESLint config/package/lockfile/tests together.
 - Review: self-review does not establish independent approval; native checks follow authorized main merge only.
+- Submission: [draft PR #45](https://github.com/icimik/composer/pull/45), implementation
+  `927409884171766fc26ba9b60eeabd698d8a54d7`; exact latest-head CI/readback belongs to the #44/#45 verification comment.
