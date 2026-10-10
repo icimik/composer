@@ -7,7 +7,8 @@ const repository = path.resolve(__dirname, '../..');
 const cli = path.join(path.dirname(require.resolve('oxlint/package.json')), 'bin/oxlint');
 
 function withLintProject(source, target, extension, callback) {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'composer-lint-'));
+  // macOS temp paths may alias /private/var. Oxlint root-config identity needs the canonical path.
+  const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'composer-lint-')));
   try {
     for (const file of ['.oxlintrc.json', 'tsconfig.json', 'vite.config.mts']) {
       fs.copyFileSync(path.join(repository, file), path.join(root, file));
@@ -35,8 +36,21 @@ function projectMessages({ root, file }) {
       encoding: 'utf8'
     }
   );
-  assert.ok([0, 1].includes(result.status), result.stderr || result.error?.message);
-  return JSON.parse(result.stdout).diagnostics;
+  const diagnostic = [result.error?.message, result.stdout, result.stderr]
+    .filter(Boolean)
+    .join('\n');
+  assert.ok([0, 1].includes(result.status), diagnostic);
+  let output;
+  try {
+    output = JSON.parse(result.stdout);
+  } catch (cause) {
+    throw new Error(
+      `Oxlint did not return JSON diagnostics (exit ${result.status}):\n${diagnostic}`,
+      { cause }
+    );
+  }
+  assert.ok(Array.isArray(output?.diagnostics), `Invalid Oxlint diagnostics:\n${diagnostic}`);
+  return output.diagnostics;
 }
 
 function lintMessages(source, target = 'src', extension = 'ts') {

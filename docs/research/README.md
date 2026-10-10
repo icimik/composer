@@ -17,6 +17,7 @@
 - **[TypeScript／Vite 升级评估](toolchain-upgrade.md)**：保留候选阶段的兼容矩阵与独立试验。PR #39 已合并，实际 main 验证见[工作区任务恢复记录](workspace-isolation-reproduction.md)；TS7 仍是独立议题。
 - **[Oxlint／TypeScript 7 候选](oxlint-verification.md)**：#44 跟踪完整 ESLint 替换、规则差异补齐、编译验证与 lint 测速；不是已合并或原生验收声明。
 - **[已批准的 CJS／类型检查增强](oxlint-enhancements.md)**：#45 当前增强配置、Promise 修复和更严格编译门禁；初始 15.3 倍测速不代表增强后结果。
+- **[合并后交接与原生阻塞](oxlint-merge-handoff.md)**：#45 已合并，#31 被 Dependabot 自动关闭；macOS fixture 路径问题由 #46 跟踪，不能提前宣称原生验收完成。
 - **[工作区损坏隔离复现](workspace-isolation-reproduction.md)**：保留 #40 设计阶段的合成 Store／真实 Linux Electron 故障证据；原先待批状态已由设计批准和后续实现取代，不是当前验收结果。
 - **[工作区损坏隔离实现验证](workspace-isolation-verification.md)**：ADR 0005 已批准，PR #41 内的有界实现、验收测试映射和未验证边界；仍待独立实现 review／merge，#4 其余范围保持开放。
 - **设计展示页**：`design-showcase.html`，单文件离线打开，支持明暗模式、布局密度、状态交互和对比度表。
