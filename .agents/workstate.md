@@ -1,5 +1,25 @@
 # Current workstate
 
+## Merged toolchain wrap-up and native fixture repair
+
+- Maintainer merged #45 at main `0a533f081f5f62f0b9c0ae1bc39f7fd277c44a68`, 2026-10-10 06:50:57 UTC.
+- #31 automatically closed by Dependabot 06:53:19 UTC: manifest/lock already TS7.0.2; no unique application change.
+  Supersession comment added, no duplicate merge/reopen/ignore command or branch deletion.
+- Actual [main CI](https://github.com/icimik/composer/actions/runs/38032356195): Linux success; Windows check100 passes/
+  zero failures/5 pre-existing platform skips, smoke1/all39E2E pass; macOS9 lint fixture failures (96/105), actual
+  lint/type/build pass but smoke/E2E skipped. Overall failed, installer stage skipped, artifacts0.
+- Focus [#46](https://github.com/icimik/composer/issues/46) under #44/#38: main-based clean
+  `fix/lint-fixture-canonical-path` worktree; [context/design/evidence](../docs/research/oxlint-merge-handoff.md).
+- Aliased-temp-root root-config failure reproduced on Linux; two regressions red first, canonical temp-root plus preserved
+  non-JSON subprocess diagnostics now pass. No runtime/source/dependency/CI/check weakening. Clean local ci/check107/zero
+  skips, smoke1/all39E2E passes; generated screenshots restored, eight prior moderate dev advisories unchanged.
+- Next: scoped repair PR, exact-head Linux-only CI/CodeRabbit and maintainer repair-merge decision.
+  Actual fixed macOS/Windows acceptance only after authorized main merge. #44/#38/#46 remain open.
+- Allowed: scoped repair/commit/push/review, issue handoff. No new merge, native dispatch, release, protection bypass,
+  auto-merge or force-push. Earlier #45 approval/merge does not authorize a new fix merge.
+
+## Historical pre-merge candidate handoff
+
 ## Approved enhanced tooling candidate
 
 - #44/#45 same main-based worktree; main remains `c4e5405`. Maintainer accepts migration direction, requests practical

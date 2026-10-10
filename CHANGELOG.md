@@ -1,5 +1,11 @@
 # Changelog
 
+## Pending post-merge native fixture repair
+
+- #45 merged by maintainer; #31 superseded and automatically closed by Dependabot.
+- Actual main Linux/Windows checks pass, but macOS lint fixtures fail; #46 keeps native acceptance tracked, not complete.
+- Canonicalize isolated lint temp paths and preserve non-JSON CLI errors, with two red-first regressions; no relaxed checks.
+
 ## Pending Oxlint / TypeScript 7 candidate
 
 - Maintainer approved enhancement follow-up: native type-aware/type-check lint, CJS dynamic-code/prototype guards and five stronger compiler flags.

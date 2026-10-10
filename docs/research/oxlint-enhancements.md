@@ -1,5 +1,8 @@
 # Approved Oxlint CJS / type-check enhancements
 
+Status update: the maintainer merged #45. Actual main/native results and the remaining macOS fixture acceptance blocker
+are in [the merged-main handoff](oxlint-merge-handoff.md); this document retains the reviewed candidate history.
+
 Tracked in [#44](https://github.com/icimik/composer/issues/44) and [PR #45](https://github.com/icimik/composer/pull/45).
 The [initial candidate](oxlint-verification.md) remains dated historical evidence, not the final configuration/performance.
 
