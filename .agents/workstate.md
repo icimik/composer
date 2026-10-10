@@ -40,11 +40,14 @@
   Main-thread responsiveness/full-budget RSS/native ACL/flush/IME/accessibility/power-cut/real providers unverified.
 - Previous authorized rebases completed. Current follow-up uses normal push, never overwrites another writer or main.
   No merge/auto-merge/protection/release/delegation/closure authority. #42/#4 stay open.
-- Next: freeze this evidence-only follow-up, repeat its exact-head validation/CI and read CodeRabbit/human reviews.
+- Next: freeze the review follow-up, repeat its exact-head validation/CI and read CodeRabbit/human reviews.
   Prior changed-tree 49 E2E superseded by exact production-code 50; do not rewrite historical runs.
   b8e9e1f evidence-only local440/probe36/smoke1/E2E50 also passed. Subsequent red-first long continuation retry fix
   adds one unit (441); frozen new code head must be checked before final claims. Matching accepted continuation never appends
   twice before duplicate verification. CI watcher API403 shared-IP limit requires selective readback, not assumed results.
+  Completed b8e9e1f review5478426682 has two valid findings: unsafe obsolete rollback instruction and incomplete probe counts.
+  Both adopted; probe now requires all 36 passes/zero fail/cancel/skip/TODO and has two synthetic report regressions.
+  Default count443 needs frozen final validation; unfinished7721cee local run deliberately stopped before these changes.
   No renewed design/resource question; fix valid feedback, stay at independent review/merge until maintainer authorizes.
   Both namespace journals must be resolved before rollback/downgrade; packaged/asar worker and native recovery unverified.
   Preserve queue/readiness/sender/path/symlink/hash/author/input guards, 180/120 and MIT/CC0.

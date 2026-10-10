@@ -30,10 +30,12 @@
   Evidence-only follow-up needs its own frozen checks; at 09:06 UTC CodeRabbit processing, no independent approval.
   b8e9e1f local440/probe36/smoke1/E2E50 passed; later long accepted-continuation replay regression was red, now focused green.
   New unit count441 and final code-head full checks/CI/review still required; CI watcher hit shared-IP API403.
+  Completed b8e9e1f review5478426682: both valid rollback/probe findings adopted with two report tests.
+  Final default count443 requires its own accurate-head evidence; do not use the deliberately stopped7721cee local run.
 - Remaining: independent current implementation review/merge, final Linux evidence, native/packaged/asar/maximum-budget
   workloads, actual power loss and merged-main acceptance. #42/#4 remain open.
 - Permission: own code/tests/issues/PR; requested own rebase with exact old-ref lease only.
   No merge/auto-merge/protection/release/delegation or #42/#4 closure.
-- Next: verify evidence-only follow-up head then read completed CodeRabbit/human review, fix valid feedback.
+- Next: verify final review follow-up head then read completed CodeRabbit/human review, fix valid feedback.
   No new resource/design approval question, merge or closure authority.
   Runtime rollback now requires completion/verified cleanup of active and retired evidence before downgrade.

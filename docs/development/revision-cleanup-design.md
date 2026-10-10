@@ -2,7 +2,7 @@
 
 Status: approved storage detail at 94f5162; production integration candidate, independent implementation review pending.
 Parent [#4](https://github.com/icimik/composer/issues/4), bounded [#42](https://github.com/icimik/composer/issues/42),
-[draft #43](https://github.com/icimik/composer/pull/43). Base `4cbdb07151d69de216e1a288713c382e5462896f`.
+[#43](https://github.com/icimik/composer/pull/43). Base `4cbdb07151d69de216e1a288713c382e5462896f`.
 The verified sender approved production wiring of this candidate after reviewing 94f5162;
 [authorization](https://github.com/icimik/composer/pull/43#issuecomment-6095766007) is not independent implementation approval.
 
@@ -56,13 +56,13 @@ Matching residual scratch is fully verified and flushed again before reuse.
 | Unknown/third/multiple/path/link failures        | `revision-cleanup-faults.test.cjs`; fail-closed inventory comparisons and per-file rechecks                            |
 | Deterministic unlink and directory-sync failures | EACCES/ENOSPC/EIO; red-first `revision-cleanup-sync.test.cjs` retirement-parent reflush and deletion-sync retry        |
 | Exception cleanup and retained evidence          | `revision-exclusive.test.cjs`: partial write/sync, external replacement, existing file, denied unlink, staging failure |
-| Real product recovery                            | Not yet implemented: Store/IPC/UI, dirty-input behavior, Linux recovery E2E and large-plan responsiveness              |
+| Real product recovery                            | Implemented candidate: [Store/IPC/UI test map](document-revision-integration.md), dirty input and Linux recovery E2E   |
 
 Only guarded single-process, local filesystem assumptions are covered; no external symlink-race, concurrent writer,
 native ACL/flush or absolute power-loss guarantee. Windows directory-sync failure injection is inapplicable and explicitly
 skipped there; Linux must pass it. No new resource numbers, database, manifest migration or backup-retention decision.
-Rollback currently removes unused cleanup modules/tests/docs without user-file changes.
-Once production creates either namespace, blind downgrade is unsafe and must first complete or verify cleanup.
+Production uses these cleanup modules. Before rollback/downgrade, resolve every active and retired journal through
+verified completion or explicit cleanup; never remove recovery/readiness code while either namespace holds evidence.
 
 Design authorization now covers production integration. An independent maintainer must review the exact implementation
 head before merge; writing this note or self-review does not satisfy that implementation gate.
