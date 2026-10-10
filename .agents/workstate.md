@@ -14,7 +14,11 @@
 - Full local clean ci/tree/check: 101 units/zero failures/skips, smoke1 and all38 Linux E2E passed.
   Same-main-source paired benchmark (87 files, Node22,12 alternating runs): ESLint median1614ms, Oxlint+guard105.5ms,
   15.3x local lint speedup; no full-pipeline performance promise. Generated screenshots restored.
-- Next: focused self-review, issue-linked PR, exact-head Linux CI/readback and independent reviewer handoff.
+- Submission: [draft PR #45](https://github.com/icimik/composer/pull/45), implementation `927409884171766fc26ba9b60eeabd698d8a54d7`.
+  Scoped self-review conditional pass, no independent approval. Draft preserves maintainer choice on the disclosed
+  diagnostic-stage/CJS differences before formal review. Current-head remote CI and final handoff are recorded on #44/#45.
+- Next: read exact-current-head PR/push Linux CI, zero artifacts and no allocated native/installer runners; hand off.
+  Only the maintainer may accept direction, request formal review and later authorize merge.
 - Allowed: scoped implementation/commit/push/PR and issue updates. No merge/release/auto-merge/protection change,
   force-push/native dispatch/artifact upload or issue closure. #31/#38/#44 remain open.
 

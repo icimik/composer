@@ -3,6 +3,8 @@
 Candidate for [#44](https://github.com/icimik/composer/issues/44), following
 [#38](https://github.com/icimik/composer/issues/38) and [#31](https://github.com/icimik/composer/pull/31).
 Base main: `c4e5405697ed27730ed9888816b3fe732f4470f1`. This document records candidate evidence, not merged acceptance.
+Submitted as [draft PR #45](https://github.com/icimik/composer/pull/45), implementation head
+`927409884171766fc26ba9b60eeabd698d8a54d7`; final current-head remote evidence is recorded on #44/#45.
 
 ## Observed compatibility
 
