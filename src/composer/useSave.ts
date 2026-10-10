@@ -31,7 +31,12 @@ export function useSave(model: ComposerState) {
       const se = w.sessions.find((se) => se.id === w.activeSessionId)!;
       const d = w.documents.find((d) => d.id === se.documentId)!;
       if (draft === d.content && title === d.title && prompt === se.prompt) return;
-      if (!available) throw Error('当前工作区不可写，编辑区内容仍保留。请修复后重新打开。');
+      if (!available) {
+        const message = '当前工作区不可写，编辑区内容仍保留。请修复后重新打开。';
+        setStatus('保存失败');
+        setError(message);
+        throw Error(message);
+      }
       setStatus('保存中');
       try {
         let result = d;

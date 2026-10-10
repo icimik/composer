@@ -79,12 +79,36 @@ npx --yes --package=node@22 -c 'xvfb-run -a npm run test:smoke'
 npx --yes --package=node@22 -c 'xvfb-run -a npm run test:e2e'
 ```
 
-Latest local candidate passed complete check/**89 units with zero skips**, smoke **1**, and full **35 Electron E2E**,
+Initial implementation candidate passed complete check/**89 units with zero skips**, smoke **1**, and full **35 Electron E2E**,
 including 12 new isolation UI scenarios. The broken-active diagnostic screenshot was visually inspected.
 Final counts, exact implementation head, command outcomes, CodeRabbit/human findings and live CI jobs/artifact counts belong
 to the PR verification comment for that head; do not infer them from intermediate totals or the design-only green runs.
 Known test-generated screenshots are restored before commit; no private fixtures, report/trace or new artifact is uploaded.
 Eight moderate existing development advisories remain; no audit fix, forced peers or toolchain upgrade.
+
+Implementation code head `000f0224a2636e3f8f1b028811276f35e673d2e7` passed repeated clean install/check, 89 unit cases
+(zero failures/skips), Xvfb smoke 1 and full 35 E2E. Its [PR CI](https://github.com/icimik/composer/actions/runs/38016911024)
+and [push CI](https://github.com/icimik/composer/actions/runs/38016907511) succeeded. Jobs APIs confirm Ubuntu22.04 only;
+native/installer skipped with no runner, artifacts=0 each. CodeRabbit was processing and no human approval was present
+at this record. Subsequent delivery-documentation commits require their own exact-head check/review readback on #41.
+
+## Review follow-up
+
+The [CodeRabbit review of 000f0224](https://github.com/icimik/composer/pull/41#pullrequestreview-5477145993) returned four
+actionable findings, all independently checked against the source and adopted:
+
+| Finding | Intervention / regression |
+| --- | --- |
+| Stale verification header date | Updated to 2026-10-10 UTC, preserving historical sections |
+| Ambiguous retry wording | README explicitly says retry does not automatically repair or create a blank draft |
+| Unavailable fieldset blocks new/read-only dialogs | Only workspace-writing dialogs disabled for unavailability; all disabled during transition. E2E permits search/help/focus/new independent workspace while write commands remain disabled and original fault inventory stays unchanged |
+| Close exception skips fixture cleanup | Cleanup helper uses finally; units cover close exception, crashed evaluator and no-app cleanup. Only synthetic teardown removes close listeners; restart scenarios still use the real product close/flush path |
+
+No finding was rejected. No bot-generated executor, CLI, autofix, review-policy change or delegation was used.
+A separate additional UI red assertion showed Ctrl+S in suspended mode rejected without a visible message. The save guard
+now sets safe status/error before rejecting, keeping the draft and identity intact. Its test failed first, then passed.
+Follow-up local check: **91 units, zero skips/failures**, smoke **1**, full **36 E2E**, including the additional dialog path.
+Read final follow-up SHA, CI and any later review findings from #41; this is not a human approving review.
 
 Self-review is not independent approval. Submit for normal review after final green checks; stop at review/merge, no auto-merge.
 Only a maintainer may merge; close #40 only after actual main acceptance, and keep #4 open with remaining work.

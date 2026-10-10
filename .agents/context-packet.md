@@ -9,12 +9,18 @@
   [repository record](https://github.com/icimik/composer/pull/41#issuecomment-6092557163).
 - Contracts: [accepted ADR](../docs/decisions/0005-workspace-failure-isolation.md); no persisted v1 format change.
 - Tested facts: nine acceptance regressions red before edits; local check 89 units, smoke and 35 E2E passed after correction.
+- Code/submission: `000f0224a2636e3f8f1b028811276f35e673d2e7`, #41 ready for independent review. Exact code head clean
+  install/check/smoke/full E2E repeated; [PR Linux CI](https://github.com/icimik/composer/actions/runs/38016911024) and
+  [push Linux CI](https://github.com/icimik/composer/actions/runs/38016907511) passed, no native runners/artifacts.
 - Acceptance mapping: [implementation verification](../docs/research/workspace-isolation-verification.md), historical
   [reproduction](../docs/research/workspace-isolation-reproduction.md) archived rather than rewritten.
 - Code: guarded path/reader/registry/diagnostic helpers → Store mutation groups → sender-checked/sanitized IPC → result types
   → composer state/save/transitions/actions → diagnostic chooser and disabled/read-only editor/UI.
-- Unknowns: final exact-head independent review/CI; native ACL/Windows/macOS/manual IME/accessibility and global native dialog.
+- Review: CodeRabbit four findings on `000f0224` verified/adopted; scope-safe fixes and suspended Ctrl+S regression added.
+  Follow-up local check 91 units/zero skips, smoke and full 36 E2E passed. Read exact follow-up head on live #41.
+- Unknowns: current-head independent review (no human approval) and follow-up exact-head CI;
+  native ACL/Windows/macOS/manual IME/accessibility and global native dialog.
 - Boundaries: no merge/auto-merge/protection/force-push/release/loop/delegation; keep #40/#4 open.
 - Non-goals: journaling, backup/repair/retention, database/schema migration, watchers/sync or new AI/IF/VN.
-- Next: commit/freeze/push, verify current-head checks/jobs/artifacts, formally submit #41 and evaluate valid review findings.
+- Next: read live #41 head/reviews/checks; evaluate valid findings against that head and repeat verification after fixes.
 - Rollback: reviewed revert of implementation; no migration, but old mixed-workspace startup failure returns.
