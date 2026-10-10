@@ -24,11 +24,13 @@ export function AiControls({ c }: { c: ReadyComposer }) {
   return (
     <>
       <div className="action-tabs" role="group" aria-label="AI 任务类型">
-        {[
-          ['generate', '生成'],
-          ['continue', '续写'],
-          ['polish', '优化表达']
-        ].map(([id, label]) => (
+        {(
+          [
+            ['generate', '生成'],
+            ['continue', '续写'],
+            ['polish', '优化表达']
+          ] as const
+        ).map(([id, label]) => (
           <button
             key={id}
             className={action === id ? 'active' : ''}

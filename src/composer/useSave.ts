@@ -81,7 +81,7 @@ export function useSave(model: ComposerState) {
     const fn = () => {
       void flush()
         .then(() => {
-          (window as Window & { composerClose?: () => Promise<void> }).composerClose?.();
+          return (window as Window & { composerClose?: () => Promise<void> }).composerClose?.();
         })
         .catch(() => {});
     };

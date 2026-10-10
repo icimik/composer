@@ -1,6 +1,21 @@
 # Current workstate
 
-## Active tooling candidate
+## Approved enhanced tooling candidate
+
+- #44/#45 same main-based worktree; main remains `c4e5405`. Maintainer accepts migration direction, requests practical
+  CJS/type-check enhancement and formal CodeRabbit review. GitHub kimmywork approval on `de2b335` verified; no merge permission.
+- [Current scope/evidence](../docs/research/oxlint-enhancements.md) supersedes initial type-aware exclusions/performance.
+- Pinned tsgolint7.0.2003, type-aware/typeCheck root options, three focused Promise/await rules, four source/CJS safety rules,
+  five strict compiler flags. Standalone lint now catches script-mode TSX octal; independent tsc remains mandatory.
+- Fixed unhandled composerClose rejection (real Electron red regression), indexed tuple/document accesses. No broad checkJs,
+  any/nocheck/compiler suppression, IPC/storage/AI/provenance/CI changes. Temporary lint projects eliminate source scan races.
+- Local clean ci/tree/check105 units/zero skips, smoke1/all39E2E and eight close-rejection repeats pass; paired stable-tree
+  enhanced median870.5ms vs ESLint1622.5ms (1.9x), not initial15.3x. Submit enhancements and remove draft for formal review;
+  exact current head/CI/CodeRabbit feedback and final handoff are recorded on #44/#45.
+- Allowed: commit/push/same-PR formal review and valid feedback fixes. No merge/auto-merge/native/release/protection bypass,
+  force-push or issue closure; #31/#38/#44 remain open. Earlier approval does not automatically approve later heads.
+
+## Initial tooling candidate snapshot
 
 - Focus: [#44](https://github.com/icimik/composer/issues/44), complete Oxlint migration / TypeScript7.0.2 candidate.
 - Recovered main `c4e5405697ed27730ed9888816b3fe732f4470f1`; clean clone, independent `chore/oxlint-ts7` worktree.
