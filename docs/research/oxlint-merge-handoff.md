@@ -42,8 +42,16 @@ Assert diagnostics array shape; never treat a config/tool failure as a successfu
 
 Both regressions now pass, including rejection of floating Promises under the aliased temp root and cleanup inventory.
 On 2026-10-10 06:59 UTC, clean install/full Linux check107 units/zero failures/skips, launch smoke1 and all39 Electron E2E
-pass. Exact-head PR CI and independent review follow submission. No source/runtime/dependency/workflow/strictness changes,
+pass. No source/runtime/dependency/workflow/strictness changes,
 skips, suppressions or relaxed gates.
+
+[Repair PR #47](https://github.com/icimik/composer/pull/47), substantive head
+`5ef462514387b46bd45ab61683c1d09557eaa2dc`, has successful
+[PR CI](https://github.com/icimik/composer/actions/runs/38032925909) and
+[push CI](https://github.com/icimik/composer/actions/runs/38032922819): Linux only, native/installers skipped, 0 artifacts.
+[CodeRabbit review](https://github.com/icimik/composer/pull/47#pullrequestreview-5478061762) reviewed all eight files,
+with no code findings and one optional status-spacing suggestion verified/adopted. Human review remains required.
+The final documentation-only head needs its own CI readback on #46; repaired native acceptance remains unverified.
 
 ## Permissions and next gate
 

@@ -6,14 +6,19 @@
 - #31 automatically closed by Dependabot 06:53:19 UTC: manifest/lock already TS7.0.2; no unique application change.
   Supersession comment added, no duplicate merge/reopen/ignore command or branch deletion.
 - Actual [main CI](https://github.com/icimik/composer/actions/runs/38032356195): Linux success; Windows check100 passes/
-  zero failures/5 pre-existing platform skips, smoke1/all39E2E pass; macOS9 lint fixture failures (96/105), actual
-  lint/type/build pass but smoke/E2E skipped. Overall failed, installer stage skipped, artifacts0.
+  zero failures/5 pre-existing platform skips, smoke1/all39E2E pass; macOS: 9 lint fixture failures (96/105), actual
+  lint/type/build pass but smoke/E2E skipped. Overall failed, installer stage skipped, 0 artifacts.
 - Focus [#46](https://github.com/icimik/composer/issues/46) under #44/#38: main-based clean
   `fix/lint-fixture-canonical-path` worktree; [context/design/evidence](../docs/research/oxlint-merge-handoff.md).
 - Aliased-temp-root root-config failure reproduced on Linux; two regressions red first, canonical temp-root plus preserved
   non-JSON subprocess diagnostics now pass. No runtime/source/dependency/CI/check weakening. Clean local ci/check107/zero
   skips, smoke1/all39E2E passes; generated screenshots restored, eight prior moderate dev advisories unchanged.
-- Next: scoped repair PR, exact-head Linux-only CI/CodeRabbit and maintainer repair-merge decision.
+- Repair [#47](https://github.com/icimik/composer/pull/47), head `5ef462514387b46bd45ab61683c1d09557eaa2dc`:
+  [PR CI](https://github.com/icimik/composer/actions/runs/38032925909) and
+  [push CI](https://github.com/icimik/composer/actions/runs/38032922819) success, Linux only, 0 artifacts.
+  [CodeRabbit review](https://github.com/icimik/composer/pull/47#pullrequestreview-5478061762) has no code findings;
+  optional status-spacing suggestions verified and adopted. Final documentation-only head evidence belongs to #46.
+- Next: maintainer approving review and explicit repair-merge decision; GitHub still requires human review.
   Actual fixed macOS/Windows acceptance only after authorized main merge. #44/#38/#46 remain open.
 - Allowed: scoped repair/commit/push/review, issue handoff. No new merge, native dispatch, release, protection bypass,
   auto-merge or force-push. Earlier #45 approval/merge does not authorize a new fix merge.
