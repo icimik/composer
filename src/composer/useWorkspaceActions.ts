@@ -61,7 +61,17 @@ export function useWorkspaceActions(model: ComposerState, flush: () => Promise<v
         throw Error(result.diagnostic.message);
       }
       const next = result.workspace;
-      if (!sid && wid === s.activeWorkspaceId && model.retained.current) {
+      if (
+        !sid &&
+        wid === s.activeWorkspaceId &&
+        model.retained.current &&
+        hasChanges(
+          model.retained.current,
+          live.current.draft,
+          live.current.title,
+          live.current.prompt
+        )
+      ) {
         setState(replaceWorkspace(s, model.retained.current));
         model.setSuspended(false);
         return;

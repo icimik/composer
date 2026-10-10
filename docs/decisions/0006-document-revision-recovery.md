@@ -1,6 +1,6 @@
 # ADR 0006: One interrupted document revision
 
-- Status: **core approved; resources allocated under sender delegation; partial unwired disk adapter**.
+- Status: **core/cleanup approved; resources allocated; production integration candidate awaiting independent review**.
 - Parent [#4](https://github.com/icimik/composer/issues/4), bounded [#42](https://github.com/icimik/composer/issues/42).
 - Base main: `c4e5405697ed27730ed9888816b3fe732f4470f1`, following merged [#41](https://github.com/icimik/composer/pull/41).
 - ADR 0006 core is approved; resource allocation and later integration/review gates are tracked separately.
@@ -14,9 +14,11 @@ allocation; chosen policy is 256 MiB staged bytes plus 256 MiB extra reserve.
 See [measured allocation and limitations](../research/revision-resource-allocation.md).
 Historical proposed wording below describes that approved contract; it does not imply product integration exists.
 The pure model and standalone guarded disk adapter have unit/fault-injection/real child-exit regressions.
-An unwired explicit cleanup candidate now exists; its new retirement namespace remains proposed pending independent review.
+The verified sender approved the retirement detail at 94f5162 and requested production Store/IPC/UI wiring;
+[authorization](https://github.com/icimik/composer/pull/43#issuecomment-6095766007) is separate from implementation review.
 See [cleanup contract and tests](../development/revision-cleanup-design.md).
-Active Store/IPC/renderer integration and product recovery UI remain unimplemented.
+Active Store/IPC/renderer integration and explicit recovery UI are now implemented candidates.
+See [integration and acceptance](../development/document-revision-integration.md) for checks and remaining environment gates.
 See [partial implementation and handoff](../development/document-revision-core-handoff.md).
 
 ## Problem and evidence
@@ -96,8 +98,9 @@ Prepared-only staging offers explicit validated cleanup instead of “recovery c
 
 No-current/all-failed views can show this recovery action without an editable fake manuscript. A current dirty editor
 remains preserved/read-only. Preview/recovery share the transition lock; recovery does not hydrate, save or clear input.
-After completion the author explicitly reopens, retaining the original editor baseline/hash; recovery is not permission to
-overwrite either disk or dirty input. AI acceptance remains unavailable until the workspace is ready.
+After completion the author explicitly reopens. A dirty editor retains its original baseline/hash; an unchanged editor can
+hydrate canonical data only on that explicit reopening, never recovery/retry alone. Recovery is not permission to overwrite
+either disk or dirty input. AI acceptance remains unavailable until the workspace is ready.
 IPC sender/frame checks and fault write admission apply to all other commands. Recovery is a narrow exception only for
 validated operation targets, not a bypass around corrupt global registry, path guards or arbitrary damaged manifests.
 
@@ -138,8 +141,7 @@ actual power cut and real providers are not established by simulated process exi
 
 ## Approval, rollback and next gate
 
-No active storage/IPC/UI change. Core approval and allocation delegation allow this independent disk-adapter increment.
-Review the proposed retirement/cleanup storage detail, responsiveness and Store/IPC/UI acceptance before production wiring.
-The new `.composer/transaction-cleanup/<operation-id>/` namespace has synthetic tests, not maintainer approval.
-Current rollback removes unused core/tests/documents/probes only. Future runtime revert must complete pending journals or refuse
-downgrade; a blind revert is not safe recovery. Keep #4 open for broader transactions, backup/recovery policy and migration.
+Production storage/IPC/UI now change under the approved core and retirement detail. Independently review the exact head,
+all acceptance tests and limitations before merge. Single-instance serialized workers do not authorize concurrent external
+writers or promise absolute power-loss safety. Runtime revert must resolve active and retired journals before downgrade;
+blindly removing these guards is unsafe. Keep #4 open for other transaction families, backup policy and migration.

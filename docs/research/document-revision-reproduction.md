@@ -1,5 +1,10 @@
 # Document revision interruption: baseline reproduction
 
+This is historical five-case evidence from the pre-journal Store. The original probe is retained as
+`tools/probe-revision-interruption-baseline.cjs` for pinned historical revisions.
+Current `tools/probe-revision-interruption.cjs` runs nonce-guarded production Store regressions;
+[integration evidence](../development/document-revision-integration.md) supersedes these historical runtime assumptions.
+
 Date: 2026-10-10 UTC. Parent [#4](https://github.com/icimik/composer/issues/4), bounded design
 [#42](https://github.com/icimik/composer/issues/42), [proposed ADR 0006](../decisions/0006-document-revision-recovery.md).
 Production baseline: merged main `c4e5405697ed27730ed9888816b3fe732f4470f1`.

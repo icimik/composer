@@ -27,6 +27,7 @@ function validateMeta(value) {
   return meta;
 }
 async function readMeta(root) {
+  await require('./revisions/pending.cjs').assertReady(root);
   let text;
   try {
     text = await fs.readFile(await guardedFile(root, '.composer/workspace.json'), 'utf8');

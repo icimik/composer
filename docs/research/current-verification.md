@@ -4,6 +4,11 @@ Updated 2026-10-10 UTC. This file separates observed results from historical sou
 
 ## Current revision adapter increment
 
+Production follow-up now wires Store/IPC/UI under
+[approved cleanup authorization](https://github.com/icimik/composer/pull/43#issuecomment-6095766007).
+[Integration/test map](../development/document-revision-integration.md) supersedes the unwired status below.
+New exact-head results must be read from #43; previous 94f5162/397/39 results validate the unwired candidate, not this runtime.
+
 Sender requested rebase; actual base now `4cbdb07151d69de216e1a288713c382e5462896f` after #45/#47 merged, preserving tooling
 and Promise fixes. Standalone disk adapter has execution/replay/fault regressions, including 93 real child-process exits.
 The new [unwired cleanup candidate](../development/revision-cleanup-design.md) adds 138 actual cleanup child exits;

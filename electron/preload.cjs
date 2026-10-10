@@ -17,6 +17,8 @@ const names = [
   'resolveProposal',
   'snapshots',
   'restore',
+  'revisionPreview',
+  'applyRevision',
   'exportWorkspace',
   'setTheme'
 ];

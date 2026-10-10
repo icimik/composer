@@ -1,8 +1,9 @@
 # Document revision core: partial implementation
 
-This is independently reviewable preparation for [#42](https://github.com/icimik/composer/issues/42), not completed
+This is the historical independently reviewable preparation for [#42](https://github.com/icimik/composer/issues/42), not completed
 transaction recovery. [PR #43](https://github.com/icimik/composer/pull/43) continues the approved ADR 0006.
-No active Store, IPC or renderer behavior changes. Standalone adapter writes/replays only synthetic temporary fixtures.
+The newer [production integration map](document-revision-integration.md) supersedes the unwired status below.
+Historical adapter stage had no active Store, IPC or renderer behavior changes.
 Completed journals remain retained unless the new standalone explicit cleanup is invoked on synthetic fixtures.
 The [retirement namespace candidate](revision-cleanup-design.md) awaits independent review before production wiring.
 

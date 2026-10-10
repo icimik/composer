@@ -1,9 +1,10 @@
 # Interrupted journal cleanup: review candidate
 
-Status: proposed storage detail of ADR 0006, implemented only in the unwired synthetic adapter.
+Status: approved storage detail at 94f5162; production integration candidate, independent implementation review pending.
 Parent [#4](https://github.com/icimik/composer/issues/4), bounded [#42](https://github.com/icimik/composer/issues/42),
 [draft #43](https://github.com/icimik/composer/pull/43). Base `4cbdb07151d69de216e1a288713c382e5462896f`.
-Core approval and allocated resources remain valid; they are not approval of this new cleanup namespace.
+The verified sender approved production wiring of this candidate after reviewing 94f5162;
+[authorization](https://github.com/icimik/composer/pull/43#issuecomment-6095766007) is not independent implementation approval.
 
 ## Problem and alternatives
 
@@ -63,5 +64,6 @@ skipped there; Linux must pass it. No new resource numbers, database, manifest m
 Rollback currently removes unused cleanup modules/tests/docs without user-file changes.
 Once production creates either namespace, blind downgrade is unsafe and must first complete or verify cleanup.
 
-Required next gate: an independent maintainer reviews this candidate's exact head and the new retirement namespace
-before any production readiness, writer, IPC or UI integration. Writing this note or self-review does not satisfy that gate.
+Design authorization now covers production integration. An independent maintainer must review the exact implementation
+head before merge; writing this note or self-review does not satisfy that implementation gate.
+See [integration and acceptance](document-revision-integration.md) for the newer runtime paths and evidence.

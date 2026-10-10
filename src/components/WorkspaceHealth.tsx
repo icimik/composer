@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { ComposerController } from '../composer/useComposer';
+import { RevisionRecovery } from './RevisionRecovery';
 
 export function WorkspaceHealth({ c }: { c: ComposerController }) {
   const [name, setName] = useState('');
@@ -33,6 +34,9 @@ export function WorkspaceHealth({ c }: { c: ComposerController }) {
                   <p>
                     {w.diagnostic.message} {w.diagnostic.nextStep}
                   </p>
+                  {w.diagnostic.code === 'revision-recovery-required' && (
+                    <RevisionRecovery c={c} wid={w.id} />
+                  )}
                 </li>
               )
           )}

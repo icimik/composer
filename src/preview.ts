@@ -110,6 +110,12 @@ export function previewBridge(): Bridge {
     restore: async () => {
       throw Error('历史快照需要桌面 App。');
     },
+    revisionPreview: async () => {
+      throw Error('修订记录检查需要桌面 App。');
+    },
+    applyRevision: async () => {
+      throw Error('修订处理需要桌面 App。');
+    },
     exportWorkspace: async () => {
       throw Error('请在桌面 App 中导出 Markdown。');
     },
