@@ -39,3 +39,20 @@ test('operation reuse with changed request or stale result never overwrites late
   await assert.rejects(invoke(f.store, r), (e) => e.code === 'baseline-conflict');
   assert.deepEqual(await inventory(f.a.path), later);
 });
+test('long accepted continuation replays its committed result without appending or revalidating twice', async (t) => {
+  const f = await setup(t, 'accept');
+  const meta = await f.store.writableMeta(f.a.id);
+  const proposal = meta.sessions
+    .find((s) => s.id === f.request.sessionId)
+    .proposals.find((p) => p.id === f.request.proposalId);
+  proposal.action = 'continue';
+  proposal.text = 'x'.repeat(1_100_000);
+  await f.store.writeMeta(f.a.id, meta);
+  const first = await invoke(f.store, f.request);
+  const expected = 'before\n\n' + proposal.text;
+  assert.equal(first.documents[0].content, expected);
+  const before = await inventory(f.a.path);
+  const repeated = await invoke(f.store, f.request);
+  assert.equal(repeated.documents[0].content, expected);
+  assert.deepEqual(await inventory(f.a.path), before);
+});

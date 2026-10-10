@@ -58,10 +58,10 @@ async function mutate(root, request, policy, step = async () => {}) {
     if (!proposal || proposal.docId !== doc.id || proposal.baseHash !== fields.expectedHash)
       fail('invalid-images');
     title = fields.expectedTitle;
-    content =
-      proposal.action === 'continue'
-        ? text(before.manuscript) + (before.manuscript.length ? '\n\n' : '') + proposal.text
-        : proposal.text;
+    content = proposal.text;
+    if (prior) content = text(before.manuscript);
+    else if (proposal.action === 'continue')
+      content = text(before.manuscript) + (before.manuscript.length ? '\n\n' : '') + proposal.text;
   }
   title = nameSchema.parse(title);
   content = contentSchema.parse(content);

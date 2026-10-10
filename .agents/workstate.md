@@ -28,7 +28,7 @@
   Prepared/complete cleanup has 138 actual child exits; unknown/link/third/ambiguous inventory and I/O refusal tests.
   Red-first self-review also requires re-flushing retirement parents before retry deletion after a prior sync failure.
   Completed 94f5162 bot review 5478298045 has no code blocker; optional wording adopted.
-  Production code head 55adc9730b043d0ab23bd3990b81fa48d0e9cd22 passed exact-head local checks and both CI runs.
+  First production code head 55adc9730b043d0ab23bd3990b81fa48d0e9cd22 passed exact-head local checks and both CI runs.
   [Evidence](https://github.com/icimik/composer/pull/43#issuecomment-6095958804): clean install/check 440 units/zero fail/skip,
   probe 36, smoke 1/full 50 Linux E2E; Ubuntu only, native/installer unassigned, artifacts 0.
   At 09:06 UTC new CodeRabbit processing, no completed production review/human approval. PR now ready, not draft.
@@ -42,6 +42,9 @@
   No merge/auto-merge/protection/release/delegation/closure authority. #42/#4 stay open.
 - Next: freeze this evidence-only follow-up, repeat its exact-head validation/CI and read CodeRabbit/human reviews.
   Prior changed-tree 49 E2E superseded by exact production-code 50; do not rewrite historical runs.
+  b8e9e1f evidence-only local440/probe36/smoke1/E2E50 also passed. Subsequent red-first long continuation retry fix
+  adds one unit (441); frozen new code head must be checked before final claims. Matching accepted continuation never appends
+  twice before duplicate verification. CI watcher API403 shared-IP limit requires selective readback, not assumed results.
   No renewed design/resource question; fix valid feedback, stay at independent review/merge until maintainer authorizes.
   Both namespace journals must be resolved before rollback/downgrade; packaged/asar worker and native recovery unverified.
   Preserve queue/readiness/sender/path/symlink/hash/author/input guards, 180/120 and MIT/CC0.

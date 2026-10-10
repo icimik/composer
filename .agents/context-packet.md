@@ -28,6 +28,8 @@
   smoke 1/full 50 E2E and PR/push CI Linux only/artifacts 0.
   [Exact evidence](https://github.com/icimik/composer/pull/43#issuecomment-6095958804).
   Evidence-only follow-up needs its own frozen checks; at 09:06 UTC CodeRabbit processing, no independent approval.
+  b8e9e1f local440/probe36/smoke1/E2E50 passed; later long accepted-continuation replay regression was red, now focused green.
+  New unit count441 and final code-head full checks/CI/review still required; CI watcher hit shared-IP API403.
 - Remaining: independent current implementation review/merge, final Linux evidence, native/packaged/asar/maximum-budget
   workloads, actual power loss and merged-main acceptance. #42/#4 remain open.
 - Permission: own code/tests/issues/PR; requested own rebase with exact old-ref lease only.
