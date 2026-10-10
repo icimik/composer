@@ -1,5 +1,13 @@
 # Changelog
 
+## Pending Oxlint / TypeScript 7 candidate
+
+- Issue #44 follows #38/#31; replace ESLint/parser dependency stack with pinned Oxlint1.87.0 and trial TypeScript7.0.2.
+- Preserve 62 native configured rule names and strict180/120 with a deterministic local guard, no forced peers/suppression.
+- Disclose stricter compile-only CJS syntax and script-mode TSX octal diagnostics moving to mandatory compiler checking.
+- Local clean install/check: 101 units, Electron smoke1 and all38 Linux E2E pass; same-source local lint median15.3x faster.
+- Reviewable candidate only, no main merge, native acceptance, installer/artifact or release claim.
+
 ## Pending workspace isolation increment
 
 - PR #41 / issue #40 implements the first bounded #4 capability after reviewed ADR 0005 approval, not the whole reliability roadmap.
