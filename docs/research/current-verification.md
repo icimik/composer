@@ -1,5 +1,11 @@
 # Current verification
 
+Production recovery code head `55adc9730b043d0ab23bd3990b81fa48d0e9cd22` passed clean install/check 440 units,
+probe 36, smoke 1/full 50 Linux Electron E2E and PR/push CI (Linux only, zero artifacts).
+[Exact commands and results](https://github.com/icimik/composer/pull/43#issuecomment-6095958804).
+This supersedes the unwired cleanup phase, not independent approval, merged-main acceptance or closure of #42/#4.
+Evidence-only follow-up or review fixes require current-head checks; native/packaged/full-budget/physical power loss remain open.
+
 Updated 2026-10-10 UTC. This file separates observed results from historical source-import records and unexecuted acceptance work.
 
 ## Current revision adapter increment
