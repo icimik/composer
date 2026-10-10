@@ -110,6 +110,20 @@ now sets safe status/error before rejecting, keeping the draft and identity inta
 Follow-up local check: **91 units, zero skips/failures**, smoke **1**, full **36 E2E**, including the additional dialog path.
 Read final follow-up SHA, CI and any later review findings from #41; this is not a human approving review.
 
+The [follow-up cleanup finding](https://github.com/icimik/composer/pull/41#discussion_r4236081258) was also valid and adopted.
+Two additional regressions failed first: cleanup rejection skipped later callbacks, and masked an earlier close error.
+Cleanup now attempts every callback, reports all failures in order and retains the close failure as primary cause.
+
+Review-fix head `377343822aaac57754928f8c47612fcfe16a4b19` passed local clean install/check (91 units), smoke and 36 E2E.
+Its [PR CI](https://github.com/icimik/composer/actions/runs/38017659254) passed but
+[push CI](https://github.com/icimik/composer/actions/runs/38017656515) failed at Ctrl+S during retry. The test observed the
+temporary transition-disable state before the fault result committed; it now waits for retry completion before the shortcut.
+A local full follow-up also exposed a test-clock race: clock.install still advances real time, so autosave could raise a
+conflict before retry cleared the prior alert. Three controlled-time tests now explicitly pause the clock and await completed
+transitions before assertions/advancement. No production guard or timeout weakened. Each passed 12 repeats, followed by
+full check **93 units/zero skips**, smoke **1** and all **36 E2E**. Failed evidence is retained, not overwritten by reruns.
+Final exact-head clean install/CI readback and remaining review belong to the PR comment; older green CI cannot approve it.
+
 Self-review is not independent approval. Submit for normal review after final green checks; stop at review/merge, no auto-merge.
 Only a maintainer may merge; close #40 only after actual main acceptance, and keep #4 open with remaining work.
 Rollback: revert implementation changes through a reviewed PR; no persisted format change/migration. Reversion restores the

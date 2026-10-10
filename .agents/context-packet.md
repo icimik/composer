@@ -18,6 +18,10 @@
   → composer state/save/transitions/actions → diagnostic chooser and disabled/read-only editor/UI.
 - Review: CodeRabbit four findings on `000f0224` verified/adopted; scope-safe fixes and suspended Ctrl+S regression added.
   Follow-up local check 91 units/zero skips, smoke and full 36 E2E passed. Read exact follow-up head on live #41.
+- Latest evidence: CodeRabbit cleanup follow-up adopted with two red-first units. `3773438` PR CI passed, push CI failed:
+  shortcut assertion observed transition-disable, not completed fault state. Another local failure exposed unpaused
+  Playwright time. Tests now await retry completion and explicitly pause autosave time; three cases passed 12 repeats each.
+  Full local check 93 units/zero skips, smoke 1 and full 36 E2E pass. Exact final head/CI are in #41 verification comment.
 - Unknowns: current-head independent review (no human approval) and follow-up exact-head CI;
   native ACL/Windows/macOS/manual IME/accessibility and global native dialog.
 - Boundaries: no merge/auto-merge/protection/force-push/release/loop/delegation; keep #40/#4 open.
