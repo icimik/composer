@@ -25,6 +25,8 @@ Linux needs a GUI runtime and Xvfb: `xvfb-run -a npm run test:e2e`. Tests must u
 
 `npm run lint` uses Oxlint plus a deterministic source-size/strict-CJS-syntax guard for maintained JS/CJS/MJS/TS/MTS/TSX in renderer, main process, scripts and tests. Files must have at most 180 physical lines, including blanks/comments; lines must have at most 120 characters. Strings, templates, URLs and JSX are not exempt. Split cohesive responsibilities instead of compressing source or adding suppressions. The CJS guard compiles without evaluation, rejecting duplicate parameters and legacy octal syntax; use modern `0o` literals. Rule mapping and rollback are documented in [the migration design](docs/development/oxlint-migration.md).
 
+Lint also runs pinned native type-aware/type-check diagnostics for the TS project, including Promise misuse/unhandled Promises and await-thenable. `build` retains independent `tsc --noEmit` checking with strict indexed access, exact optional properties, implicit-return/override and switch-fallthrough guards. CJS additionally rejects dynamic evaluation, function-constructor execution and native-prototype extension; this is not whole-main-process checkJs typing. See [the enhancement scope and evidence](docs/research/oxlint-enhancements.md).
+
 `npm run format:check` includes application code and tests. Upstream framework/research data and the existing CSS token source remain outside this formatting scope. JSON, CSS, prose and markup templates are not JavaScript and are not subject to source-code lint parsing; executable showcase logic is a linted module. See [the size-limit ADR](docs/decisions/0003-strict-source-size-limits.md).
 
 ## Commits, PRs and review

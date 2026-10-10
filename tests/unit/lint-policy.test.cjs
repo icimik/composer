@@ -1,32 +1,18 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { syntaxMessages } = require('../../scripts/source-limits.cjs');
-const root = path.resolve(__dirname, '../..');
-const cli = path.join(path.dirname(require.resolve('oxlint/package.json')), 'bin/oxlint');
-let serial = 0;
+const {
+  lintMessages,
+  withLintProject,
+  projectMessages,
+  repository
+} = require('../helpers/lint-project.cjs');
 
 function nativeMessages(source, target = 'electron') {
   const ext = target === 'src' ? 'tsx' : target === '.' ? 'mjs' : 'cjs';
-  const file = path.join(root, target, `lint-fixture-${process.pid}-${serial++}.${ext}`);
-  fs.writeFileSync(file, source);
-  try {
-    const result = spawnSync(
-      process.execPath,
-      [cli, '--format', 'json', '--max-warnings', '0', file],
-      {
-        cwd: root,
-        encoding: 'utf8'
-      }
-    );
-    assert.ok([0, 1].includes(result.status), result.stderr || result.error?.message);
-    const output = JSON.parse(result.stdout);
-    return output.diagnostics;
-  } finally {
-    fs.rmSync(file, { force: true });
-  }
+  return lintMessages(source, target, ext);
 }
 
 test('strict compile-only CJS guard rejects duplicate parameters and legacy octal', () => {
@@ -83,25 +69,17 @@ test('native parser rejects unsupported duplicate-argument and octal syntax in E
   assert.ok(nativeMessages('function f(a,a) { return a; }', 'src').length > 0);
 });
 
-test('TypeScript compiler rejects legacy octal that script-mode TSX parsing permits', () => {
-  const file = path.join(root, 'src', `lint-octal-${process.pid}.tsx`);
-  fs.writeFileSync(file, 'const value = 012;');
-  try {
-    assert.deepEqual(
-      nativeMessages('const value = 012;', 'src'),
-      [],
-      'document native TSX parser gap rather than claiming unsupported rule parity'
-    );
-    const cliPath = path.join(root, 'node_modules/typescript/bin/tsc');
+test('type-aware lint and independent compiler reject script-mode TSX legacy octal', () => {
+  withLintProject('const value = 012;', 'src', 'tsx', (project) => {
+    assert.ok(projectMessages(project).some((message) => message.code === 'typescript(TS1121)'));
+    const cliPath = path.join(repository, 'node_modules/typescript/bin/tsc');
     const result = spawnSync(process.execPath, [cliPath, '--noEmit'], {
-      cwd: root,
+      cwd: project.root,
       encoding: 'utf8'
     });
     assert.notEqual(result.status, 0);
     assert.match(result.stdout + result.stderr, /octal literals|TS1121/iu);
-  } finally {
-    fs.rmSync(file, { force: true });
-  }
+  });
 });
 
 test('native physical-line guard keeps 180/181 boundaries', () => {
@@ -109,7 +87,7 @@ test('native physical-line guard keeps 180/181 boundaries', () => {
   assert.ok(nativeMessages(Array(181).fill('// fixture').join('\n')).length > 0);
 });
 
-test('dependency/config policy excludes ESLint and type-aware engines', () => {
+test('dependency/config policy excludes ESLint and pins the native type-aware engine', () => {
   const pkg = require('../../package.json');
   const lock = require('../../package-lock.json');
   assert.equal(pkg.devDependencies.oxlint, '1.87.0');
@@ -119,6 +97,9 @@ test('dependency/config policy excludes ESLint and type-aware engines', () => {
       key
     );
   }
-  assert.ok(!pkg.devDependencies['oxlint-tsgolint']);
+  assert.equal(pkg.devDependencies['oxlint-tsgolint'], '7.0.2003');
+  const config = require('../../.oxlintrc.json');
+  assert.equal(config.options.typeAware, true);
+  assert.equal(config.options.typeCheck, true);
   assert.match(pkg.scripts.lint, /source-limits\.cjs/u);
 });

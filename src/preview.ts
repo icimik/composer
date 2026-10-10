@@ -39,8 +39,10 @@ export function previewBridge(): Bridge {
     load: async () => clone(state),
     createWorkspace: async (name) => {
       const w = makeWorkspace(name);
-      w.documents[0].content = '';
-      w.documents[0].hash = '';
+      const initial = w.documents[0];
+      if (!initial) throw Error('预览工作区缺少初始章节。');
+      initial.content = '';
+      initial.hash = '';
       state.workspaces.push(readyResult(w));
       state.activeWorkspaceId = w.id;
       state.requestedActiveWorkspaceId = w.id;

@@ -1,5 +1,8 @@
 # Oxlint / TypeScript 7 candidate verification
 
+Historical initial-candidate snapshot. The maintainer approved follow-up strengthens CJS/type checking and changes the
+final performance/configuration; see [current enhancement evidence](oxlint-enhancements.md), not the15.3x snapshot below.
+
 Candidate for [#44](https://github.com/icimik/composer/issues/44), following
 [#38](https://github.com/icimik/composer/issues/38) and [#31](https://github.com/icimik/composer/pull/31).
 Base main: `c4e5405697ed27730ed9888816b3fe732f4470f1`. This document records candidate evidence, not merged acceptance.

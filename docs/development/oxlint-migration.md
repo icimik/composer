@@ -2,6 +2,17 @@
 
 Primary issue: [#44](https://github.com/icimik/composer/issues/44). This is a scoped tooling change, not runtime redesign.
 
+## Approved enhancement follow-up
+
+The maintainer accepts the initial diagnostic differences and requests practical CJS/type-check strengthening and formal
+CodeRabbit review. [Current design/verification](../research/oxlint-enhancements.md) supersedes the initial no-type-aware
+decision below: pinned native tsgolint, three focused type-aware rules, four CJS/source safety rules and five stronger
+compiler flags. Independent `tsc` remains mandatory. Standalone lint now rejects script-mode TSX octal through type-check
+diagnostics. Scope includes a proven close-Promise rejection fix and three indexed-access narrowings, not broad checkJs
+conversion or an unrelated storage/IPC redesign. Existing180/120/CI/license/provenance/merge gates remain unchanged.
+
+The remaining sections preserve the initial migration decisions and test-stage tradeoffs as historical evidence.
+
 ## Evidence and alternatives
 
 [PR #31](https://github.com/icimik/composer/pull/31) fails at clean install before compiling: typescript-eslint 8.71.1

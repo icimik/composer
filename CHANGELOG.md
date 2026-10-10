@@ -2,6 +2,10 @@
 
 ## Pending Oxlint / TypeScript 7 candidate
 
+- Maintainer approved enhancement follow-up: native type-aware/type-check lint, CJS dynamic-code/prototype guards and five stronger compiler flags.
+- Fixed a reproduced unhandled close-ready Promise and narrowed indexed access; added synthetic/real-Electron regressions without suppression.
+- Enhanced lint median1.9x faster on the same candidate sources; the original15.3x result below is the initial non-type-aware snapshot.
+
 - Issue #44 follows #38/#31; replace ESLint/parser dependency stack with pinned Oxlint1.87.0 and trial TypeScript7.0.2.
 - Preserve 62 native configured rule names and strict180/120 with a deterministic local guard, no forced peers/suppression.
 - Disclose stricter compile-only CJS syntax and script-mode TSX octal diagnostics moving to mandatory compiler checking.

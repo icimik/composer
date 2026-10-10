@@ -1,5 +1,11 @@
 # Oxlint / TypeScript 7 context packet
 
+- Current follow-up: maintainer approves direction and asks for practical CJS/type-check strengthening, removal of draft
+  and CodeRabbit review. [Approval](https://github.com/icimik/composer/pull/45#pullrequestreview-5477840741) on `de2b335`;
+  later commits still need current-head review. No merge authorization.
+- Current [enhancement design/evidence](../research/oxlint-enhancements.md): pinned native type-aware lint, stronger
+  compiler/CJS safety gates, narrow indexed-access/close-Promise fix. The initial snapshot below is historical.
+
 - Primary issue: [#44](https://github.com/icimik/composer/issues/44), follow-up to
   [#38](https://github.com/icimik/composer/issues/38) and [#31](https://github.com/icimik/composer/pull/31).
 - Outcome: remove the parser's TypeScript peer ceiling without weakening maintained-source quality gates.
