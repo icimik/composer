@@ -1,6 +1,7 @@
 const { test: base, expect, _electron } = require('@playwright/test');
 const { fixture, inventory } = require('./isolation-fixture.cjs');
 const { electronLaunchOptions } = require('./electron-launch.cjs');
+const { cleanupFixture } = require('./isolation-cleanup.cjs');
 
 const test = base.extend({
   isolation: async ({ playwright }, use) => {
@@ -40,8 +41,7 @@ const test = base.extend({
     try {
       await use(c);
     } finally {
-      if (app) await app.close();
-      for (const cleanup of cleanups) await cleanup();
+      await cleanupFixture(app, cleanups);
     }
   }
 });

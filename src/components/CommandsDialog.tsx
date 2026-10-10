@@ -85,6 +85,10 @@ export function CommandsDialog({ c }: { c: ReadyComposer }) {
             .map((item) => (
               <button
                 key={item.label}
+                disabled={
+                  !c.available &&
+                  ['新建章节', '新建会话', '模型设置', '保存当前文档'].includes(item.label)
+                }
                 onClick={() => {
                   setQuery('');
                   item.fn();

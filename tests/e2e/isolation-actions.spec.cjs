@@ -67,3 +67,32 @@ test('explicit create/open remain usable beside an unrelated broken workspace', 
   await expect(c.page.getByLabel('正文编辑器')).toHaveValue('');
   expect(await c.inventory(c.b.path)).toEqual(before);
 });
+
+test('faulty current editor without dirty input still permits read-only commands and explicit new workspace', async ({
+  isolation: c
+}) => {
+  await c.store.switchWorkspace(c.a.id);
+  await c.launch();
+  await expect(c.page.getByLabel('正文编辑器')).toBeVisible();
+  await fs.writeFile(c.store.manifestPath(c.a.id), '{invalid');
+  const before = await c.inventory(c.a.path);
+  await c.page.getByRole('button', { name: '重试加载工作区' }).click();
+  await expect(c.page.getByLabel('正文编辑器')).toBeDisabled();
+  await c.page.keyboard.press('Control+k');
+  await c.page.getByLabel('搜索操作').fill('保存');
+  await expect(c.page.getByRole('button', { name: '保存当前文档', exact: true })).toBeDisabled();
+  await c.page.getByLabel('搜索操作').fill('专注');
+  await c.page.getByRole('button', { name: '切换专注模式', exact: true }).click();
+  await expect(c.page.getByRole('dialog')).not.toBeVisible();
+  await c.page.keyboard.press('Escape');
+  await c.page.getByRole('button', { name: '使用说明', exact: true }).click();
+  await expect(c.page.getByRole('dialog')).toContainText('会话保存');
+  await c.page.getByRole('button', { name: '关闭对话框' }).click();
+  await c.page.getByRole('button', { name: '新建', exact: true }).click();
+  const dialog = c.page.getByRole('dialog');
+  await dialog.getByLabel('名称', { exact: true }).fill('明确创建的独立新作品');
+  await expect(dialog.getByRole('button', { name: '创建', exact: true })).toBeEnabled();
+  await dialog.getByRole('button', { name: '创建', exact: true }).click();
+  await expect(c.page.getByLabel('正文编辑器')).toBeEnabled();
+  expect(await c.inventory(c.a.path)).toEqual(before);
+});

@@ -32,7 +32,13 @@ export function ComposerDialogs({ c }: { c: ReadyComposer }) {
               {error}
             </p>
           )}
-          <fieldset className="write-boundary" disabled={c.transitioning || !c.available}>
+          <fieldset
+            className="write-boundary"
+            disabled={
+              c.transitioning ||
+              (!c.available && !['workspace', 'help', 'commands'].includes(dialog))
+            }
+          >
             <CreateDialog c={c} />
             <SettingsDialog c={c} />
             <HistoryDialog c={c} />

@@ -41,6 +41,8 @@ test('retry suspends newly faulty editor without replacing dirty inputs or silen
   await c.page.getByRole('button', { name: '重试加载工作区' }).click();
   await expect(c.page.getByLabel('正文编辑器')).toBeDisabled();
   await expect(c.page.getByLabel('正文编辑器')).toHaveValue('重试必须保留的未保存输入');
+  await c.page.keyboard.press('Control+s');
+  await expect(c.page.getByRole('alert')).toContainText('当前工作区不可写');
   await c.page.getByLabel('工作区', { exact: true }).selectOption(c.b.id);
   await expect(c.page.getByRole('alert')).toContainText('未保存输入');
   await expect(c.page.getByLabel('工作区', { exact: true })).toHaveValue(c.a.id);
