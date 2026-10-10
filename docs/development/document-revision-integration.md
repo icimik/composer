@@ -34,7 +34,9 @@ This is not independent implementation approval, merge permission or closure of 
   not a claim that arbitrary corruption was recovered.
 - Audit identity/request digest survives journal cleanup. Duplicate request returns only its verified current result,
   creates no second history/audit record, rejects a changed request and refuses stale-result overwrite.
-  AI retry also checks accepted status. History/export reads and AI context capture are serialized with the writer.
+  AI retry also checks accepted status; a prior continuation uses captured current content, never appends twice
+  before duplicate validation. Red-first long continuation replay preserves the entire inventory.
+  History/export reads and AI context capture are serialized with the writer.
 
 ## Author input and UI
 
