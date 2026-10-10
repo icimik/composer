@@ -4,6 +4,15 @@ Updated 2026-10-10 UTC. This file separates observed results from historical sou
 
 ## Merged workspace isolation and next design, 2026-10-10 UTC
 
+Updated follow-up: sender approved ADR 0006 core at design head c9f8b27; partial pure implementation at
+`fd79308e2554bb03373e3cf14ace472f8979b799` passes full local check (111 units/zero skips), smoke 1 and full 38 Linux E2E.
+[PR run 38030169521](https://github.com/icimik/composer/actions/runs/38030169521) and
+[push run 38030166674](https://github.com/icimik/composer/actions/runs/38030166674) passed at that head, Ubuntu22.04 only;
+native/installers skipped without runners, artifacts=0 each. No disk engine/active Store/IPC/recovery UI yet.
+[Partial handoff](../development/document-revision-core-handoff.md) separates 18 new model tests from missing recovery
+acceptance and numeric budget policy. #42/#4 remain open; draft/in-progress bot review is not human implementation approval.
+The following merged-main and earlier preparation observations remain historical, not current branch native evidence.
+
 Actual main is `c4e5405697ed27730ed9888816b3fe732f4470f1`, after merged
 [PR #41](https://github.com/icimik/composer/pull/41). Its
 [main run 38019637399](https://github.com/icimik/composer/actions/runs/38019637399) passed Linux, native Windows/macOS
