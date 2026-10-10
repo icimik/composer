@@ -64,7 +64,10 @@ async function probe(phase) {
       ],
       { encoding: 'utf8', timeout: 10000 }
     );
-    assert.equal(child.status, 77, 'Synthetic child must reach its exact interruption');
+    if (child.status !== 77) {
+      console.error(JSON.stringify({ phase, status: child.status, signal: child.signal }));
+      throw new Error('Synthetic child did not reach the interruption');
+    }
     const restart = new Store(data);
     await restart.init();
     const results = await restart.load();

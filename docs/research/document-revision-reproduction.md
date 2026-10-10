@@ -35,10 +35,11 @@ without operation identity, not inconsistent bytes by itself. Other cases show c
 
 ## What this proves and does not prove
 
-Observed: Store startup/read cannot distinguish these interrupted operations; no operation journal/recovery exists.
+Observed: active Store startup/read cannot distinguish these interruptions; it has no integrated journal/recovery.
 History precedes manuscript, manifest and audit; acceptance status comes later. ADR 0005 intentionally did not fix that.
 Inference: exception catching alone cannot run after abrupt process exit; a committed operation identity/hash plan is needed
-to distinguish replay from an external change. Choice of journal/recovery policy remains proposed and unapproved.
+to distinguish replay from an external change. ADR 0006 core sidecar/explicit-recovery contract is approved.
+Resource allocation and production integration remain separate work; this characterization is not recovery acceptance.
 
 The probe does not kill a GUI or prove Electron input recovery, tear sectors, reorder storage writes, emulate a real power
 cut, test Windows/macOS interruption or establish filesystem durability. Existing full UI acceptance is separate.

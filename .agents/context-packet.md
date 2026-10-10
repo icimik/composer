@@ -1,32 +1,23 @@
 # Document revision recovery context packet
 
-- Outcome: one interrupted existing-document revision completes coherently without duplicate history/audit or mismatched
-  accepted proposal/body; preserve other healthy workspaces and author input. [#42](https://github.com/icimik/composer/issues/42)
-  is bounded under [#4](https://github.com/icimik/composer/issues/4); now partial core implementation/resource decision.
-- Delivery: [draft PR #43](https://github.com/icimik/composer/pull/43), pure core revision
-  `fd79308e2554bb03373e3cf14ace472f8979b799`; final exact-head verification is its PR comment, not recovery acceptance.
-- Actual base: `c4e5405697ed27730ed9888816b3fe732f4470f1`, clean latest main. New own branch
-  `design/document-revision-recovery-20261010`; no stack, no restored deleted branch or pre-existing changes.
-- Completed dependency: [#41](https://github.com/icimik/composer/pull/41) merged; kimmywork approved exact `76e67c6` head,
-  whose tree equals main. [#40 closure evidence](https://github.com/icimik/composer/issues/40#issuecomment-6093233851).
-- Main evidence: [run 38019637399](https://github.com/icimik/composer/actions/runs/38019637399), Linux/macOS 93 units;
-  Windows 88/five symlink-privilege skips; all smoke 1/full 38-test E2E passed. Native installers passed/artifacts=2.
-  Local clean main npm ci/check/smoke/E2E repeated: 93/1/38 pass. Not a public release/manual-platform guarantee.
-- Current call chain: renderer serialized flush -> sender-checked serial IPC -> Store saveDocument history/manuscript/
-  manifest/audit; acceptance calls save then separately marks status. No cross-file journal exists.
-- Measured: five temporary child-process exits at write boundaries leave partial/unknown state loading ready; this is
-  [pre-fix evidence](../docs/research/document-revision-reproduction.md), not implemented transaction acceptance.
-- Approved core contract: [ADR 0006](../docs/decisions/0006-document-revision-recovery.md), sidecar intent and staged
-  bytes/hashes; explicit author-confirmed recovery, pure diagnosis, no external third-value overwrite; canonical Markdown.
-- Sender approved design head c9f8b27; [authorization scope](https://github.com/icimik/composer/pull/43#issuecomment-6094433791).
-  Unknown: numeric resource policy and independent implementation review, not core approval inherited from ADR 0005.
-  Pure model plus 18 new units exists, no disk/Store/IPC/UI integration. Baseline tests do not establish recovery.
-- Resource samples: full before/after images total 1,098,817 / 33,881,569 / 68,190,753 bytes, excluding scratch/headroom.
-  No numeric default. Choose explicit full-image limits/refusal or incremental history/audit redesign before implementation.
-- Non-goals: workspace creation/deletion/registry transactions, prompt-only atomicity, backups/retention/generic repair,
-  database/schema migration, watchers/sync/accounts/new AI/IF/VN, absolute power-loss or external-race safety.
-- Permissions: create/update issues, own branch/commits/push/draft PR; #40 closure explicitly authorized and completed.
-  No merge/auto-merge/protection/force-push/release/scheduler/delegation. #4 stays open.
-- Next: read current exact-head checks/reviews, obtain staged-byte cap/extra free-space reserve, add guarded disk
-  interruption/fault regressions and adapter. [Current test map](../docs/development/document-revision-core-handoff.md).
-- Rollback: unused core/tests/design/probes removable. Future runtime downgrade with pending journal needs validation.
+- Issue/outcome: #42 under #4, continue draft #43 for coherent existing-document revisions and explicit recovery.
+- Actual base main: `0a533f081f5f62f0b9c0ae1bc39f7fd277c44a68`, merged tooling #45 verified live.
+  Own task branch rebased as requested; old head 81ef59f locally backed up, no shared/main rewrite.
+- Working state: ongoing disk-adapter/review/document changes must be preserved. Exact latest head/checks belong to #43.
+- Dependency: #41 merged/#40 closed with actual-main acceptance; #4 still open. ADR 0006 approval is separate.
+- Decisions: approved sidecar/explicit consent/downgrade core at c9f8b27; sender now delegates measured allocation.
+  [Decision record](https://github.com/icimik/composer/pull/43#issuecomment-6094957137).
+  Chosen 256 MiB staged/256 MiB extra reserve, fixed parser compatibility, no pruning/automatic repair.
+- Facts: 5M/35M chapterized samples support 1000 snapshots under 128 MiB, 5000 under 256 MiB, not 10000.
+  One Linux large plan ran with ~785 MiB RSS/3.3 seconds; not whole-workspace GUI/native/max-budget assurance.
+- Delivered scope: model and standalone guarded disk prepare/commit/install/preview/replay/complete, synthetic only.
+  No active Store/IPC/UI recovery; complete journals retained. [Map](../docs/development/document-revision-core-handoff.md).
+- Regressions: 8 disk cases failed first; targeted 77 now pass, 63 real child exits, deterministic I/O errors.
+  Full current-head verification required; old 93/111/38 counts are historical after merged tooling.
+- Review: two CodeRabbit documentation findings fixed; safe child status/signal suggestion adopted. No human runtime approval.
+- Remaining: safe interrupted cleanup, active readiness/serialization/captured IDs/title baselines/IPC/UI consent,
+  recovery E2E, large-plan responsiveness, native environments.
+- Permission: own code/tests/issues/PR; requested own rebase with exact old-ref lease only.
+  No merge/auto-merge/protection/release/delegation or #42/#4 closure.
+- Next: read exact review/CI, add interrupted-cleanup regressions before product wiring. Rollback unused adapter/core has
+  no user-file effect; future production downgrade requires pending-journal completion/validation.
