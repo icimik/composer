@@ -3,7 +3,8 @@
 This is independently reviewable preparation for [#42](https://github.com/icimik/composer/issues/42), not completed
 transaction recovery. [PR #43](https://github.com/icimik/composer/pull/43) continues the approved ADR 0006.
 No active Store, IPC or renderer behavior changes. Standalone adapter writes/replays only synthetic temporary fixtures.
-Completed journals are deliberately retained until separately tested safe cleanup exists.
+Completed journals remain retained unless the new standalone explicit cleanup is invoked on synthetic fixtures.
+The [retirement namespace candidate](revision-cleanup-design.md) awaits independent review before production wiring.
 
 ## Current disk-adapter follow-up
 
@@ -18,7 +19,8 @@ Earlier resource gates below are historical/superseded, not another request to t
 `disk-io.cjs`: guarded bounded reads, exclusive flushed staging and directory sync (Windows limitation explicit).
 `disk-layout.cjs`: derived targets, strict inventory/payload/markers and allocation bounds.
 `disk.cjs`: prepare/commit/install/complete validation; pure preview/explicit replay and third-value refusal.
-A second execute refuses retained operations. No cleanup yet. Store must serialize calls after full workspace readiness.
+A second execute refuses retained active or retired operations. Standalone explicit cleanup is now a review candidate.
+Store must serialize calls after full workspace readiness; there is still no production integration.
 Trusted step callbacks are test injection only, never renderer IPC inputs or environment hooks.
 
 Initial eight disk cases failed before implementation. Adapter execution tests include 63 real child exits
@@ -31,7 +33,9 @@ residual manuscript scratch must be flushed again before rename. A first draft c
 the assertion exposed the failure before the fix. Repeated replay compares every resource's exact after-bytes.
 Total actual execution/replay exits: 93. This is not GUI recovery, cleanup interruption or power-cut acceptance.
 Large-history planning takes seconds/RSS overhead; assess responsiveness before production wiring.
-Next: safe interrupted cleanup, then Store/IPC/UI captured identity/baselines and true recovery E2E.
+Follow-up adds 138 actual prepared/complete cleanup exits across all three kinds, plus unknown/third/link/ambiguous inventory
+and deterministic cleanup faults. Retired inspection is pure; all canonical target hashes remain unchanged.
+Next: independently review cleanup storage detail, then Store/IPC/UI captured identity/baselines and true recovery E2E.
 Do not close #42 or request merge of a completed product capability from this adapter-only increment.
 
 ## Historical pure-core context packet
@@ -65,17 +69,17 @@ Buffer contents are not frozen; post-construction tampering is detected when val
 
 ## Test mapping and remaining acceptance
 
-| Scope                               | Executable evidence / remaining work                                                                                                 |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Save/restore/accept image coherence | `revision-core.test.cjs`; continuation/title-only/content-size cases in `revision-validation.test.cjs`                               |
-| Intent/hash/identity and baselines  | `revision-core.test.cjs`, `revision-identity.test.cjs`, `revision-validation.test.cjs`; unknown schema/fields/traversal IDs rejected |
-| Resource boundaries                 | Explicit policy, exact stage and free-space edges in core tests; no approved production budget or disk-free adapter yet              |
-| Recovery decisions and repeat model | `revision-recovery-model.test.cjs`: before/after/third-value decisions, marker faults, repeated after-state; no disk operations      |
-| Legacy audit/duplicate requests     | Identity and validation tests: exact old bytes, partial JSONL/duplicate IDs refused, clock-independent digest                        |
-| Process exits and recovery faults   | Old `probe-revision-interruption.cjs` still characterizes the unfixed Store; new adapter interruption tests remain missing           |
-| Paths/symlinks/global registry      | Existing default guards must remain passing; new journal component/scratch/cleanup path tests remain missing                         |
-| Real recovery UI and author input   | Existing smoke/full E2E only protect baseline behavior; preview/confirmation/dirty-input/recovery/reopen E2E remain missing          |
-| Native and durability               | No branch Windows/macOS recovery, ACL/directory flush, actual power cut, manual IME/accessibility or real-provider verification      |
+| Scope                               | Executable evidence / remaining work                                                                                                      |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Save/restore/accept image coherence | `revision-core.test.cjs`; continuation/title-only/content-size cases in `revision-validation.test.cjs`                                    |
+| Intent/hash/identity and baselines  | `revision-core.test.cjs`, `revision-identity.test.cjs`, `revision-validation.test.cjs`; unknown schema/fields/traversal IDs rejected      |
+| Resource boundaries                 | Allocated 256 MiB staged / 256 MiB extra reserve; core edges, real statfs adapter and deterministic low-space admission tests             |
+| Recovery decisions and repeat model | `revision-recovery-model.test.cjs`: before/after/third-value decisions, marker faults, repeated after-state; no disk operations           |
+| Legacy audit/duplicate requests     | Identity and validation tests: exact old bytes, partial JSONL/duplicate IDs refused, clock-independent digest                             |
+| Process exits and recovery faults   | 63 execution + 30 replay + 138 cleanup child exits; deterministic adapter faults. Old Store probe remains historical characterization     |
+| Paths/symlinks/global registry      | Existing guards plus journal/payload and cleanup traversal/link/unknown inventory regressions; production cleanup readiness still missing |
+| Real recovery UI and author input   | Existing smoke/full E2E only protect baseline behavior; preview/confirmation/dirty-input/recovery/reopen E2E remain missing               |
+| Native and durability               | No branch Windows/macOS recovery, ACL/directory flush, actual power cut, manual IME/accessibility or real-provider verification           |
 
 Initial 11 regressions failed against missing core, then passed. Two identity regressions failed against missing lookup,
 then passed. These red observations preceded their implementations; later validation cases supplement coverage.

@@ -14,7 +14,9 @@ allocation; chosen policy is 256 MiB staged bytes plus 256 MiB extra reserve.
 See [measured allocation and limitations](../research/revision-resource-allocation.md).
 Historical proposed wording below describes that approved contract; it does not imply product integration exists.
 The pure model and standalone guarded disk adapter have unit/fault-injection/real child-exit regressions.
-Safe cleanup, active Store/IPC/renderer integration and product recovery UI remain unimplemented.
+An unwired explicit cleanup candidate now exists; its new retirement namespace remains proposed pending independent review.
+See [cleanup contract and tests](../development/revision-cleanup-design.md).
+Active Store/IPC/renderer integration and product recovery UI remain unimplemented.
 See [partial implementation and handoff](../development/document-revision-core-handoff.md).
 
 ## Problem and evidence
@@ -137,6 +139,7 @@ actual power cut and real providers are not established by simulated process exi
 ## Approval, rollback and next gate
 
 No active storage/IPC/UI change. Core approval and allocation delegation allow this independent disk-adapter increment.
-Safe interrupted cleanup, responsiveness and Store/IPC/UI acceptance remain before production wiring; continue red-first.
+Review the proposed retirement/cleanup storage detail, responsiveness and Store/IPC/UI acceptance before production wiring.
+The new `.composer/transaction-cleanup/<operation-id>/` namespace has synthetic tests, not maintainer approval.
 Current rollback removes unused core/tests/documents/probes only. Future runtime revert must complete pending journals or refuse
 downgrade; a blind revert is not safe recovery. Keep #4 open for broader transactions, backup/recovery policy and migration.

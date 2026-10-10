@@ -11,17 +11,20 @@ const markerSchema = z
     intentHash: sha
   })
   .strict();
-function inspect(plan, current, markers, resourcePolicy) {
-  validatePlan(plan, resourcePolicy);
+function validateMarkers(intent, markers) {
   if (!markers || !Object.keys(markers).every((key) => ['commit', 'complete'].includes(key)))
     fail('invalid-marker');
   for (const phase of ['commit', 'complete']) {
     if (markers[phase] !== undefined) {
       const value = parse(markerSchema, markers[phase], 'invalid-marker');
-      if (!equal(value, marker(plan, phase))) fail('invalid-marker');
+      if (!equal(value, marker({ intent }, phase))) fail('invalid-marker');
     }
   }
   if (markers.complete && !markers.commit) fail('invalid-marker');
+}
+function inspect(plan, current, markers, resourcePolicy) {
+  validatePlan(plan, resourcePolicy);
+  validateMarkers(plan.intent, markers);
   if (!current || !equal(Object.keys(current).sort(), [...kinds].sort())) fail('invalid-images');
   const states = plan.intent.resources.map((resource) => {
     const observed = describe(current[resource.kind]);
@@ -41,4 +44,4 @@ function inspect(plan, current, markers, resourcePolicy) {
   // Pure decision only: no filesystem access, canonical replacement, cleanup or hydration occurs here.
   return Object.freeze({ phase, action, install: Object.freeze(install) });
 }
-module.exports = { inspect };
+module.exports = { inspect, validateMarkers };

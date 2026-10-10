@@ -7,6 +7,7 @@ const { validatePlan, marker } = require('./journal.cjs');
 const { inspect } = require('./recovery.cjs');
 const io = require('./disk-io.cjs');
 const layout = require('./disk-layout.cjs');
+const retired = require('./retired.cjs');
 
 const nothing = async () => {};
 async function preview(root, operationId, resourcePolicy) {
@@ -17,6 +18,7 @@ async function preview(root, operationId, resourcePolicy) {
 async function prepare(root, plan, resourcePolicy, step) {
   const p = policy(resourcePolicy);
   validatePlan(plan, p);
+  await retired.assertEmpty(root);
   const metadata = Buffer.from(JSON.stringify(plan.intent));
   if (metadata.length > layout.metadataLimit) fail('stage-limit');
   const required =
