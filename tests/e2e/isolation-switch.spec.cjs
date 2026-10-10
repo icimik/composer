@@ -33,12 +33,14 @@ test('retry suspends newly faulty editor without replacing dirty inputs or silen
   await c.store.switchWorkspace(c.a.id);
   await c.launch();
   await expect(c.page.getByLabel('正文编辑器')).toBeVisible();
-  await c.page.clock.install();
+  await c.page.clock.install({ time: new Date('2026-10-10T00:00:00Z') });
+  await c.page.clock.pauseAt(new Date('2026-10-10T00:01:00Z'));
   const file = c.store.manifestPath(c.a.id);
   const original = await fs.readFile(file);
   await c.page.getByLabel('正文编辑器').fill('重试必须保留的未保存输入');
   await fs.writeFile(file, '{invalid');
   await c.page.getByRole('button', { name: '重试加载工作区' }).click();
+  await expect(c.page.getByRole('button', { name: '重试加载工作区' })).toBeEnabled();
   await expect(c.page.getByLabel('正文编辑器')).toBeDisabled();
   await expect(c.page.getByLabel('正文编辑器')).toHaveValue('重试必须保留的未保存输入');
   await c.page.keyboard.press('Control+s');

@@ -33,3 +33,46 @@ test('crashed evaluation still attempts close and cleanup; no-app cleanup remain
   await cleanupFixture(null, [async () => calls.push('no-app-cleanup')]);
   assert.deepEqual(calls, ['close', 'cleanup', 'no-app-cleanup']);
 });
+test('every cleanup runs after rejection, with all failures reported', async () => {
+  const calls = [];
+  const first = Error('first cleanup');
+  const second = Error('second cleanup');
+  await assert.rejects(
+    cleanupFixture(null, [
+      async () => {
+        calls.push(1);
+        throw first;
+      },
+      async () => calls.push(2),
+      async () => {
+        calls.push(3);
+        throw second;
+      }
+    ]),
+    (error) =>
+      error instanceof AggregateError && error.errors[0] === first && error.errors[1] === second
+  );
+  assert.deepEqual(calls, [1, 2, 3]);
+});
+test('close remains primary cause when cleanup also fails', async () => {
+  const primary = Error('close');
+  const secondary = Error('cleanup');
+  const app = {
+    evaluate: async () => {},
+    close: async () => {
+      throw primary;
+    }
+  };
+  await assert.rejects(
+    cleanupFixture(app, [
+      async () => {
+        throw secondary;
+      }
+    ]),
+    (error) =>
+      error instanceof AggregateError &&
+      error.cause === primary &&
+      error.errors[0] === primary &&
+      error.errors[1] === secondary
+  );
+});

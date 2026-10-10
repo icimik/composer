@@ -23,6 +23,11 @@
 - Follow-up candidate: full check passed 91 units/zero skips, smoke 1 and full 36 Electron E2E, including read-only commands
   and explicit new workspace beside current fault. Final follow-up SHA/CI/review are authoritative on live #41.
   No human approving review or merge permission. No bot autofix/delegation enabled.
+- Latest revision: second CodeRabbit cleanup finding adopted after two red regressions; every callback attempted and close
+  error remains primary cause. Head `3773438` PR CI passed but push CI failed at premature Ctrl+S during retry; the local
+  follow-up also exposed a running-clock autosave race in another test. Three clock-controlled tests now explicitly pause
+  time and await completed transitions. Each passed 12 repeats; full check 93 units/zero skips, smoke 1 and all 36 E2E pass.
+  Exact new-head clean-install validation, CI and independent review readback belong to the final #41 verification comment.
 - Performance: 64 synthetic docs, one local readiness 12.0ms/guarded save 16.9ms; not a workload/platform guarantee.
 - Environment: isolated Node22.23.3/current lockfile/Electron44.7.0/Xvfb; no package, workflow, provenance or upstream update.
   Eight existing moderate dev advisories remain. Native candidate/ACL/manual IME/accessibility/global native dialog unverified.
