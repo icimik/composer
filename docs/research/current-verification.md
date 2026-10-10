@@ -87,7 +87,7 @@ The workflow cannot distinguish an allowed merge from an unprotected direct push
 
 ## Remaining release gates
 
-- Independent review, required GitHub approval and verified merge for the formally submitted toolchain PR.
+- Independent review, required GitHub approval and verified merge for workspace-isolation [PR #41](https://github.com/icimik/composer/pull/41); the toolchain upgrade is already merged.
 - Optional required Linux status-check configuration, conduct reporting contact and signed release process.
 - Manual macOS/Windows installation, Chinese IME and real-provider acceptance.
 

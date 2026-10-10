@@ -108,7 +108,8 @@ No finding was rejected. No bot-generated executor, CLI, autofix, review-policy 
 A separate additional UI red assertion showed Ctrl+S in suspended mode rejected without a visible message. The save guard
 now sets safe status/error before rejecting, keeping the draft and identity intact. Its test failed first, then passed.
 Follow-up local check: **91 units, zero skips/failures**, smoke **1**, full **36 E2E**, including the additional dialog path.
-Read final follow-up SHA, CI and any later review findings from #41; this is not a human approving review.
+Read the final follow-up SHA, CI and later review findings from #41. These records do not constitute independent human
+approval of the implementation.
 
 The [follow-up cleanup finding](https://github.com/icimik/composer/pull/41#discussion_r4236081258) was also valid and adopted.
 Two additional regressions failed first: cleanup rejection skipped later callbacks, and masked an earlier close error.
@@ -123,6 +124,14 @@ conflict before retry cleared the prior alert. Three controlled-time tests now e
 transitions before assertions/advancement. No production guard or timeout weakened. Each passed 12 repeats, followed by
 full check **93 units/zero skips**, smoke **1** and all **36 E2E**. Failed evidence is retained, not overwritten by reruns.
 Final exact-head clean install/CI readback and remaining review belong to the PR comment; older green CI cannot approve it.
+
+Test/runtime head `3ef63d68e9cff8abab97066cee9b77539e070aea` passed repeated clean npm ci, locked Electron installation,
+full check (93 units, zero failures/skips), Xvfb smoke 1 and all 36 E2E. Its
+[PR CI](https://github.com/icimik/composer/actions/runs/38018289253) and
+[push CI](https://github.com/icimik/composer/actions/runs/38018286202) succeeded. Both jobs APIs show Ubuntu22.04 only;
+native/installer jobs skipped without runner and both artifacts APIs report zero. The optional wording finding in the
+second review is adopted above to state the human-approval boundary directly; three other additional comments were LGTM.
+Final delivery documentation does not change runtime/tests but still requires its own exact-head CI readback.
 
 Self-review is not independent approval. Submit for normal review after final green checks; stop at review/merge, no auto-merge.
 Only a maintainer may merge; close #40 only after actual main acceptance, and keep #4 open with remaining work.

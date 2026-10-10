@@ -11,23 +11,22 @@
   active fallback; complete pre-write readiness; validated/copied registry commit; transition lock; retained dirty input/hash.
 - Evidence: nine red acceptance regressions failed before production edits, now pass. Historical defect probes archived in
   git, replaced by default acceptance tests. [Test map/limits](../docs/research/workspace-isolation-verification.md).
-- Local: full check passed 89 units/zero skips, smoke 1/1 and 35 Linux Electron E2E, including 12 new isolation UI paths.
-  Diagnostic screenshot visually inspected. Clean install/check/smoke/full E2E repeated on code head `000f0224a2636e3f8f1b028811276f35e673d2e7`.
-- Submission: #41 ready for independent review, code head `000f0224a2636e3f8f1b028811276f35e673d2e7`.
-  [PR CI](https://github.com/icimik/composer/actions/runs/38016911024) and
-  [push CI](https://github.com/icimik/composer/actions/runs/38016907511) succeeded at that exact SHA: Ubuntu22.04 only,
-  native/installer jobs skipped without runner, artifacts=0 each. Subsequent documentation head requires fresh CI readback.
+- Submission: #41 ready for independent review. Final runtime/test head `3ef63d68e9cff8abab97066cee9b77539e070aea`;
+  repeated clean npm ci/locked Electron installation/check: 93 units/zero failures/skips, smoke 1 and 36 Linux Electron E2E
+  (13 new isolation UI paths). Diagnostic screenshot visually inspected; generated tracked screenshots restored.
+  [PR CI](https://github.com/icimik/composer/actions/runs/38018289253) and
+  [push CI](https://github.com/icimik/composer/actions/runs/38018286202) succeeded at that SHA: Ubuntu22.04 only,
+  native/installer jobs skipped without runner, artifacts=0 each. Final documentation head requires exact-head readback.
 - Review: [CodeRabbit review](https://github.com/icimik/composer/pull/41#pullrequestreview-5477145993) posted four findings.
   All verified valid and fixed: date, retry wording, over-disabled new/read-only dialogs, exception-safe fixture cleanup.
   Additional red UI assertion found a silently rejected Ctrl+S in suspended mode; now visibly reports refusal.
-- Follow-up candidate: full check passed 91 units/zero skips, smoke 1 and full 36 Electron E2E, including read-only commands
-  and explicit new workspace beside current fault. Final follow-up SHA/CI/review are authoritative on live #41.
-  No human approving review or merge permission. No bot autofix/delegation enabled.
 - Latest revision: second CodeRabbit cleanup finding adopted after two red regressions; every callback attempted and close
   error remains primary cause. Head `3773438` PR CI passed but push CI failed at premature Ctrl+S during retry; the local
   follow-up also exposed a running-clock autosave race in another test. Three clock-controlled tests now explicitly pause
   time and await completed transitions. Each passed 12 repeats; full check 93 units/zero skips, smoke 1 and all 36 E2E pass.
-  Exact new-head clean-install validation, CI and independent review readback belong to the final #41 verification comment.
+  Optional approval-wording comment adopted; additional LGTM comments require no change. No finding rejected.
+  Final head/CI and independent review readback belong to the #41 verification comment. No human approving review,
+  merge permission or bot autofix/delegation.
 - Performance: 64 synthetic docs, one local readiness 12.0ms/guarded save 16.9ms; not a workload/platform guarantee.
 - Environment: isolated Node22.23.3/current lockfile/Electron44.7.0/Xvfb; no package, workflow, provenance or upstream update.
   Eight existing moderate dev advisories remain. Native candidate/ACL/manual IME/accessibility/global native dialog unverified.
