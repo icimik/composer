@@ -1,9 +1,19 @@
 # ADR 0006: One interrupted document revision
 
-- Status: **proposed; not approved or implemented**.
+- Status: **core contract approved; resource policy unresolved; partial unwired implementation**.
 - Parent [#4](https://github.com/icimik/composer/issues/4), bounded [#42](https://github.com/icimik/composer/issues/42).
 - Base main: `c4e5405697ed27730ed9888816b3fe732f4470f1`, following merged [#41](https://github.com/icimik/composer/pull/41).
 - Prior ADR 0005 approval covers isolation only. New journal, recovery, IPC and UI contracts require reviewed approval.
+
+## Approval and implementation state
+
+The verified sender approved the core contract at design revision `c9f8b275c4d6f2ecce07c0e5f7961d00448df885`
+and requested implementation. [Recorded authorization](https://github.com/icimik/composer/pull/43#issuecomment-6094433791)
+is not independent implementation review or merge permission. No staged-byte or free-space numbers were supplied.
+Historical proposed wording below describes that approved contract; it does not imply product integration exists.
+The policy-parameterized pure model now validates plans, identities and recovery decisions without filesystem writes.
+Store/IPC/renderer integration, interrupted-process recovery and recovery UI remain unimplemented.
+See [partial implementation and handoff](../development/document-revision-core-handoff.md).
 
 ## Problem and evidence
 
@@ -124,7 +134,7 @@ actual power cut and real providers are not established by simulated process exi
 
 ## Approval, rollback and next gate
 
-No production storage/IPC/UI change in the design PR. Maintainer must approve the exact ADR revision and unresolved resource
-policy before implementation. Add failure regressions first after approval; reuse #42 and the approved design, no merge authority.
-Design rollback removes documents/probes only. Future runtime revert must first complete/validate pending journals or refuse
+No active storage/IPC/UI change in this partial PR. Core approval allows independent, policy-parameterized work.
+Resolve explicit numeric resource policy before production integration; continue red-first using #42 and this ADR.
+Current rollback removes unused core/tests/documents/probes only. Future runtime revert must complete pending journals or refuse
 downgrade; a blind revert is not safe recovery. Keep #4 open for broader transactions, backup/recovery policy and migration.
