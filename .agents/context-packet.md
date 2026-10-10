@@ -1,8 +1,9 @@
 # Document revision recovery context packet
 
 - Issue/outcome: #42 under #4, continue draft #43 for coherent existing-document revisions and explicit recovery.
-- Actual base main: `0a533f081f5f62f0b9c0ae1bc39f7fd277c44a68`, merged tooling #45 verified live.
+- Actual base main: `4cbdb07151d69de216e1a288713c382e5462896f`, merged tooling #45 and fixture repair #47 verified live.
   Own task branch rebased as requested; old head 81ef59f locally backed up, no shared/main rewrite.
+  Main advanced during verification; second backup preserves cfb03b4. Adapter/test/probe bytes unchanged by both rebases.
 - Working state: ongoing disk-adapter/review/document changes must be preserved. Exact latest head/checks belong to #43.
 - Dependency: #41 merged/#40 closed with actual-main acceptance; #4 still open. ADR 0006 approval is separate.
 - Decisions: approved sidecar/explicit consent/downgrade core at c9f8b27; sender now delegates measured allocation.

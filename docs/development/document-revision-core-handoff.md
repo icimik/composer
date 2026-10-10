@@ -8,7 +8,8 @@ Completed journals are deliberately retained until separately tested safe cleanu
 ## Current disk-adapter follow-up
 
 Sender requested review fixes, rebase onto merged tooling main and scale/hardware-based allocation.
-Base now `0a533f081f5f62f0b9c0ae1bc39f7fd277c44a68` (#45 merged); own backup preserves pre-rebase `81ef59f`.
+Base now `4cbdb07151d69de216e1a288713c382e5462896f` (#45/#47 merged); backups preserve 81ef59f/cfb03b4.
+Second rebase was needed when #47 merged during validation; adapter/test/probe bytes unchanged, main fixture repair preserved.
 Only workstate conflicts required resolution; tooling/Promise fixes and dated evidence remain intact.
 Chosen policy: 256 MiB staged bytes / 256 MiB extra reserve under explicit delegation,
 with [measurement and limits](../research/revision-resource-allocation.md).
