@@ -1,5 +1,25 @@
 # Current workstate
 
+## Active tooling candidate
+
+- Focus: [#44](https://github.com/icimik/composer/issues/44), complete Oxlint migration / TypeScript7.0.2 candidate.
+- Recovered main `c4e5405697ed27730ed9888816b3fe732f4470f1`; clean clone, independent `chore/oxlint-ts7` worktree.
+  #39 is merged. #31 remains open and fails clean install on typescript-eslint peer range. #43 is unrelated.
+- [Context](../docs/development/oxlint-context.md), [design](../docs/development/oxlint-migration.md),
+  [evidence/gaps](../docs/research/oxlint-verification.md). Historical workspace-isolation handoff below is preserved.
+- Oxlint1.87.0 removes all ESLint/parser packages; TS6 lint/build passed before TS7 trial. TS7 install/build and 13 focused
+  size/native/compiler/config regressions pass, no force/legacy peers. No runtime, CI or upstream changes.
+- Explicit tradeoffs: compile-only strict CJS syntax; script-mode TSX legacy octal moves to mandatory compiler gate;
+  two native nursery rules are explicitly enabled. Strict 180/120 retained; no alpha JS plugins or type-aware engine.
+- Full local clean ci/tree/check: 101 units/zero failures/skips, smoke1 and all38 Linux E2E passed.
+  Same-main-source paired benchmark (87 files, Node22,12 alternating runs): ESLint median1614ms, Oxlint+guard105.5ms,
+  15.3x local lint speedup; no full-pipeline performance promise. Generated screenshots restored.
+- Next: focused self-review, issue-linked PR, exact-head Linux CI/readback and independent reviewer handoff.
+- Allowed: scoped implementation/commit/push/PR and issue updates. No merge/release/auto-merge/protection change,
+  force-push/native dispatch/artifact upload or issue closure. #31/#38/#44 remain open.
+
+## Historical workspace-isolation handoff
+
 - Focus: [#40](https://github.com/icimik/composer/issues/40), bounded workspace fault isolation under
   [#4](https://github.com/icimik/composer/issues/4), continuing in [PR #41](https://github.com/icimik/composer/pull/41).
 - Base main: `efcd507670b4a7d68c78a6f1b314c667ac5134ba`, fetched unchanged. Existing own branch
