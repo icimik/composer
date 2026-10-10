@@ -44,12 +44,35 @@ async function syncDirectory(root, relative) {
 async function exclusive(root, relative, buffer) {
   const file = await guardedFile(root, relative, true);
   const handle = await fs.open(file, 'wx', 0o600);
+  let owned;
   try {
+    owned = await handle.stat();
     await handle.writeFile(buffer);
     await handle.sync();
-  } finally {
-    await handle.close();
+  } catch (error) {
+    try {
+      await handle.close();
+      if (owned) await discardFailed(root, relative, owned);
+    } catch {
+      // Preserve the original write/flush error; uncertain ownership or failed cleanup retains evidence.
+    }
+    throw error;
   }
+  await handle.close();
+  await syncDirectory(root, path.dirname(relative));
+}
+async function discardFailed(root, relative, owned) {
+  const file = await guardedFile(root, relative);
+  const current = await fs.lstat(file);
+  if (
+    !current.isFile() ||
+    current.nlink !== 1 ||
+    current.dev !== owned.dev ||
+    current.ino !== owned.ino ||
+    current.birthtimeMs !== owned.birthtimeMs
+  )
+    return;
+  await fs.unlink(file);
   await syncDirectory(root, path.dirname(relative));
 }
 async function available(root) {

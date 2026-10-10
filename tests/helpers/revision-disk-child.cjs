@@ -21,6 +21,13 @@ async function main() {
   };
   if (mode === 'recover') await disk.recover(root, plan.intent.operationId, f.policy, step);
   else if (mode === 'execute') await disk.execute(root, plan, f.policy, step);
+  else if (mode === 'cleanup')
+    await require('../../electron/store/revisions/cleanup.cjs').cleanup(
+      root,
+      plan.intent.operationId,
+      f.policy,
+      step
+    );
   else throw new Error('Invalid fixture mode');
 }
 main().catch(() => {

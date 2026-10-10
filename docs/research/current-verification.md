@@ -6,11 +6,14 @@ Updated 2026-10-10 UTC. This file separates observed results from historical sou
 
 Sender requested rebase; actual base now `4cbdb07151d69de216e1a288713c382e5462896f` after #45/#47 merged, preserving tooling
 and Promise fixes. Standalone disk adapter has execution/replay/fault regressions, including 93 real child-process exits.
+The new [unwired cleanup candidate](../development/revision-cleanup-design.md) adds 138 actual cleanup child exits;
+its storage namespace is proposed, not approved for production.
 [Resource allocation](revision-resource-allocation.md): 256 MiB staged/256 MiB extra reserve selected under delegation,
 with 5M/35M chapter/history counts and actual Linux planner RSS/latency observations, not native/UI assurances.
-CodeRabbit's two documentation findings and optional safe probe diagnostic suggestion adopted.
+Completed CodeRabbit 67b5169 review: three valid findings fixed (spacing, stale status rows and owned partial-file cleanup).
+Prior documentation fixes and optional safe probe diagnostic suggestion remain adopted.
 Current-head full install/check/smoke/E2E/CI results belong to [PR #43](https://github.com/icimik/composer/pull/43).
-Safe cleanup and active Store/IPC/recovery UI/E2E remain unfinished; draft #43/#42/#4 stay open.
+Cleanup storage-detail review and active Store/IPC/recovery UI/E2E remain unfinished; draft #43/#42/#4 stay open.
 Earlier main/toolchain and pure-model evidence below is historical and must not be reused for this changed tree.
 
 ## Historical merged workspace isolation and next design, 2026-10-10 UTC

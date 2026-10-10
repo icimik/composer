@@ -64,7 +64,7 @@ test('a target changed after an earlier installation prevents complete acknowled
     'External changed again'
   );
 });
-test('reused scratch is flushed again after a prior file-sync failure', async (t) => {
+test('failed scratch sync is retried with a fresh flushed file', async (t) => {
   const { root, f, plan } = await setup(t);
   const original = fs.open;
   let denySync = true;
@@ -90,5 +90,5 @@ test('reused scratch is flushed again after a prior file-sync failure', async (t
   await assert.rejects(disk.execute(root, plan, f.policy));
   denySync = false;
   await disk.recover(root, 'operation-a', f.policy);
-  assert.ok(scratchSyncs >= 2, 'residual scratch must be synchronized before rename');
+  assert.ok(scratchSyncs >= 2, 'fresh scratch must be synchronized before rename');
 });
