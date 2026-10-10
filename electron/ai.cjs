@@ -1,6 +1,7 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { z } = require('zod');
+const { UserFacingError } = require('./errors.cjs');
 const { atomic, newId, idSchema } = require('./store.cjs');
 const configSchema = z.object({
   endpoint: z.string().url().max(500),
@@ -34,24 +35,25 @@ class AI {
     return { endpoint: c.endpoint, model: c.model, hasKey: !!c.encryptedKey };
   }
   async configure(wid, endpoint, model, key) {
+    await this.store.workspace(wid);
     const c = configSchema.parse({ endpoint, model, key });
     const u = new URL(c.endpoint);
     const local = this.allowTestHttp && u.protocol === 'http:' && u.hostname === '127.0.0.1';
     if ((u.protocol !== 'https:' && !local) || u.username || u.password || u.search || u.hash)
-      throw new Error('模型地址必须是无账号、查询参数的 HTTPS 地址。');
+      throw new UserFacingError('模型地址必须是无账号、查询参数的 HTTPS 地址。');
     const old = await this.privateConfig(wid);
     if (new URL(c.endpoint).origin !== new URL(old.endpoint).origin && !key)
-      throw new Error('更换模型服务时请重新提供密钥，避免把原密钥发送给另一服务。');
+      throw new UserFacingError('更换模型服务时请重新提供密钥，避免把原密钥发送给另一服务。');
     let encryptedKey = old.encryptedKey;
     if (key) {
       if (
         !this.safe.isEncryptionAvailable() ||
         (process.platform === 'linux' && this.safe.getSelectedStorageBackend?.() === 'basic_text')
       )
-        throw new Error('系统安全存储不可用，未保存密钥。');
+        throw new UserFacingError('系统安全存储不可用，未保存密钥。');
       encryptedKey = this.safe.encryptString(key).toString('base64');
     }
-    if (!encryptedKey) throw new Error('请在本机配置 API 密钥。');
+    if (!encryptedKey) throw new UserFacingError('请在本机配置 API 密钥。');
     await atomic(
       this.file(wid),
       JSON.stringify({ endpoint: c.endpoint.replace(/\/+$/, ''), model: c.model, encryptedKey })
@@ -64,7 +66,7 @@ class AI {
   async generate(wid, sid, docId, action, prompt, contextIds, requestId) {
     idSchema.parse(requestId);
     if (this.requests.size >= 3 || this.requests.has(requestId))
-      throw new Error('已有生成任务，请先完成或取消。');
+      throw new UserFacingError('已有生成任务，请先完成或取消。');
     z.enum(['generate', 'continue', 'polish']).parse(action);
     z.string().max(10000).parse(prompt);
     z.array(idSchema).max(30).parse(contextIds);
@@ -72,10 +74,11 @@ class AI {
     const s = w.sessions.find((s) => s.id === sid);
     const doc = w.documents.find((d) => d.id === docId);
     if (!s || !doc || doc.kind !== 'chapter')
-      throw new Error('AI 正文任务仅支持当前工作区的章节。');
-    if (action === 'polish' && !doc.content.trim()) throw new Error('请先写入正文，再优化表达。');
+      throw new UserFacingError('AI 正文任务仅支持当前工作区的章节。');
+    if (action === 'polish' && !doc.content.trim())
+      throw new UserFacingError('请先写入正文，再优化表达。');
     const c = await this.privateConfig(wid);
-    if (!c.encryptedKey || !c.model) throw new Error('尚未配置 AI。请打开模型设置。');
+    if (!c.encryptedKey || !c.model) throw new UserFacingError('尚未配置 AI。请打开模型设置。');
     const key = this.safe.decryptString(Buffer.from(c.encryptedKey, 'base64'));
     const constraint = await fs.readFile(path.join(this.frameworkRoot, '中文生成约束.md'), 'utf8');
     const context = contextIds.map((id) => w.documents.find((d) => d.id === id)).filter(Boolean);
@@ -91,7 +94,7 @@ class AI {
       context: context.map((d) => ({ title: d.title, kind: d.kind, text: d.content }))
     };
     if (JSON.stringify(input).length > 150000)
-      throw new Error('所选上下文过长，请减少设定或拆分章节。');
+      throw new UserFacingError('所选上下文过长，请减少设定或拆分章节。');
     const controller = new AbortController();
     this.requests.set(requestId, controller);
     const timer = setTimeout(() => controller.abort(), 60000);
@@ -112,7 +115,7 @@ class AI {
         signal: controller.signal
       });
       if (!response.ok)
-        throw new Error(
+        throw new UserFacingError(
           response.status === 401
             ? '模型鉴权失败，请检查密钥。'
             : response.status === 429
@@ -123,12 +126,12 @@ class AI {
       try {
         raw = await response.json();
       } catch {
-        throw new Error('模型服务返回的格式无效，正文未改动。');
+        throw new UserFacingError('模型服务返回的格式无效，正文未改动。');
       }
       const text = raw.choices?.[0]?.message?.content;
       if (typeof text !== 'string' || !text.trim() || text.length > 2_000_000)
-        throw new Error('模型未返回有效正文，请重试。');
-      if (controller.signal.aborted) throw new Error('已取消生成。');
+        throw new UserFacingError('模型未返回有效正文，请重试。');
+      if (controller.signal.aborted) throw new UserFacingError('已取消生成。');
       const p = {
         id: newId(),
         docId,
@@ -140,9 +143,9 @@ class AI {
       };
       return await this.store.serial(() => this.store.addProposal(wid, sid, p));
     } catch (e) {
-      if (e.name === 'AbortError') throw new Error('生成已取消或超时，正文未改动。');
+      if (e.name === 'AbortError') throw new UserFacingError('生成已取消或超时，正文未改动。');
       if (e.message.includes('fetch failed'))
-        throw new Error('无法连接模型服务，请检查地址与网络。');
+        throw new UserFacingError('无法连接模型服务，请检查地址与网络。');
       throw e;
     } finally {
       clearTimeout(timer);

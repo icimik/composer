@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import type { ComposerState } from './useComposerState';
 import { bridge, cleanError } from './shared';
+import { readyWorkspace, replaceWorkspace } from './workspaceState';
 export function useSave(model: ComposerState) {
   const {
     state,
@@ -23,12 +24,14 @@ export function useSave(model: ComposerState) {
     }
     // Serialize renderer saves so a queued save reads the latest returned revision.
     const task = saving.current.then(async () => {
-      const { state: s, draft, title, prompt } = live.current;
+      const { state: s, draft, title, prompt, editor, available } = live.current;
       if (!s) return;
-      const w = s.workspaces.find((w) => w.id === s.activeWorkspaceId)!;
+      const w = readyWorkspace(s) || editor;
+      if (!w) return;
       const se = w.sessions.find((se) => se.id === w.activeSessionId)!;
       const d = w.documents.find((d) => d.id === se.documentId)!;
       if (draft === d.content && title === d.title && prompt === se.prompt) return;
+      if (!available) throw Error('当前工作区不可写，编辑区内容仍保留。请修复后重新打开。');
       setStatus('保存中');
       try {
         let result = d;
@@ -39,10 +42,7 @@ export function useSave(model: ComposerState) {
         // Preserve edits made while the save was in flight.
         const current = live.current.state;
         if (current) {
-          const updated = {
-            ...current,
-            workspaces: current.workspaces.map((item) => (item.id === next.id ? next : item))
-          };
+          const updated = replaceWorkspace(current, next);
           live.current.state = updated;
           setState(updated);
         }

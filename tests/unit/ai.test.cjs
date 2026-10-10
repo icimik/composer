@@ -17,7 +17,7 @@ async function setup(t, handler) {
   t.after(() => fs.rm(root, { recursive: true, force: true }));
   const store = new Store(root);
   await store.init();
-  const w = (await store.load()).workspaces[0];
+  const w = (await store.load()).workspaces[0].workspace;
   const server = http.createServer(
     handler ||
       ((req, res) => {

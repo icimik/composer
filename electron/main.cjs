@@ -14,6 +14,8 @@ const { pathToFileURL } = require('node:url');
 const { Store, atomic } = require('./store.cjs');
 const { AI } = require('./ai.cjs');
 const crypto = require('node:crypto');
+const { registerHandlers } = require('./ipc.cjs');
+const { UserFacingError, safeError } = require('./errors.cjs');
 protocol.registerSchemesAsPrivileged([
   { scheme: 'composer', privileges: { standard: true, secure: true, supportFetchAPI: true } }
 ]);
@@ -78,7 +80,7 @@ else {
         callback(false)
       );
       const handlers = {
-        load: () => store.load(),
+        load: () => store.serial(() => store.load()),
         createWorkspace: (name) => store.serial(() => store.createWorkspace(name)),
         openWorkspace: async () => {
           const r = await dialog.showOpenDialog(win, { properties: ['openDirectory'] });
@@ -111,21 +113,13 @@ else {
         },
         setTheme: (theme) =>
           store.serial(async () => {
-            if (!['light', 'dark'].includes(theme)) throw new Error('无效主题。');
-            store.registry.theme = theme;
-            await store.persistRegistry();
+            if (!['light', 'dark'].includes(theme)) throw new UserFacingError('无效主题。');
+            const next = { ...store.registry, theme };
+            await store.persistRegistry(next);
+            store.registry = next;
           })
       };
-      for (const [name, fn] of Object.entries(handlers))
-        ipcMain.handle(`composer:${name}`, async (event, ...args) => {
-          if (
-            event.sender !== win?.webContents ||
-            event.senderFrame !== event.sender.mainFrame ||
-            event.senderFrame.url !== 'composer://app/'
-          )
-            throw new Error('拒绝未经授权的调用。');
-          return fn(...args);
-        });
+      registerHandlers(handlers, () => win);
       win = new BrowserWindow({
         width: 1500,
         height: 960,
@@ -170,7 +164,7 @@ else {
       });
     })
     .catch((e) => {
-      dialog.showErrorBox('Icimik Composer 无法启动', e.message);
+      dialog.showErrorBox('Icimik Composer 无法启动', safeError(e).message);
       app.quit();
     });
   app.on('window-all-closed', () => app.quit());

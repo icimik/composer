@@ -1,5 +1,11 @@
 # Workspace isolation: pre-implementation evidence
 
+Historical preparation record at `70d4f8925a2fd8995e455fdf9cc6fa82adcdc9d1`.
+ADR approval and subsequent implementation in PR #41 supersede the old gate/status below; see
+[current implementation verification](workspace-isolation-verification.md).
+The two manual pre-fix probes are archived in git at `d4c0c2add4d509860d4b2b94b71a3cc3a52c770d` and replaced by
+default acceptance regressions. Do not run historical defect assertions against the corrected implementation.
+
 Date: 2026-10-09 UTC. Issue [#40](https://github.com/icimik/composer/issues/40), parent [#4](https://github.com/icimik/composer/issues/4).
 Production base: `efcd507670b4a7d68c78a6f1b314c667ac5134ba`.
 Design: [proposed ADR 0005](../decisions/0005-workspace-failure-isolation.md), **not approved or implemented**.

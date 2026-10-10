@@ -6,6 +6,7 @@ import { AiPanel } from './components/AiPanel';
 import { Sidebar } from './components/Sidebar';
 import { EditorPane } from './components/EditorPane';
 import { ComposerDialogs } from './components/ComposerDialogs';
+import { WorkspaceHealth } from './components/WorkspaceHealth';
 export function App() {
   const c = useComposer();
   const { state, w, doc, session, error, focus, panel } = c;
@@ -14,7 +15,10 @@ export function App() {
       <main className="loading">
         <Logo />
         <h1>Icimik Composer</h1>
-        <p role={error ? 'alert' : 'status'}>{error || '正在打开本地工作区…'}</p>
+        <p role={error ? 'alert' : 'status'}>
+          {error || (state ? '请选择可读取的工作区。' : '正在打开本地工作区…')}
+        </p>
+        {state && <WorkspaceHealth c={c} />}
       </main>
     );
   const total = w.documents
@@ -32,10 +36,15 @@ export function App() {
         </div>
       )}
       <AppHeader c={ready} />
+      <WorkspaceHealth c={c} />
       <div className="workspace-layout">
         <Sidebar c={ready} />
-        <EditorPane c={ready} />
-        <AiPanel c={ready} />
+        <fieldset className="write-boundary" disabled={c.transitioning || !c.available}>
+          <EditorPane c={ready} />
+        </fieldset>
+        <fieldset className="write-boundary" disabled={c.transitioning || !c.available}>
+          <AiPanel c={ready} />
+        </fieldset>
       </div>
       <ComposerDialogs c={ready} />
     </div>

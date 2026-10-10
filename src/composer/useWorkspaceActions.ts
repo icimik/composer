@@ -1,6 +1,8 @@
 import { useEffect, useCallback } from 'react';
 import type { ComposerState } from './useComposerState';
 import { bridge, cleanError } from './shared';
+import { replaceWorkspace, hasChanges } from './workspaceState';
+import { useTransition } from './useTransition';
 export function useWorkspaceActions(model: ComposerState, flush: () => Promise<void>) {
   const {
     state,
@@ -28,6 +30,15 @@ export function useWorkspaceActions(model: ComposerState, flush: () => Promise<v
     update,
     hydrate
   } = model;
+  const transition = useTransition(model, flush);
+  const canLeave = () => {
+    const current = live.current;
+    if (
+      !current.available &&
+      hasChanges(current.editor, current.draft, current.title, current.prompt)
+    )
+      throw Error('当前工作区仍有未保存输入，请先修复并重新打开；编辑区内容已保留。');
+  };
   const run = async (fn: () => Promise<void>) => {
     setError('');
     try {
@@ -37,26 +48,42 @@ export function useWorkspaceActions(model: ComposerState, flush: () => Promise<v
     }
   };
   const switchTo = async (wid: string, sid?: string) => {
-    if (busy) throw Error('请先取消生成，再切换工作区或会话。');
-    await flush();
-    const next = sid ? await bridge.switchSession(wid, sid) : await bridge.switchWorkspace(wid);
-    const s = live.current.state!;
-    hydrate({
-      ...s,
-      activeWorkspaceId: wid,
-      workspaces: s.workspaces.map((item) => (item.id === next.id ? next : item))
-    });
+    if (sid && !model.available) throw Error('当前工作区不可写。');
+    if (wid !== live.current.state?.activeWorkspaceId) canLeave();
+    await transition(async () => {
+      const result = sid
+        ? { status: 'selected' as const, workspace: await bridge.switchSession(wid, sid) }
+        : await bridge.switchWorkspace(wid);
+      const s = live.current.state!;
+      if (result.status === 'unavailable') {
+        if (wid === s.activeWorkspaceId) model.setSuspended(true);
+        setState({ ...s, workspaces: s.workspaces.map((w) => (w.id === wid ? result : w)) });
+        throw Error(result.diagnostic.message);
+      }
+      const next = result.workspace;
+      if (!sid && wid === s.activeWorkspaceId && model.retained.current) {
+        setState(replaceWorkspace(s, model.retained.current));
+        model.setSuspended(false);
+        return;
+      }
+      hydrate({
+        ...replaceWorkspace(s, next),
+        activeWorkspaceId: wid,
+        requestedActiveWorkspaceId: wid
+      });
+    }, model.available);
   };
   const selectDoc = async (id: string) => {
-    if (busy) throw Error('请先取消生成，再切换章节。');
-    await flush();
-    const next = await bridge.updateSession(w!.id, session!.id, id, prompt);
-    const d = next.documents.find((d) => d.id === id)!;
-    update(next);
-    setDraft(d.content);
-    setTitle(d.title);
-    setStatus('已保存');
-    setView('write');
+    if (!model.available) throw Error('当前工作区不可写。');
+    await transition(async () => {
+      const next = await bridge.updateSession(w!.id, session!.id, id, prompt);
+      const d = next.documents.find((d) => d.id === id)!;
+      update(next);
+      setDraft(d.content);
+      setTitle(d.title);
+      setStatus('已保存');
+      setView('write');
+    });
   };
   const openSettings = async () => {
     if (!w) return;
@@ -76,27 +103,55 @@ export function useWorkspaceActions(model: ComposerState, flush: () => Promise<v
     setState((s) => (s ? { ...s, theme: next } : s));
   };
   const create = async () => {
-    if (busy) throw Error('请先取消生成，再创建工作区、会话或文档。');
-    await flush();
-    if (dialog === 'workspace') {
-      const s = await bridge.createWorkspace(name);
-      hydrate(s);
-    }
-    if (dialog === 'session') {
-      const next = await bridge.createSession(w!.id, name);
-      const s = live.current.state!;
-      hydrate({ ...s, workspaces: s.workspaces.map((w) => (w.id === next.id ? next : w)) });
-    }
-    if (dialog === 'document') {
-      const d = await bridge.createDocument(w!.id, name, newKind);
-      const next = await bridge.updateSession(w!.id, session!.id, d.id, prompt);
-      update(next);
-      setDraft('');
-      setTitle(d.title);
-      setView('write');
-    }
-    setDialog('');
-    setName('');
+    canLeave();
+    if (dialog !== 'workspace' && !model.available) throw Error('当前工作区不可写。');
+    await transition(async () => {
+      if (dialog === 'workspace') {
+        const s = await bridge.createWorkspace(name);
+        hydrate(s);
+      }
+      if (dialog === 'session') {
+        const next = await bridge.createSession(w!.id, name);
+        const s = live.current.state!;
+        hydrate(replaceWorkspace(s, next));
+      }
+      if (dialog === 'document') {
+        const d = await bridge.createDocument(w!.id, name, newKind);
+        const next = await bridge.updateSession(w!.id, session!.id, d.id, prompt);
+        update(next);
+        setDraft('');
+        setTitle(d.title);
+        setView('write');
+      }
+      setDialog('');
+      setName('');
+    }, model.available);
   };
-  return { run, switchTo, selectDoc, openSettings, openHistory, theme, create };
+  const openWorkspace = () =>
+    transition(async () => {
+      canLeave();
+      const s = await bridge.openWorkspace();
+      if (s) hydrate(s);
+    }, model.available);
+  const retry = () =>
+    transition(async () => {
+      model.refresh(await bridge.load());
+    }, false);
+  const newWorkspace = (name: string) =>
+    transition(async () => {
+      canLeave();
+      hydrate(await bridge.createWorkspace(name));
+    }, model.available);
+  return {
+    run,
+    switchTo,
+    selectDoc,
+    openSettings,
+    openHistory,
+    theme,
+    create,
+    openWorkspace,
+    retry,
+    newWorkspace
+  };
 }

@@ -46,15 +46,35 @@ export interface Snapshot {
   reason: string;
 }
 export interface AppState {
-  workspaces: Workspace[];
-  activeWorkspaceId: string;
+  workspaces: WorkspaceResult[];
+  requestedActiveWorkspaceId: string;
+  activeWorkspaceId: string | null;
   theme: string;
 }
+export interface WorkspaceDiagnostic {
+  code:
+    | 'invalid-json'
+    | 'invalid-manifest'
+    | 'missing-manifest'
+    | 'missing-document'
+    | 'read-denied'
+    | 'unsafe-path'
+    | 'read-failed'
+    | 'unknown';
+  message: string;
+  nextStep: string;
+}
+export type WorkspaceResult =
+  | { status: 'ready'; id: string; name: string; workspace: Workspace }
+  | { status: 'unavailable'; id: string; name: string; diagnostic: WorkspaceDiagnostic };
+export type SwitchResult =
+  | { status: 'selected'; workspace: Workspace }
+  | Extract<WorkspaceResult, { status: 'unavailable' }>;
 export interface Bridge {
   load(): Promise<AppState>;
   createWorkspace(name: string): Promise<AppState>;
   openWorkspace(): Promise<AppState | null>;
-  switchWorkspace(id: string): Promise<Workspace>;
+  switchWorkspace(id: string): Promise<SwitchResult>;
   saveDocument(
     wid: string,
     id: string,

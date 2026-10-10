@@ -1,89 +1,77 @@
-const fs = require('node:fs/promises');
 const path = require('node:path');
-const { z } = require('zod');
-const {
-  atomic,
-  hash,
-  newId,
-  idSchema,
-  nameSchema,
-  contentSchema,
-  kindSchema,
-  proposalSchema,
-  workspaceSchema,
-  folders
-} = require('./primitives.cjs');
+const { atomic, idSchema, kindSchema, workspaceSchema, folders } = require('./primitives.cjs');
+const { guardedFile } = require('./paths.cjs');
+const { readMeta, readWorkspace } = require('./reader.cjs');
+const { unavailable } = require('./diagnostics.cjs');
+const { persist } = require('./registry.cjs');
+const { UserFacingError } = require('../errors.cjs');
 module.exports = {
-  async persistRegistry() {
-    await atomic(path.join(this.root, 'registry.json'), JSON.stringify(this.registry, null, 2));
+  async persistRegistry(next = this.registry) {
+    await persist(this.root, next);
   },
   entry(wid) {
     idSchema.parse(wid);
-    const e = this.registry.workspaces.find((w) => w.id === wid);
-    if (!e) throw new Error('找不到此工作区。');
-    return e;
+    const entry = this.registry.workspaces.find((w) => w.id === wid);
+    if (!entry) throw new UserFacingError('找不到此工作区。');
+    return entry;
   },
   manifestPath(wid) {
     return path.join(this.entry(wid).path, '.composer', 'workspace.json');
   },
-  async protectedFile(wid, relative) {
-    const root = await fs.realpath(this.entry(wid).path);
-    const file = path.join(root, relative);
-    await fs.mkdir(path.dirname(file), { recursive: true });
-    const dir = await fs.realpath(path.dirname(file));
-    if (!dir.startsWith(root + path.sep)) throw new Error('内部目录不可指向工作区以外。');
-    try {
-      if ((await fs.lstat(file)).isSymbolicLink())
-        throw new Error('不允许通过符号链接访问工作区内部文件。');
-    } catch (e) {
-      if (e.code !== 'ENOENT') throw e;
-    }
-    return file;
+  async protectedFile(wid, relative, write = false) {
+    return guardedFile(this.entry(wid).path, relative, write);
   },
   async meta(wid) {
-    return workspaceSchema.parse(
-      JSON.parse(
-        await fs.readFile(await this.protectedFile(wid, '.composer/workspace.json'), 'utf8')
-      )
-    );
+    const entry = this.entry(wid);
+    const meta = await readMeta(entry.path);
+    if (meta.id !== wid) throw new UserFacingError('工作区信息或内部引用无效。');
+    return meta;
+  },
+  async writableMeta(wid) {
+    return workspaceSchema.parse(await this.workspace(wid));
   },
   async writeMeta(wid, data) {
     await atomic(
-      await this.protectedFile(wid, '.composer/workspace.json'),
+      await this.protectedFile(wid, '.composer/workspace.json', true),
       JSON.stringify(workspaceSchema.parse(data), null, 2)
     );
   },
-  async docPath(wid, doc) {
+  async docPath(wid, doc, write = false) {
     idSchema.parse(doc.id);
     kindSchema.parse(doc.kind);
-    const root = await fs.realpath(this.entry(wid).path);
-    const file = path.join(root, folders[doc.kind], `${doc.id}.md`);
-    const dir = path.dirname(file);
-    await fs.mkdir(dir, { recursive: true });
-    const real = await fs.realpath(dir);
-    if (!real.startsWith(root + path.sep)) throw new Error('文稿目录不可指向工作区以外。');
-    try {
-      const stat = await fs.lstat(file);
-      if (stat.isSymbolicLink()) throw new Error('不允许通过符号链接读写文稿。');
-    } catch (e) {
-      if (e.code !== 'ENOENT') throw e;
-    }
-    return file;
+    return guardedFile(this.entry(wid).path, `${folders[doc.kind]}/${doc.id}.md`, write);
   },
   async workspace(wid) {
-    const meta = await this.meta(wid);
-    const documents = await Promise.all(
-      meta.documents.map(async (d) => {
-        const content = await fs.readFile(await this.docPath(wid, d), 'utf8');
-        return { ...d, content, hash: hash(content) };
-      })
-    );
-    return { ...meta, path: this.entry(wid).path, documents };
+    return readWorkspace(this.entry(wid));
+  },
+  async workspaceResult(wid) {
+    const entry = this.entry(wid);
+    try {
+      return {
+        status: 'ready',
+        id: entry.id,
+        name: entry.name,
+        workspace: await this.workspace(wid)
+      };
+    } catch (error) {
+      return unavailable(entry, error);
+    }
   },
   async load() {
+    const workspaces = await Promise.all(
+      this.registry.workspaces.map((w) => this.workspaceResult(w.id))
+    );
+    const requestedActiveWorkspaceId = this.registry.activeWorkspaceId;
+    const activeWorkspaceId = workspaces.some(
+      (w) => w.id === requestedActiveWorkspaceId && w.status === 'ready'
+    )
+      ? requestedActiveWorkspaceId
+      : null;
     return {
-      ...this.registry,
-      workspaces: await Promise.all(this.registry.workspaces.map((w) => this.workspace(w.id)))
+      workspaces,
+      requestedActiveWorkspaceId,
+      activeWorkspaceId,
+      theme: this.registry.theme
     };
   }
 };

@@ -1,5 +1,13 @@
 # Changelog
 
+## Pending workspace isolation increment
+
+- PR #41 / issue #40 implements the first bounded #4 capability after reviewed ADR 0005 approval, not the whole reliability roadmap.
+- Independent healthy/unavailable workspace results, Chinese diagnostics and explicit retry/selection; no fake empty manuscript.
+- Pure guarded reads, whole-workspace write gates, validated-before-commit selection and retained dirty input/baseline protection.
+- Default Store/IPC/real Electron regressions cover corruption, missing files/read errors, all-failed/repair, save/restart and switching.
+- No persisted format migration, automatic repair, transaction journal or backup policy. Implementation still needs independent review/merge.
+
 ## Pending toolchain upgrade
 
 - Evaluate pinned Vite8.3.4 / React plugin6.1.2 / TypeScript6.0.3 with unchanged stable typescript-eslint; TS7 remains outside supported peers.

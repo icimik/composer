@@ -32,11 +32,13 @@ export function ComposerDialogs({ c }: { c: ReadyComposer }) {
               {error}
             </p>
           )}
-          <CreateDialog c={c} />
-          <SettingsDialog c={c} />
-          <HistoryDialog c={c} />
-          <CommandsDialog c={c} />
-          <HelpDialog c={c} />
+          <fieldset className="write-boundary" disabled={c.transitioning || !c.available}>
+            <CreateDialog c={c} />
+            <SettingsDialog c={c} />
+            <HistoryDialog c={c} />
+            <CommandsDialog c={c} />
+            <HelpDialog c={c} />
+          </fieldset>
         </Dialog>
       )}
     </>

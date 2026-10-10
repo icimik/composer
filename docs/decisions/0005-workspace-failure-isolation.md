@@ -1,9 +1,12 @@
 # ADR 0005: Independent workspace load results and non-destructive diagnostics
 
-Status: **proposed; implementation blocked on maintainer review**.
+Status: **accepted for bounded implementation; implementation still requires independent PR review**.
 Primary issue: [#40](https://github.com/icimik/composer/issues/40). Parent: [#4](https://github.com/icimik/composer/issues/4).
 Base: `efcd507670b4a7d68c78a6f1b314c667ac5134ba`. This is the first bounded #4 candidate, not completion of #4.
-Approving maintainer / reviewed revision / approval URL: **none yet**.
+Approving maintainer: kenpusney, through the verified follow-up email approving ADR 0005 and continuation in PR #41.
+Reviewed design revision: `70d4f8925a2fd8995e455fdf9cc6fa82adcdc9d1`.
+Repository approval record: [PR #41 comment](https://github.com/icimik/composer/pull/41#issuecomment-6092557163).
+Design approval is not a GitHub approving review of later implementation, nor authorization to merge.
 
 ## Problem and evidence
 
@@ -38,9 +41,9 @@ sync, account/collaboration or new AI/IF/VN feature. No claim of absolute power-
 | Explicit independent load results plus read/write and transition boundaries | Fault identity stays visible; readiness is typed; each acceptance path has a contract | Bounded IPC/type/UI changes and guards need review                                                               | Recommend |
 | Journal/database/repair subsystem                                           | Could address broader #4 recovery                                                     | New format/product policy, migration and substantially larger scope                                              | Defer     |
 
-Recommendation is not an accepted decision. Maintainer must review the result contract, explicit startup selection and guards.
+The maintainer accepted the explicit-results option and its startup selection/guard contracts at the reviewed revision above.
 
-## Proposed data and IPC contracts
+## Accepted data and IPC contracts
 
 Persisted v1 workspace/registry formats remain unchanged. No migration or new on-disk health flags/cache.
 Keep registration identity/name from a validated registry, not a partially parsed failed manifest.
@@ -165,7 +168,8 @@ This separates diagnostic refresh, draft preservation and selection; a successfu
 
 ## Acceptance mapping after approval
 
-Names below are proposed regressions, not passing claims. Add failing regressions before runtime changes.
+Names below define the approved acceptance mapping. Nine red regressions were added before runtime changes.
+Concrete implemented tests and measured outcomes are recorded in [implementation verification](../research/workspace-isolation-verification.md).
 
 | Criterion              | Required unit/contract tests                                                                                                         | Required real UI / manual evidence                                                                                                                                        |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -186,13 +190,13 @@ and IME acceptance remain unverified here. Synthetic tests do not establish comp
 
 ## Rollback and review gate
 
-Preparation PR changes only this design, reproduction helpers/evidence and continuity records. Revert it without data changes.
-After approval, implementation can be one separate focused PR linked to the exact approved ADR revision and #40, using
-`Refs #4` and keeping #40 open until merged acceptance. Revert implementation without disk migration; original behavior
+The maintainer specifically requested implementation in existing PR #41, superseding the earlier separate-PR delivery plan.
+PR #41 links the exact approved ADR revision and #40, uses `Refs #4`, and keeps #40 open until merged acceptance.
+Revert implementation without disk migration; original behavior
 would again block mixed-workspace startup, so rollback is not repair.
 Respect current lockfile, strict source sizes, MIT/CC0 notices and Linux-only ordinary CI with no installers/uploads.
 No auto-merge, direct merge, protection change, force-push, release, loop or delegation is authorized.
 
-Required maintainer decision: approve or amend this ADR's typed results, explicit no-auto-fallback selection, pure reads,
-pre-write readiness and input-preserving transition/retry contracts. Record reviewer, reviewed SHA and approval URL.
+Accepted design decision: typed results, explicit no-auto-fallback selection, pure reads, pre-write readiness and
+input-preserving transition/retry contracts. Independent implementation review/merge remain outstanding.
 No new storage-format, recovery-strategy, database or backup product decision is implied or requested.

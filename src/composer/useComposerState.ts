@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { AppState, Workspace, Kind, Settings, Snapshot } from '../types';
 import { bridge, cleanError } from './shared';
+import { readyWorkspace, replaceWorkspace, refreshResults } from './workspaceState';
 export function useComposerState() {
   const [state, setState] = useState<AppState | null>(null);
   const [draft, setDraft] = useState(''),
@@ -31,31 +32,53 @@ export function useComposerState() {
   const [query, setQuery] = useState(''),
     [fontSize, setFontSize] = useState('standard');
   const [scheme, setScheme] = useState('pine');
-  const live = useRef({ state, draft, title, prompt });
-  live.current = { state, draft, title, prompt };
+  const [transitioning, setTransitioning] = useState(false);
+  const [suspended, setSuspended] = useState(false);
+  const transition = useRef(false);
+  const retained = useRef<Workspace | undefined>(undefined);
   const request = useRef('');
   const saving = useRef<Promise<void>>(Promise.resolve());
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const w = state?.workspaces.find((w) => w.id === state.activeWorkspaceId);
+  const loaded = readyWorkspace(state);
+  if (loaded && !suspended) retained.current = loaded;
+  const preserved =
+    retained.current?.id === state?.activeWorkspaceId ? retained.current : undefined;
+  const w = suspended ? preserved : loaded || preserved;
+  const available = !!loaded && !suspended;
+  const live = useRef({ state, draft, title, prompt, editor: w, available });
+  live.current = { state, draft, title, prompt, editor: w, available };
   const session = w?.sessions.find((s) => s.id === w.activeSessionId);
   const doc = w?.documents.find((d) => d.id === session?.documentId);
-  const dirty = doc && (draft !== doc.content || title !== doc.title || prompt !== session?.prompt);
+  const dirty =
+    available &&
+    doc &&
+    (draft !== doc.content || title !== doc.title || prompt !== session?.prompt);
   const pending = session?.proposals.filter((p) => p.status === 'pending') || [];
   const update = (next: Workspace) => {
-    setState((s) =>
-      s ? { ...s, workspaces: s.workspaces.map((w) => (w.id === next.id ? next : w)) } : s
-    );
+    if (next.id === live.current.state?.activeWorkspaceId) retained.current = next;
+    setState((s) => (s ? replaceWorkspace(s, next) : s));
   };
   const hydrate = (s: AppState) => {
-    const w = s.workspaces.find((w) => w.id === s.activeWorkspaceId)!;
-    const se = w.sessions.find((se) => se.id === w.activeSessionId)!;
-    const d = w.documents.find((d) => d.id === se.documentId)!;
+    const w = readyWorkspace(s);
+    const se = w?.sessions.find((se) => se.id === w.activeSessionId);
+    const d = w?.documents.find((d) => d.id === se?.documentId);
     setState(s);
-    setDraft(d.content);
-    setTitle(d.title);
-    setPrompt(se.prompt);
+    retained.current = w;
+    setSuspended(false);
+    setDraft(d?.content || '');
+    setTitle(d?.title || '');
+    setPrompt(se?.prompt || '');
     setContextIds([]);
     setStatus('已保存');
+  };
+  const refresh = (fresh: AppState) => {
+    const current = live.current.state;
+    if (!current?.activeWorkspaceId) {
+      setState(fresh);
+      return;
+    }
+    if (!readyWorkspace(fresh, current.activeWorkspaceId)) setSuspended(true);
+    setState(refreshResults(current, fresh));
   };
   useEffect(() => {
     bridge
@@ -120,7 +143,15 @@ export function useComposerState() {
     dirty,
     pending,
     update,
-    hydrate
+    hydrate,
+    refresh,
+    available,
+    suspended,
+    setSuspended,
+    transitioning,
+    setTransitioning,
+    transition,
+    retained
   };
 }
 export type ComposerState = ReturnType<typeof useComposerState>;

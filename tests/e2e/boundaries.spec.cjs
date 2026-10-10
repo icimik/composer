@@ -5,7 +5,7 @@ test('external edit conflict preserves external content and current unsaved inpu
   composer: c
 }) => {
   const s = await c.page.evaluate(() => window.composer.load());
-  const w = s.workspaces[0];
+  const w = s.workspaces[0].workspace;
   const doc = w.documents[0];
   await fs.writeFile(
     path.join(w.path, '07-writing/chapters', doc.id + '.md'),
@@ -50,7 +50,7 @@ test('export UI writes only manuscript through the save dialog', async ({ compos
 test('open directory UI restores an existing local workspace', async ({ composer: c }) => {
   await c.saveText('已有目录里的正文');
   const s = await c.page.evaluate(() => window.composer.load());
-  const original = s.workspaces[0];
+  const original = s.workspaces[0].workspace;
   await c.page.getByRole('button', { name: '新建', exact: true }).click();
   const d = c.page.getByRole('dialog');
   await d.getByLabel('名称', { exact: true }).fill('临时切换');

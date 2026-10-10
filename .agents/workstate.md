@@ -1,31 +1,24 @@
 # Current workstate
 
-- Focus: [#40](https://github.com/icimik/composer/issues/40), first bounded isolation candidate under
-  [#4](https://github.com/icimik/composer/issues/4). No transaction/backup/migration implementation or parent closure.
-- Base: fetched actual main `efcd507670b4a7d68c78a6f1b314c667ac5134ba`; fresh clean clone, new
-  `design/workspace-failure-isolation-20261009`, no stack or reused deleted branch.
-- Live correction: [#39](https://github.com/icimik/composer/pull/39) merged 12:02 UTC with independent approval.
-  [Main run](https://github.com/icimik/composer/actions/runs/37927426466) passed Linux, macOS/Windows and both installer jobs;
-  artifacts=2. Old toolchain approval blocker is obsolete; #38 still open and untouched. TS7 #31 unrelated, still failing.
-- Recovery: [context packet](context-packet.md), [reproduction record](../docs/research/workspace-isolation-reproduction.md).
-- Design: [ADR 0005](../docs/decisions/0005-workspace-failure-isolation.md), proposed only; no covering approval found.
-  Review typed independent results, pure guarded reads, explicit no-auto-fallback selection, mutation gates and safe transitions.
-- Delivery: [draft PR #41](https://github.com/icimik/composer/pull/41); preparation/evidence commit
-  `d4c0c2add4d509860d4b2b94b71a3cc3a52c770d`. Latest delivery head/checks are authoritative on the live PR.
-- Review readback: CodeRabbit explicitly skipped draft review; status success is not a review. No human approval at readback.
-  Do not enable draft bot review/autofix, delegate, mark ready or implement to bypass the maintainer design gate.
-- Evidence: synthetic Store faults block aggregate load; read guards recreate missing directories; failed switch persists B;
-  manifest-only mutation alters an unloadable B before returning failure. Real Linux Electron reproduces startup blocker,
-  all-failed/no-retry and input-preserving failed switch with wrong persisted active ID. No production change.
-- Reproduction helpers are manual pre-fix characterization outside default test globs, not passing capability regressions.
-  After approval, add failing acceptance regressions first and replace/archive defect assertions.
-- Environment: Node22.23.3 via isolated npm exec; existing lockfile/Electron44.7.0 unchanged. GTK/Xvfb host prepared.
-  Native/manual candidate, ACL, race/crash and complete #4 safety not claimed.
-- Permissions: child issue, own task branch, commits/push/draft PR and review fixes. No production contract change before
-  reviewed ADR; no merge/auto-merge/protection/force-push/release/scheduler/delegation.
-- Local validation: npm ci/check passed, 63 units with zero skips; Store/UI probes passed as pre-fix characterization;
-  Xvfb smoke 1/1 and full Linux E2E 23/23 passed. Restore only known test-generated screenshots before commit.
-  Final-head PR checks/jobs/artifacts must still be read after push, not inferred from local success.
-  Preserve MIT/CC0/provenance, 180/120, IPC/path/symlink/serial/hash/AI-author safety and Linux-only ordinary CI.
-- Next: maintainer reviews exact ADR 0005 revision in draft #41. Record reviewer/SHA/approval URL before starting
-  the separate minimal implementation PR. #40 and #4 remain open; rollback preparation without data changes.
+- Focus: [#40](https://github.com/icimik/composer/issues/40), bounded workspace fault isolation under
+  [#4](https://github.com/icimik/composer/issues/4), continuing in [PR #41](https://github.com/icimik/composer/pull/41).
+- Base main: `efcd507670b4a7d68c78a6f1b314c667ac5134ba`, fetched unchanged. Existing own branch
+  `design/workspace-failure-isolation-20261009`, clean prior head `70d4f8925a2fd8995e455fdf9cc6fa82adcdc9d1`; no stack.
+- Design: [ADR 0005](../docs/decisions/0005-workspace-failure-isolation.md) accepted by maintainer kenpusney via verified
+  follow-up; [record](https://github.com/icimik/composer/pull/41#issuecomment-6092557163), reviewed SHA `70d4f892`.
+  Same-PR implementation explicitly requested, superseding separate-PR plan. Not approval of implementation or merge.
+- Candidate: pure guarded reads; discriminated load results; sanitized identity/reason/retry diagnostics; no automatic
+  active fallback; complete pre-write readiness; validated/copied registry commit; transition lock; retained dirty input/hash.
+- Evidence: nine red acceptance regressions failed before production edits, now pass. Historical defect probes archived in
+  git, replaced by default acceptance tests. [Test map/limits](../docs/research/workspace-isolation-verification.md).
+- Local: full check passed 89 units/zero skips, smoke 1/1 and 35 Linux Electron E2E, including 12 new isolation UI paths.
+  Diagnostic screenshot visually inspected. Final exact-head install/check/CI and review must be read after commit/push.
+- Performance: 64 synthetic docs, one local readiness 12.0ms/guarded save 16.9ms; not a workload/platform guarantee.
+- Environment: isolated Node22.23.3/current lockfile/Electron44.7.0/Xvfb; no package, workflow, provenance or upstream update.
+  Eight existing moderate dev advisories remain. Native candidate/ACL/manual IME/accessibility/global native dialog unverified.
+- Authorization: commit/push/update #41 and issue, formally submit for review/fix valid feedback. No merge, auto-merge,
+  protection edit, force-push, release, scheduler or delegation. #40 and #4 remain open until actual merged acceptance.
+- Scope exclusions: transactions/journal, backups/retention/repair, schema/DB migration, watcher/sync/accounts/new AI/IF/VN.
+  Existing IPC sender/context isolation/path/symlink/serial/hash/AI-author safety, 180/120, MIT/CC0 and Linux CI retained.
+- Next: freeze implementation head, run clean install/check/smoke/full Linux E2E, read CI jobs/artifacts and independent
+  review on #41. No approval inherited from the earlier design-only green head. Stop at review/merge.

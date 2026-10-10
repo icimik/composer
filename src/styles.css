@@ -22,3 +22,29 @@ button svg{flex-shrink:0}h1,h2,h3,p{margin:0}h1{font-size:var(--title);font-weig
 @media(max-width:940px){.editor-status>span{white-space:nowrap}.editor-status kbd{display:none}.editor-status .dot-separator{margin:0 var(--s1)}}
 @media(max-height:760px) and (min-width:721px){.workspace-switch{padding:var(--s4) var(--s4) var(--s3)}.primary-nav{padding:var(--s2) var(--s3)}.sidebar-bottom{padding:var(--s3) var(--s4)}.sidebar-bottom p{display:none}.tree-group{margin:var(--s2) 0}}
 input[type=checkbox]{accent-color:var(--accent)}
+.write-boundary {
+  display: contents;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.workspace-health {
+  padding: var(--s3) var(--s5);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  font-size: var(--sm);
+  max-height: 25vh;
+  overflow: auto;
+  flex-shrink: 0;
+}
+.workspace-health ul { padding: var(--s2) var(--s4); }
+.workspace-health li { margin: var(--s2) 0; }
+.workspace-health p { margin: var(--s2) 0; }
+.health-actions { display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; }
+.health-actions button, .workspace-health form button {
+  border: 1px solid var(--control-line);
+  border-radius: var(--radius);
+  padding: var(--s2);
+}
+.loading .workspace-health { max-height: 65vh; width: min(90vw, 900px); text-align: left; }
