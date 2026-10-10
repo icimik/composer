@@ -1,7 +1,7 @@
 # Current workstate
 
-- Focus: [#42](https://github.com/icimik/composer/issues/42) / [draft #43](https://github.com/icimik/composer/pull/43),
-  document revision recovery under open #4. Gate: production integration implementation/review, no merge/closure.
+- Focus: [#42](https://github.com/icimik/composer/issues/42) / [#43](https://github.com/icimik/composer/pull/43),
+  document revision recovery under open #4. Gate: independent implementation review/merge, no merge/closure authority.
 - Sender requested rebase, review fixes and measured allocation. Rebase onto merged #45 main
   `4cbdb07151d69de216e1a288713c382e5462896f` completed after #47 also merged during verification.
   Continuity conflicts only; dated main evidence preserved. #47 canonical lint fixture repair retained unchanged.
@@ -28,7 +28,10 @@
   Prepared/complete cleanup has 138 actual child exits; unknown/link/third/ambiguous inventory and I/O refusal tests.
   Red-first self-review also requires re-flushing retirement parents before retry deletion after a prior sync failure.
   Completed 94f5162 bot review 5478298045 has no code blocker; optional wording adopted.
-  This new production changed tree still needs complete accurate-head verification and independent review.
+  Production code head 55adc9730b043d0ab23bd3990b81fa48d0e9cd22 passed exact-head local checks and both CI runs.
+  [Evidence](https://github.com/icimik/composer/pull/43#issuecomment-6095958804): clean install/check 440 units/zero fail/skip,
+  probe 36, smoke 1/full 50 Linux E2E; Ubuntu only, native/installer unassigned, artifacts 0.
+  At 09:06 UTC new CodeRabbit processing, no completed production review/human approval. PR now ready, not draft.
 - Two new readiness cases were red first. 36 actual production Store child exits supplement the 231 adapter cases;
   save/restore/accept real Electron kill/restart/confirm/open/save/restart scenarios exist with dirty/B/conflict/cleanup cases.
   Unchanged explicit-reopen E2E was red first, then only that unchanged branch was corrected.
@@ -37,9 +40,8 @@
   Main-thread responsiveness/full-budget RSS/native ACL/flush/IME/accessibility/power-cut/real providers unverified.
 - Previous authorized rebases completed. Current follow-up uses normal push, never overwrites another writer or main.
   No merge/auto-merge/protection/release/delegation/closure authority. #42/#4 stay open.
-- Next: full install/check/smoke/E2E, commit/push existing branch, read exact-head CI and CodeRabbit/human reviews.
-  First production changed-tree run passed 440 units/zero failure/skip, production interruption probe 36,
-  smoke 1/full 49 Linux E2E. Added explicit all-pending UI case passes focused; frozen-head full results must supersede it.
+- Next: freeze this evidence-only follow-up, repeat its exact-head validation/CI and read CodeRabbit/human reviews.
+  Prior changed-tree 49 E2E superseded by exact production-code 50; do not rewrite historical runs.
   No renewed design/resource question; fix valid feedback, stay at independent review/merge until maintainer authorizes.
   Both namespace journals must be resolved before rollback/downgrade; packaged/asar worker and native recovery unverified.
   Preserve queue/readiness/sender/path/symlink/hash/author/input guards, 180/120 and MIT/CC0.

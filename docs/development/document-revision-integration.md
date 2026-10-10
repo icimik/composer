@@ -1,6 +1,6 @@
 # Document revision production integration
 
-Status: implementation candidate in [draft #43](https://github.com/icimik/composer/pull/43), Refs
+Status: implementation candidate in [#43](https://github.com/icimik/composer/pull/43), Refs
 [#42](https://github.com/icimik/composer/issues/42) and [#4](https://github.com/icimik/composer/issues/4).
 Entry head `94f5162728d33e16062c89d8ca9e9026b867e23e`; actual base main `4cbdb07151d69de216e1a288713c382e5462896f`.
 Clean checkout and safe fetch verified; reuse the existing own branch, preserve requested-rebase backups.
@@ -74,7 +74,10 @@ These simulate process termination, not a physical power cut or storage-controll
 
 ## Remaining gates and rollback
 
-Read exact current-head installation/check/smoke/full E2E and CI on #43. Changed-tree or prior-head results are not final proof.
+Production code head `55adc9730b043d0ab23bd3990b81fa48d0e9cd22` passed clean install/check 440 units/0 fail/skip,
+probe 36, smoke 1/full 50 Linux Electron E2E and both Linux-only CI runs/artifacts 0;
+[commands/results/review gate](https://github.com/icimik/composer/pull/43#issuecomment-6095958804).
+Read exact current-head installation/check/smoke/full E2E and CI on #43; follow-up heads need their own evidence.
 Independent implementation review and maintainer merge remain required; #42 closure requires merged-main readback/acceptance.
 Windows/macOS recovery/ACL/flush and packaged/asar worker execution, maximum-budget RAM, full 5M/35M UI loads, manual
 IME/accessibility, actual power loss and real providers remain unverified. Directory sync on Windows is explicitly unsupported.

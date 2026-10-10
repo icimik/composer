@@ -1,6 +1,6 @@
 # Document revision recovery context packet
 
-- Issue/outcome: #42 under #4, continue draft #43 for coherent existing-document revisions and explicit recovery.
+- Issue/outcome: #42 under #4, continue ready-for-review #43 for coherent existing-document revisions and explicit recovery.
 - Actual base main: `4cbdb07151d69de216e1a288713c382e5462896f`, merged tooling #45 and fixture repair #47 verified live.
   Own task branch rebased as requested; old head 81ef59f locally backed up, no shared/main rewrite.
   Main advanced during verification; second backup preserves cfb03b4. Adapter/test/probe bytes unchanged by both rebases.
@@ -24,11 +24,14 @@
   exclusive partial write. Red-first guarded exception cleanup; original error/unknown replacement preservation tested.
   No independent implementation approval.
 - Evidence: two readiness tests red first; 36 Store process cases and true Electron UI cases supplement adapter cases.
-  Changed-tree clean install/check passed 440 units, smoke 1 and 49 E2E; additional all-pending focused E2E passes.
-  Worker moderate-history timer observation exists. Frozen current-head verification and review remain required.
+  Production code head 55adc9730b043d0ab23bd3990b81fa48d0e9cd22 passed clean install/check 440 units, probe 36,
+  smoke 1/full 50 E2E and PR/push CI Linux only/artifacts 0.
+  [Exact evidence](https://github.com/icimik/composer/pull/43#issuecomment-6095958804).
+  Evidence-only follow-up needs its own frozen checks; at 09:06 UTC CodeRabbit processing, no independent approval.
 - Remaining: independent current implementation review/merge, final Linux evidence, native/packaged/asar/maximum-budget
   workloads, actual power loss and merged-main acceptance. #42/#4 remain open.
 - Permission: own code/tests/issues/PR; requested own rebase with exact old-ref lease only.
   No merge/auto-merge/protection/release/delegation or #42/#4 closure.
-- Next: full check/smoke/E2E then accurate-head CI/review. No new resource/design approval question.
+- Next: verify evidence-only follow-up head then read completed CodeRabbit/human review, fix valid feedback.
+  No new resource/design approval question, merge or closure authority.
   Runtime rollback now requires completion/verified cleanup of active and retired evidence before downgrade.
