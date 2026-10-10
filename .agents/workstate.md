@@ -1,7 +1,7 @@
 # Current workstate
 
 - Focus: [#42](https://github.com/icimik/composer/issues/42) / [draft #43](https://github.com/icimik/composer/pull/43),
-  document revision recovery under open #4. Gate: unwired cleanup candidate review, not product acceptance/merge.
+  document revision recovery under open #4. Gate: production integration implementation/review, no merge/closure.
 - Sender requested rebase, review fixes and measured allocation. Rebase onto merged #45 main
   `4cbdb07151d69de216e1a288713c382e5462896f` completed after #47 also merged during verification.
   Continuity conflicts only; dated main evidence preserved. #47 canonical lint fixture repair retained unchanged.
@@ -13,20 +13,33 @@
 - [Allocation delegation](https://github.com/icimik/composer/pull/43#issuecomment-6094957137): chosen 256 MiB staged
   payload / 256 MiB extra reserve. [Measurements/limits](../docs/research/revision-resource-allocation.md).
   128 MiB fits 1000 selected-chapter snapshots, not 5000; 256 fits 5000, not 10000. No unlimited-history promise.
-- Pure core plus standalone disk adapter: bounded/guarded reads, exclusive flushes, commit marker, scratch/rename,
-  complete verification, pure preview and explicit repeatable recovery. Unwired explicit retirement/cleanup candidate
-  now preserves canonical files across partial deletion; [review contract](../docs/development/revision-cleanup-design.md).
-  No active Store/IPC/renderer import or recovery UI/E2E yet. Do not claim #42 complete.
+- Sender approved cleanup at 94f5162 and requested production wiring;
+  [authorization](https://github.com/icimik/composer/pull/43#issuecomment-6095766007).
+  Core/cleanup design approval is not independent implementation approval or merge permission.
+- Production candidate: both namespaces gate normal workspace readiness/writes; strict capture/digest identity,
+  serialized worker plan/execute/cleanup for save/restore/accept; accepted proposal status shares the manifest image.
+  Sender-validated IPC and Chinese preview/explicit confirmation controls are wired. Recovery never flushes/selects/hydrates.
+  Dirty reopen retains original baseline; unchanged explicit reopen alone hydrates canonical after-state.
+  [Integration map](../docs/development/document-revision-integration.md). #42 is not closed.
 - Eight disk cases red before implementation; scratch-flush regression also observed red before fix.
   63 execution/30 replay child exits and deterministic EACCES/ENOSPC/EIO now covered; full exact counts belong to #43.
 - CodeRabbit 67b5169 review 5478165876 returned: all three valid findings handled (spacing, stale table,
   owned partial-file removal). Two exclusive regressions were red first; cleanup success cases red before module.
   Prepared/complete cleanup has 138 actual child exits; unknown/link/third/ambiguous inventory and I/O refusal tests.
   Red-first self-review also requires re-flushing retirement parents before retry deletion after a prior sync failure.
-  Current changed head needs full verification and independent review.
+  Completed 94f5162 bot review 5478298045 has no code blocker; optional wording adopted.
+  This new production changed tree still needs complete accurate-head verification and independent review.
+- Two new readiness cases were red first. 36 actual production Store child exits supplement the 231 adapter cases;
+  save/restore/accept real Electron kill/restart/confirm/open/save/restart scenarios exist with dirty/B/conflict/cleanup cases.
+  Unchanged explicit-reopen E2E was red first, then only that unchanged branch was corrected.
+  Worker 500-history sample: ~2029 ms, 386 parent callbacks, ~9.54 ms longest gap; observation, not maximum workload SLA.
 - Large plan sample: 158,633,767 staged bytes, 3264 ms, 804020 KiB peak Linux RSS including fixture creation.
   Main-thread responsiveness/full-budget RSS/native ACL/flush/IME/accessibility/power-cut/real providers unverified.
 - Previous authorized rebases completed. Current follow-up uses normal push, never overwrites another writer or main.
   No merge/auto-merge/protection/release/delegation/closure authority. #42/#4 stay open.
-- Next: review/approve the new retirement namespace at exact head before Store capture/IPC identity/UI consent/recovery E2E.
+- Next: full install/check/smoke/E2E, commit/push existing branch, read exact-head CI and CodeRabbit/human reviews.
+  First production changed-tree run passed 440 units/zero failure/skip, production interruption probe 36,
+  smoke 1/full 49 Linux E2E. Added explicit all-pending UI case passes focused; frozen-head full results must supersede it.
+  No renewed design/resource question; fix valid feedback, stay at independent review/merge until maintainer authorizes.
+  Both namespace journals must be resolved before rollback/downgrade; packaged/asar worker and native recovery unverified.
   Preserve queue/readiness/sender/path/symlink/hash/author/input guards, 180/120 and MIT/CC0.

@@ -38,16 +38,7 @@ export function HistoryDialog({ c }: { c: ReadyComposer }) {
                   <button
                     onClick={() =>
                       void run(async () => {
-                        const d = await bridge.restore(w.id, doc.id, s.id, doc.hash);
-                        const next = {
-                          ...w,
-                          documents: w.documents.map((item) => (item.id === d.id ? d : item))
-                        };
-                        update(next);
-                        setDraft(d.content);
-                        setTitle(d.title);
-                        setDialog('');
-                        setNotice('已恢复快照，恢复前的正文也已保留。');
+                        await c.restoreSnapshot(s.id);
                       })
                     }
                   >

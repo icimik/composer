@@ -15,6 +15,7 @@ const { Store, atomic } = require('./store.cjs');
 const { AI } = require('./ai.cjs');
 const crypto = require('node:crypto');
 const { registerHandlers } = require('./ipc.cjs');
+const { revisionHandlers } = require('./revision-ipc.cjs');
 const { UserFacingError, safeError } = require('./errors.cjs');
 protocol.registerSchemesAsPrivileged([
   { scheme: 'composer', privileges: { standard: true, secure: true, supportFetchAPI: true } }
@@ -88,7 +89,7 @@ else {
           return store.serial(() => store.openWorkspace(r.filePaths[0]));
         },
         switchWorkspace: (id) => store.serial(() => store.switchWorkspace(id)),
-        saveDocument: (...args) => store.serial(() => store.saveDocument(...args)),
+        ...revisionHandlers(store),
         createDocument: (...args) => store.serial(() => store.createDocument(...args)),
         updateWorkspace: (...args) => store.serial(() => store.updateWorkspace(...args)),
         createSession: (...args) => store.serial(() => store.createSession(...args)),
@@ -98,11 +99,9 @@ else {
         setSettings: (...args) => store.serial(() => ai.configure(...args)),
         generate: (...args) => ai.generate(...args),
         cancel: (id) => ai.cancel(id),
-        resolveProposal: (...args) => store.serial(() => store.resolveProposal(...args)),
-        snapshots: (...args) => store.history(...args),
-        restore: (...args) => store.serial(() => store.restore(...args)),
+        snapshots: (...args) => store.serial(() => store.history(...args)),
         exportWorkspace: async (wid) => {
-          const text = await store.exportText(wid);
+          const text = await store.serial(() => store.exportText(wid));
           const r = await dialog.showSaveDialog(win, {
             defaultPath: 'manuscript.md',
             filters: [{ name: 'Markdown', extensions: ['md'] }]

@@ -20,7 +20,7 @@
 - **[合并后交接与原生阻塞](oxlint-merge-handoff.md)**：#45 已合并，#31 被 Dependabot 自动关闭；macOS fixture 路径问题由 #46 跟踪，不能提前宣称原生验收完成。
 - **[工作区损坏隔离复现](workspace-isolation-reproduction.md)**：保留 #40 设计阶段的合成 Store／真实 Linux Electron 故障证据；原先待批状态已由设计批准和后续实现取代，不是当前验收结果。
 - **[工作区损坏隔离实现验证](workspace-isolation-verification.md)**：PR #41 已经独立批准、合并并回读 main 验收，#40 已关闭；保留逐 head 的历史证据，#4 其余范围仍开放。
-- **[单文档修订中断复现](document-revision-reproduction.md)**：#42 的五个临时中断 probe；核心契约已批准、资源配置已按授权选择，安全清理和产品恢复接线仍未完成。
+- **[单文档修订中断复现](document-revision-reproduction.md)**：保留 #42 的历史五个 probe；核心／清理细节已批准、资源已配置，当前[生产接线与验收映射](../development/document-revision-integration.md)不等于已获实现批准或合并。
 - **[修订镜像资源配置](revision-resource-allocation.md)**：500 万／3500 万字章节化样本、历史增长和实测规划内存／耗时；按授权选择 256 MiB 暂存与 256 MiB 额外余量，不承诺无限历史。
 - **设计展示页**：`design-showcase.html`，单文件离线打开，支持明暗模式、布局密度、状态交互和对比度表。
 

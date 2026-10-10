@@ -1,9 +1,12 @@
-import { useEffect, useCallback } from 'react';
+import { useRef } from 'react';
 import type { ComposerState } from './useComposerState';
 import { bridge } from './shared';
 import { readyWorkspace } from './workspaceState';
 import { useTransition } from './useTransition';
+import { requestTracker } from './revisionRequest';
+import { revisionFailure } from './revisionFailure';
 export function useAiActions(model: ComposerState, flush: () => Promise<void>) {
+  const revisions = useRef(requestTracker());
   const {
     state,
     setDraft,
@@ -45,11 +48,17 @@ export function useAiActions(model: ComposerState, flush: () => Promise<void>) {
   const resolve = async (pid: string, accept: boolean) => {
     if (!model.available || model.transition.current) throw Error('当前工作区不可写或正在切换。');
     await transition(async () => {
-      const next = await bridge.resolveProposal(w!.id, session!.id, pid, accept);
+      const current = readyWorkspace(live.current.state, w!.id)!;
+      const d = current.documents.find((d) => d.id === doc!.id)!;
+      const identity = revisions.current.get([w!.id, session!.id, pid, d.hash, d.title], d.title);
+      const next = await bridge
+        .resolveProposal(w!.id, session!.id, pid, accept, identity)
+        .catch((error: unknown) => revisionFailure(model, error));
+      revisions.current.complete();
       update(next);
-      const d = next.documents.find((d) => d.id === doc!.id)!;
-      setDraft(d.content);
-      setTitle(d.title);
+      const resolved = next.documents.find((d) => d.id === doc!.id)!;
+      setDraft(resolved.content);
+      setTitle(resolved.title);
       setNotice(accept ? '已采纳，原文已保留为历史快照。' : '已放弃提案，正文未改动。');
     });
   };

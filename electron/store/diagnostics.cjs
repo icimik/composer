@@ -1,4 +1,5 @@
 const reasons = {
+  'revision-recovery-required': '工作区有未完成的修订或清理，需要明确检查并确认处理。',
   'invalid-json': '工作区信息文件不是有效 JSON。',
   'invalid-manifest': '工作区信息或内部引用无效。',
   'missing-manifest': '工作区信息文件缺失。',
@@ -31,7 +32,10 @@ function unavailable(entry, error) {
     diagnostic: {
       code: safe.code,
       message: safe.message,
-      nextStep: '请保留原目录，检查文件或权限；外部修复后点击重试。原文件未自动修复或替换。'
+      nextStep:
+        safe.code === 'revision-recovery-required'
+          ? '请先检查修订记录并保留目录；处理完成前不要用旧版打开。只有可验证的操作才可明确恢复或清理。'
+          : '请保留原目录，检查文件或权限；外部修复后点击重试。原文件未自动修复或替换。'
     }
   };
 }

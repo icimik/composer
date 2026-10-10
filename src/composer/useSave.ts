@@ -1,8 +1,10 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import type { ComposerState } from './useComposerState';
 import { bridge, cleanError } from './shared';
 import { readyWorkspace, replaceWorkspace } from './workspaceState';
+import { requestTracker } from './revisionRequest';
 export function useSave(model: ComposerState) {
+  const revisions = useRef(requestTracker());
   const {
     state,
     setState,
@@ -40,8 +42,24 @@ export function useSave(model: ComposerState) {
       setStatus('保存中');
       try {
         let result = d;
-        if (draft !== d.content || title !== d.title)
-          result = await bridge.saveDocument(w.id, d.id, title, draft, d.hash);
+        if (draft !== d.content || title !== d.title) {
+          const identity = revisions.current.get(
+            [w.id, d.id, d.hash, d.title, title, draft],
+            d.title
+          );
+          result = await bridge.saveDocument(w.id, d.id, title, draft, d.hash, undefined, identity);
+          revisions.current.complete();
+          // A later prompt failure must not hide an already committed document revision.
+          const current = live.current.state;
+          if (current) {
+            const updated = replaceWorkspace(current, {
+              ...w,
+              documents: w.documents.map((item) => (item.id === result.id ? result : item))
+            });
+            live.current.state = updated;
+            setState(updated);
+          }
+        }
         const next = await bridge.updateSession(w.id, se.id, d.id, prompt);
         next.documents = next.documents.map((item) => (item.id === result.id ? result : item));
         // Preserve edits made while the save was in flight.
@@ -61,6 +79,11 @@ export function useSave(model: ComposerState) {
       } catch (e) {
         setStatus('保存失败');
         setError(cleanError(e));
+        try {
+          model.refresh(await bridge.load());
+        } catch {
+          // Global index failure does not authorize resetting the index or editor.
+        }
         throw e;
       }
     });

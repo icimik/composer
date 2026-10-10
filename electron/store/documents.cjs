@@ -26,6 +26,7 @@ module.exports = {
     return { ...doc, content: '', hash: hash('') };
   },
   async history(wid, docId) {
+    await this.workspace(wid);
     idSchema.parse(docId);
     try {
       return JSON.parse(
@@ -36,56 +37,26 @@ module.exports = {
       throw e;
     }
   },
-  async saveDocument(wid, docId, title, content, expectedHash, reason = '手动保存') {
+  async saveDocument(wid, docId, title, content, expectedHash, reason = '手动保存', revision) {
     title = nameSchema.parse(title);
     content = contentSchema.parse(content);
-    const meta = await this.writableMeta(wid);
-    const doc = meta.documents.find((d) => d.id === idSchema.parse(docId));
-    if (!doc) throw new UserFacingError('找不到此文档。');
-    const file = await this.docPath(wid, doc);
-    const before = await fs.readFile(file, 'utf8');
-    if (hash(before) !== expectedHash)
-      throw new UserFacingError(
-        '文稿已被其他操作修改。请重新打开当前工作区后再保存，编辑区内容仍保留。'
-      );
-    if (before !== content) {
-      const snapshots = await this.history(wid, docId);
-      snapshots.push({
-        id: newId(),
-        title: doc.title,
-        content: before,
-        createdAt: new Date().toISOString(),
-        reason
-      });
-      await atomic(
-        await this.protectedFile(wid, `.composer/history/${docId}.json`, true),
-        JSON.stringify(snapshots, null, 2)
-      );
-      await atomic(file, content);
-    }
-    doc.title = title;
-    await this.writeMeta(wid, meta);
-    const log = {
-      time: new Date().toISOString(),
-      documentId: docId,
-      title,
-      reason,
-      beforeHash: hash(before),
-      afterHash: hash(content)
-    };
-    await fs.appendFile(
-      await this.protectedFile(wid, '08-operations/logs/changes.jsonl', true),
-      JSON.stringify(log) + '\n',
-      'utf8'
+    return this.revisionWrite(
+      { kind: 'save', workspaceId: wid, documentId: docId, title, content, expectedHash, reason },
+      revision
     );
-    return { ...doc, content, hash: hash(content) };
   },
-  async restore(wid, docId, snapshotId, expectedHash) {
-    await this.writableMeta(wid);
-    const list = await this.history(wid, docId);
-    const snap = list.find((s) => s.id === idSchema.parse(snapshotId));
-    if (!snap) throw new UserFacingError('快照不存在。');
-    return this.saveDocument(wid, docId, snap.title, snap.content, expectedHash, '恢复历史快照');
+  async restore(wid, docId, snapshotId, expectedHash, revision) {
+    return this.revisionWrite(
+      {
+        kind: 'restore',
+        workspaceId: wid,
+        documentId: docId,
+        snapshotId: idSchema.parse(snapshotId),
+        expectedHash,
+        reason: '恢复历史快照'
+      },
+      revision
+    );
   },
   async exportText(wid) {
     const w = await this.workspace(wid);

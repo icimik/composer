@@ -53,6 +53,7 @@ export interface AppState {
 }
 export interface WorkspaceDiagnostic {
   code:
+    | 'revision-recovery-required'
     | 'invalid-json'
     | 'invalid-manifest'
     | 'missing-manifest'
@@ -81,7 +82,8 @@ export interface Bridge {
     title: string,
     content: string,
     hash: string,
-    reason?: string
+    reason: string | undefined,
+    revision: RevisionIdentity
   ): Promise<Document>;
   createDocument(wid: string, title: string, kind: Kind): Promise<Document>;
   updateWorkspace(
@@ -103,11 +105,36 @@ export interface Bridge {
     requestId: string
   ): Promise<Proposal>;
   cancel(requestId: string): Promise<void>;
-  resolveProposal(wid: string, sid: string, pid: string, accept: boolean): Promise<Workspace>;
+  resolveProposal(
+    wid: string,
+    sid: string,
+    pid: string,
+    accept: boolean,
+    revision?: RevisionIdentity
+  ): Promise<Workspace>;
   snapshots(wid: string, docId: string): Promise<Snapshot[]>;
-  restore(wid: string, docId: string, snapshotId: string, hash: string): Promise<Document>;
+  restore(
+    wid: string,
+    docId: string,
+    snapshotId: string,
+    hash: string,
+    revision: RevisionIdentity
+  ): Promise<Document>;
+  revisionPreview(wid: string): Promise<RevisionPreview>;
+  applyRevision(wid: string, operationId: string): Promise<{ status: string }>;
   exportWorkspace(wid: string): Promise<string | null>;
   setTheme(theme: string): Promise<void>;
+}
+export interface RevisionIdentity {
+  operationId: string;
+  expectedTitle: string;
+}
+export interface RevisionPreview {
+  operationId: string;
+  title: string;
+  kind: string;
+  phase: string;
+  action: 'roll-forward' | 'cleanup-prepared' | 'cleanup-complete' | 'cleanup-retired' | 'conflict';
 }
 declare global {
   interface Window {

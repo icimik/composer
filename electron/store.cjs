@@ -16,6 +16,7 @@ const groups = [
   require('./store/files.cjs'),
   require('./store/workspaces.cjs'),
   require('./store/documents.cjs'),
+  require('./store/revision-methods.cjs'),
   require('./store/sessions.cjs')
 ];
 for (const methods of groups) {

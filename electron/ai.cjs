@@ -70,7 +70,7 @@ class AI {
     z.enum(['generate', 'continue', 'polish']).parse(action);
     z.string().max(10000).parse(prompt);
     z.array(idSchema).max(30).parse(contextIds);
-    const w = await this.store.workspace(wid);
+    const w = await this.store.serial(() => this.store.workspace(wid));
     const s = w.sessions.find((s) => s.id === sid);
     const doc = w.documents.find((d) => d.id === docId);
     if (!s || !doc || doc.kind !== 'chapter')

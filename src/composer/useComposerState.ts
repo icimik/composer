@@ -74,7 +74,7 @@ export function useComposerState() {
   const refresh = (fresh: AppState) => {
     const current = live.current.state;
     if (!current?.activeWorkspaceId) {
-      setState(fresh);
+      setState({ ...fresh, activeWorkspaceId: null });
       return;
     }
     if (!readyWorkspace(fresh, current.activeWorkspaceId)) setSuspended(true);

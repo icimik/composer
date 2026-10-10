@@ -56,25 +56,27 @@ module.exports = {
     await this.writeMeta(wid, meta);
     return proposal;
   },
-  async resolveProposal(wid, sid, pid, accept) {
+  async resolveProposal(wid, sid, pid, accept, revision) {
     const meta = await this.writableMeta(wid);
     const s = meta.sessions.find((s) => s.id === idSchema.parse(sid));
     const p = s?.proposals.find((p) => p.id === idSchema.parse(pid));
-    if (!p || p.status !== 'pending') throw new UserFacingError('提案不存在或已处理。');
+    if (!p || (!accept && p.status !== 'pending'))
+      throw new UserFacingError('提案不存在或已处理。');
     if (accept) {
       const doc = meta.documents.find((d) => d.id === p.docId);
-      const before = await fs.readFile(await this.docPath(wid, doc), 'utf8');
-      if (hash(before) !== p.baseHash)
-        throw new UserFacingError('正文已变化，不能采纳旧提案。请基于新正文重新生成。');
-      const content = p.action === 'continue' ? before + (before ? '\n\n' : '') + p.text : p.text;
-      await this.saveDocument(
-        wid,
-        doc.id,
-        doc.title,
-        content,
-        p.baseHash,
-        `采纳 AI ${p.action} 提案 ${pid}`
+      await this.revisionWrite(
+        {
+          kind: 'accept',
+          workspaceId: wid,
+          documentId: doc.id,
+          sessionId: sid,
+          proposalId: pid,
+          expectedHash: p.baseHash,
+          reason: `采纳 AI ${p.action} 提案 ${pid}`
+        },
+        revision
       );
+      return this.workspace(wid);
     }
     const fresh = await this.meta(wid);
     fresh.sessions.find((s) => s.id === sid).proposals.find((p) => p.id === pid).status = accept
