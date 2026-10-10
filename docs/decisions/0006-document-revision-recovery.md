@@ -82,7 +82,7 @@ opportunistic rollback that could erase an acknowledged result. Missing required
 Cleanup interruption or repeated recovery uses the same hashes/operation IDs; missing targets are acceptable only when
 the intent recorded absence before and the after payload is intact. Permission/space/unknown errors keep evidence.
 
-## Recovery, IPC and UI contract requiring approval
+## Approved recovery contract and pending IPC/UI implementation review
 
 Propose **explicit recovery**, not automatic startup repair. Load/diagnosis/retry stay pure as in ADR 0005: a pending journal
 returns unavailable with fixed Chinese identity/reason/safe next step, while healthy entries remain usable.

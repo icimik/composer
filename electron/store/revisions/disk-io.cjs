@@ -58,4 +58,14 @@ async function available(root) {
   if (!Number.isSafeInteger(bytes) || bytes < 0) fail('space-limit');
   return bytes;
 }
-module.exports = { read, exclusive, syncDirectory, available };
+async function flushFile(root, relative) {
+  const file = await guardedFile(root, relative);
+  const handle = await fs.open(file, constants.O_RDWR | (constants.O_NOFOLLOW || 0));
+  try {
+    if (!(await handle.stat()).isFile()) fail('invalid-images');
+    await handle.sync();
+  } finally {
+    await handle.close();
+  }
+}
+module.exports = { read, exclusive, syncDirectory, available, flushFile };

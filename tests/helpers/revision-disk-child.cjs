@@ -6,7 +6,7 @@ const { createPlan } = require('../../electron/store/revisions/journal.cjs');
 const disk = require('../../electron/store/revisions/disk.cjs');
 
 async function main() {
-  const [root, nonce, kind, boundary] = process.argv.slice(2);
+  const [root, nonce, kind, boundary, mode = 'execute'] = process.argv.slice(2);
   const temporary = await fs.realpath(os.tmpdir());
   if (
     !path.resolve(root).startsWith(temporary + path.sep + 'composer-revision-') ||
@@ -16,9 +16,12 @@ async function main() {
     throw new Error('Fixture ownership missing');
   const f = fixture(kind);
   const plan = createPlan(f.fields, f.images, f.policy, f.availableBytes);
-  await disk.execute(root, plan, f.policy, async (phase) => {
+  const step = async (phase) => {
     if (phase === boundary) process.exit(77);
-  });
+  };
+  if (mode === 'recover') await disk.recover(root, plan.intent.operationId, f.policy, step);
+  else if (mode === 'execute') await disk.execute(root, plan, f.policy, step);
+  else throw new Error('Invalid fixture mode');
 }
 main().catch(() => {
   console.error('Synthetic revision child failed; no raw data published.');
