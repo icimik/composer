@@ -64,3 +64,31 @@ test('a target changed after an earlier installation prevents complete acknowled
     'External changed again'
   );
 });
+test('reused scratch is flushed again after a prior file-sync failure', async (t) => {
+  const { root, f, plan } = await setup(t);
+  const original = fs.open;
+  let denySync = true;
+  let scratchSyncs = 0;
+  fs.open = async (file, ...args) => {
+    const handle = await original(file, ...args);
+    if (
+      String(file).startsWith(root) &&
+      String(file).endsWith('document-a.md.operation-a.revision.tmp')
+    ) {
+      const sync = handle.sync.bind(handle);
+      handle.sync = async () => {
+        scratchSyncs++;
+        if (denySync) throw Object.assign(new Error('Injected sync'), { code: 'EIO' });
+        return sync();
+      };
+    }
+    return handle;
+  };
+  t.after(() => {
+    fs.open = original;
+  });
+  await assert.rejects(disk.execute(root, plan, f.policy));
+  denySync = false;
+  await disk.recover(root, 'operation-a', f.policy);
+  assert.ok(scratchSyncs >= 2, 'residual scratch must be synchronized before rename');
+});

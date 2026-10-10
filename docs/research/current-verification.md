@@ -5,7 +5,7 @@ Updated 2026-10-10 UTC. This file separates observed results from historical sou
 ## Current revision adapter increment
 
 Sender requested rebase onto merged #45 main `0a533f081f5f62f0b9c0ae1bc39f7fd277c44a68`; completed, preserving tooling
-and Promise fixes. Standalone disk adapter now has 77 targeted passing regressions, including 63 real child-process exits.
+and Promise fixes. Standalone disk adapter has execution/replay/fault regressions, including 93 real child-process exits.
 [Resource allocation](revision-resource-allocation.md): 256 MiB staged/256 MiB extra reserve selected under delegation,
 with 5M/35M chapter/history counts and actual Linux planner RSS/latency observations, not native/UI assurances.
 CodeRabbit's two documentation findings and optional safe probe diagnostic suggestion adopted.
@@ -124,7 +124,7 @@ The workflow cannot distinguish an allowed merge from an unprotected direct push
 
 ## Remaining release gates
 
-- Reviewed approval for the new [revision-recovery design #42](https://github.com/icimik/composer/issues/42); #41 and the toolchain upgrade are already merged.
+- Independent implementation review and completed recovery integration/acceptance for [#42](https://github.com/icimik/composer/issues/42); ADR 0006 core is approved, #41 and the toolchain upgrade are merged.
 - Optional required Linux status-check configuration, conduct reporting contact and signed release process.
 - Manual macOS/Windows installation, Chinese IME and real-provider acceptance.
 

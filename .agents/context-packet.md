@@ -12,7 +12,7 @@
   One Linux large plan ran with ~785 MiB RSS/3.3 seconds; not whole-workspace GUI/native/max-budget assurance.
 - Delivered scope: model and standalone guarded disk prepare/commit/install/preview/replay/complete, synthetic only.
   No active Store/IPC/UI recovery; complete journals retained. [Map](../docs/development/document-revision-core-handoff.md).
-- Regressions: 8 disk cases failed first; targeted 77 now pass, 63 real child exits, deterministic I/O errors.
+- Regressions: 8 disk cases failed first, then residual-scratch flush red/fix; 63 execution/30 replay child exits.
   Full current-head verification required; old 93/111/38 counts are historical after merged tooling.
 - Review: two CodeRabbit documentation findings fixed; safe child status/signal suggestion adopted. No human runtime approval.
 - Remaining: safe interrupted cleanup, active readiness/serialization/captured IDs/title baselines/IPC/UI consent,

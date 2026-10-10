@@ -20,16 +20,20 @@ Earlier resource gates below are historical/superseded, not another request to t
 A second execute refuses retained operations. No cleanup yet. Store must serialize calls after full workspace readiness.
 Trusted step callbacks are test injection only, never renderer IPC inputs or environment hooks.
 
-Initial eight disk cases failed before implementation. Current 77 adapter/process/fault cases include 63 real child exits
+Initial eight disk cases failed before implementation. Adapter execution tests include 63 real child exits
 for save/restore/accept across eight payload callbacks, prepare/before-commit/commit, four scratch/four installation callbacks,
 and before/after complete. Diagnostics preserve inventory; committed replay repeated twice produces exact after-images.
 Missing intent remains unavailable; prepared-only recovery refuses. Third values, unknown files, symlinks, low-space refusal
 and deterministic EACCES/ENOSPC/EIO are covered. Final check/smoke/E2E/CI counts belong to current-head PR evidence.
+Follow-up adds 30 actual child exits during explicit replay itself and a red-first sync-failure regression: a validated
+residual manuscript scratch must be flushed again before rename. A first draft counted unrelated file syncs; narrowing
+the assertion exposed the failure before the fix. Repeated replay compares every resource's exact after-bytes.
+Total actual execution/replay exits: 93. This is not GUI recovery, cleanup interruption or power-cut acceptance.
 Large-history planning takes seconds/RSS overhead; assess responsiveness before production wiring.
 Next: safe interrupted cleanup, then Store/IPC/UI captured identity/baselines and true recovery E2E.
 Do not close #42 or request merge of a completed product capability from this adapter-only increment.
 
-## Context packet
+## Historical pure-core context packet
 
 - Base main: `c4e5405697ed27730ed9888816b3fe732f4470f1`; own existing draft branch, no stack.
 - Approved design revision: `c9f8b275c4d6f2ecce07c0e5f7961d00448df885`.
@@ -79,7 +83,7 @@ Do not reuse the prior design head's 93-test evidence as evidence for this chang
 
 ## Integration and rollback boundary
 
-Resolve `maxStagedBytes` and `minFreeBytes` explicitly. Define behavior when audit growth exceeds the bounded scanner;
+Allocation is now in `resource-policy.cjs`. Audit growth exceeding the bounded scanner must refuse;
 no automatic pruning or idempotence lookup bypass is permitted. Available-space validation in this model only uses
 the supplied observation; the adapter must reserve/recheck and handle a real subsequent ENOSPC without claiming success.
 Intent/marker JSON byte sizes and the largest after-image scratch allowance are included in required bytes.

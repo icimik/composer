@@ -14,8 +14,8 @@
 - Pure core plus standalone disk adapter: bounded/guarded reads, exclusive flushes, commit marker, scratch/rename,
   complete verification, pure preview, explicit repeatable recovery; completed journals intentionally retained.
   No active Store/IPC/renderer import, safe cleanup or recovery UI/E2E yet. Do not claim #42 complete.
-- Eight disk cases red before implementation. Current 77 targeted adapter/process/fault tests and lint pass; includes
-  63 real child exits and deterministic EACCES/ENOSPC/EIO. Full exact-head counts/CI belong to #43 after commit.
+- Eight disk cases red before implementation; scratch-flush regression also observed red before fix.
+  63 execution/30 replay child exits and deterministic EACCES/ENOSPC/EIO now covered; full exact counts belong to #43.
 - CodeRabbit old head 81ef59f: two actionable documentation findings verified/fixed; optional child status/signal
   suggestion adopted with safe diagnostics, no raw stderr/error. Current head needs fresh review.
 - Large plan sample: 158,633,767 staged bytes, 3264 ms, 804020 KiB peak Linux RSS including fixture creation.

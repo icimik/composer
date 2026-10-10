@@ -70,6 +70,7 @@ async function install(root, plan, resourcePolicy, step) {
       if (error.code !== 'EEXIST') throw error;
       const existing = await io.read(root, scratch, bytes.length);
       if (!existing.equals(bytes)) fail('payload-mismatch');
+      await io.flushFile(root, scratch);
     }
     await step(`scratch:${resource.kind}`);
     const fresh = await io.read(root, file, policy(resourcePolicy).maxStagedBytes, true);
