@@ -3,6 +3,8 @@
 Issue [#40](https://github.com/icimik/composer/issues/40), parent [#4](https://github.com/icimik/composer/issues/4).
 Delivery remains [PR #41](https://github.com/icimik/composer/pull/41); no merge or issue closure is authorized.
 Base main: `efcd507670b4a7d68c78a6f1b314c667ac5134ba`.
+Current status: #41 merged and #40 closed after actual main acceptance; candidate-stage statements below are historical.
+See the merged-main readback at the end, not an earlier pending review statement.
 Approved design: [ADR 0005](../decisions/0005-workspace-failure-isolation.md), reviewed revision
 `70d4f8925a2fd8995e455fdf9cc6fa82adcdc9d1`, with
 [maintainer approval recorded](https://github.com/icimik/composer/pull/41#issuecomment-6092557163).
@@ -148,6 +150,25 @@ The summary's partial-cross-file-write concern is not solved by readiness gates 
 The optional 80% docstring-coverage advisory is not a repository gate; bulk/generated docstrings are not adopted. Focused
 helpers, inline comments, approved ADR and executable acceptance tests document this increment without policy suppression.
 No actionable correctness finding was rejected; current-head bot/human review may still be outstanding.
+
+## Actual merged-main acceptance and closure
+
+Maintainer merged #41 at `c4e5405697ed27730ed9888816b3fe732f4470f1`, tree identical to approved runtime head
+`76e67c6d1b12b6845adea3dba1e1ec74a67cc195`.
+[Independent kimmywork approval](https://github.com/icimik/composer/pull/41#pullrequestreview-5477300427) covers that head.
+Its final CodeRabbit review contains no actionable correction, five LGTM notes and an optional test-count wording suggestion;
+current continuity now explicitly says “full 38-test E2E suite.”
+
+Read [main run 38019637399](https://github.com/icimik/composer/actions/runs/38019637399): all Linux/native/installer jobs
+succeeded. Linux/macOS: 93 unit passes, zero skips; Windows: 88 passes, five symlink-privilege skips. All smoke 1/E2E 38.
+Windows skips cover document/internal-meta/directory/parent-path/dangling-index symlinks; Linux/macOS ran these guards.
+Artifacts API=2 SHA-named unsigned installers, not a release. Repeated actual main clean local install/check/smoke/full E2E
+passed 93/1/38, no unit skips; generated screenshots restored. No old branch resurrected or agent merge performed.
+
+Sender authorized closing #40 if complete. Bounded acceptance maps to the merged default tests and was satisfied;
+[#40 closed with readback](https://github.com/icimik/composer/issues/40#issuecomment-6093233851).
+Native ACL/manual IME/accessibility/global dialog, real providers and power-loss remain unverified.
+#4 stays open; next [#42](https://github.com/icimik/composer/issues/42) is a proposed revision-recovery design, not inherited approval.
 
 Self-review is not independent approval. Submit for normal review after final green checks; stop at review/merge, no auto-merge.
 Only a maintainer may merge; close #40 only after actual main acceptance, and keep #4 open with remaining work.

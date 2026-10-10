@@ -2,7 +2,24 @@
 
 Updated 2026-10-10 UTC. This file separates observed results from historical source-import records and unexecuted acceptance work.
 
-## Workspace isolation candidate, 2026-10-10 UTC
+## Merged workspace isolation and next design, 2026-10-10 UTC
+
+Actual main is `c4e5405697ed27730ed9888816b3fe732f4470f1`, after merged
+[PR #41](https://github.com/icimik/composer/pull/41). Its
+[main run 38019637399](https://github.com/icimik/composer/actions/runs/38019637399) passed Linux, native Windows/macOS
+and unsigned installer jobs; artifacts=2 SHA-named installers, no release. Linux/macOS passed 93 units without skips;
+Windows passed 88 with five symlink-privilege skips. All platforms passed smoke 1 and the full 38-test Electron E2E suite.
+Repeated main local clean install/check/smoke/full E2E passed 93/1/38, zero unit skips.
+[#40 is closed after acceptance](https://github.com/icimik/composer/issues/40#issuecomment-6093233851), following
+[independent exact-head approval](https://github.com/icimik/composer/pull/41#pullrequestreview-5477300427).
+Manual ACL/IME/accessibility/global native dialog and real-provider/power-loss behavior remain unverified.
+
+[#42](https://github.com/icimik/composer/issues/42) is the next bounded #4 design: one interrupted document revision.
+[Proposed ADR 0006](../decisions/0006-document-revision-recovery.md) and
+[synthetic interruption evidence](document-revision-reproduction.md) do not implement recovery or carry prior approval.
+Parent #4 remains open for transaction/recovery policy, backups/retention and migration.
+
+## Historical workspace isolation candidate
 
 Actual main at this recovery is `efcd507670b4a7d68c78a6f1b314c667ac5134ba`, after merged
 [PR #39](https://github.com/icimik/composer/pull/39); its
@@ -87,7 +104,7 @@ The workflow cannot distinguish an allowed merge from an unprotected direct push
 
 ## Remaining release gates
 
-- Independent review, required GitHub approval and verified merge for workspace-isolation [PR #41](https://github.com/icimik/composer/pull/41); the toolchain upgrade is already merged.
+- Reviewed approval for the new [revision-recovery design #42](https://github.com/icimik/composer/issues/42); #41 and the toolchain upgrade are already merged.
 - Optional required Linux status-check configuration, conduct reporting contact and signed release process.
 - Manual macOS/Windows installation, Chinese IME and real-provider acceptance.
 
